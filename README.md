@@ -2,6 +2,7 @@
 Common utility functions for Node.js used and maintained by Benjamin Lupton
 
 
+
 ## Install
 
 ### Backend
@@ -19,8 +20,22 @@ Common utility functions for Node.js used and maintained by Benjamin Lupton
 Best off looking at source, it's well documented, and there are plenty of tests
 
 
+
+## Future
+We're in the process of abstracting the pieces of bal-util out into their own modules. So far, we've done the following:
+
+- balUtilFlow.Group > [TaskGroup](https://github.com/bevry/taskgroup)
+- balUtilFlow.fireWithOptionalCallback > [ambi](https://github.com/bevry/ambi)
+- balUtilTypes > [typeChecker](https://github.com/bevry/typechecker)
+- balUtilFlow.safeCallback > [safeCallback](https://github.com/bevry/safecallback)
+
+More to come.
+
+
+
 ## History
 You can discover the history inside the [History.md](https://github.com/balupton/bal-util/blob/master/History.md#files) file
+
 
 
 ## License
