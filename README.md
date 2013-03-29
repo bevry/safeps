@@ -28,8 +28,9 @@ We're in the process of abstracting the pieces of bal-util out into their own mo
 - balUtilFlow.fireWithOptionalCallback > [ambi](https://github.com/bevry/ambi)
 - balUtilTypes > [typeChecker](https://github.com/bevry/typechecker)
 - balUtilFlow.safeCallback > [safeCallback](https://github.com/bevry/safecallback)
-
-More to come.
+- balUtilFlow.each > [eachr](https://github.com/bevry/eachr)
+- balUtilFlow.(extend|clone)* > [extendr](https://github.com/bevry/extendr)
+- balUtilFlow.(get|set)Deep > [getsetdeep](https://github.com/bevry/getsetdeep)
 
 
 
