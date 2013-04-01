@@ -28,7 +28,7 @@ We're in the process of abstracting the pieces of bal-util out into their own mo
 - [eachr](https://github.com/bevry/eachr) < `balUtilFlow.each`
 - [extendr](https://github.com/bevry/extendr) < `balUtilFlow.(extend|clone|etc)`
 - [getsetdeep](https://github.com/bevry/getsetdeep) < `balUtilFlow.(get|set)Deep`
-- [safeCallback](https://github.com/bevry/safecallback) < b`alUtilFlow.safeCallback`
+- [safeCallback](https://github.com/bevry/safecallback) < `balUtilFlow.safeCallback`
 - [safefs](https://github.com/bevry/safefs) < `balUtilPaths.(openFile|closeFile|etc)`
 - [TaskGroup](https://github.com/bevry/taskgroup) < `balUtilFlow.Group`
 - [typeChecker](https://github.com/bevry/typechecker) < `balUtilTypes`
