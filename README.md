@@ -24,13 +24,14 @@ Best off looking at source, it's well documented, and there are plenty of tests
 ## Future
 We're in the process of abstracting the pieces of bal-util out into their own modules. So far, we've done the following:
 
-- balUtilFlow.Group > [TaskGroup](https://github.com/bevry/taskgroup)
-- balUtilFlow.fireWithOptionalCallback > [ambi](https://github.com/bevry/ambi)
-- balUtilTypes > [typeChecker](https://github.com/bevry/typechecker)
-- balUtilFlow.safeCallback > [safeCallback](https://github.com/bevry/safecallback)
-- balUtilFlow.each > [eachr](https://github.com/bevry/eachr)
-- balUtilFlow.(extend|clone)* > [extendr](https://github.com/bevry/extendr)
-- balUtilFlow.(get|set)Deep > [getsetdeep](https://github.com/bevry/getsetdeep)
+- [ambi](https://github.com/bevry/ambi) < `balUtilFlow.fireWithOptionalCallback`
+- [eachr](https://github.com/bevry/eachr) < `balUtilFlow.each`
+- [extendr](https://github.com/bevry/extendr) < `balUtilFlow.(extend|clone|etc)`
+- [getsetdeep](https://github.com/bevry/getsetdeep) < `balUtilFlow.(get|set)Deep`
+- [safeCallback](https://github.com/bevry/safecallback) < b`alUtilFlow.safeCallback`
+- [safefs](https://github.com/bevry/safefs) < `balUtilPaths.(openFile|closeFile|etc)`
+- [TaskGroup](https://github.com/bevry/taskgroup) < `balUtilFlow.Group`
+- [typeChecker](https://github.com/bevry/typechecker) < `balUtilTypes`
 
 
 

@@ -1,20 +1,13 @@
 # Import
-fsUtil = require('fs')
 pathUtil = require('path')
+typeChecker = require('typechecker')
+extendr = require('extendr')
+safefs = require('safefs')
+TaskGroup = require('taskgroup')
 balUtilFlow = require('./flow')
-balUtilTypes = require('./types')
 
-# Create a counter of all the open files we have
-# As the filesystem will throw a fatal error if we have too many open files
-global.numberOfOpenFiles ?= 0
-global.maxNumberOfOpenFiles ?= process.env.NODE_MAX_OPEN_FILES ? 100
-global.waitingToOpenFileDelay ?= 100
-
-
-# =====================================
-# Paths
-
-balUtilPaths =
+# Define
+balUtilPaths = extendr.extend {}, safefs, {
 
 	# =================================
 	# Locals
@@ -100,160 +93,6 @@ balUtilPaths =
 		'zip'
 	].concat (process.env.BINARY_EXTENSIONS or '').split(/[\s,]+/)
 
-
-	# =====================================
-	# Open and Close Files
-
-	# Allows us to open files safely
-	# by tracking the amount of open files we have
-
-	# Open a file
-	# Pass your callback to fire when it is safe to open the file
-	openFile: (next) ->
-		if global.numberOfOpenFiles < 0
-			throw new Error("balUtilPaths.openFile: the numberOfOpenFiles is [#{global.numberOfOpenFiles}] which should be impossible...")
-		if global.numberOfOpenFiles >= global.maxNumberOfOpenFiles
-			setTimeout(
-				-> balUtilPaths.openFile(next)
-				global.waitingToOpenFileDelay
-			)
-		else
-			++global.numberOfOpenFiles
-			next()
-		@
-
-	# Close a file
-	# Call this once you are done with that file
-	closeFile: (next) ->
-		--global.numberOfOpenFiles
-		next?()
-		@
-
-
-	# =====================================
-	# Standard
-
-	# Read File
-	# next(err)
-	readFile: (path,encoding,next) ->
-		# Prepare
-		unless next?
-			next = encoding
-			encoding = null
-
-		# Read
-		balUtilPaths.openFile -> fsUtil.readFile path, encoding, (err,data) ->
-			balUtilPaths.closeFile()
-			return next(err,data)
-
-		# Chain
-		@
-
-	# Write File
-	# next(err)
-	writeFile: (path,data,encoding,next) ->
-		# Prepare
-		unless next?
-			next = encoding
-			encoding = null
-
-		# Ensure path
-		balUtilPaths.ensurePath pathUtil.dirname(path), (err) ->
-			# Error
-			return next(err)  if err
-
-			# Write data
-			balUtilPaths.openFile -> fsUtil.writeFile path, data, encoding, (err) ->
-				balUtilPaths.closeFile()
-				return next(err)
-
-		# Chain
-		@
-
-	# Mkdir
-	# next(err)
-	mkdir: (path,mode,next) ->
-		# Prepare
-		unless next?
-			next = mode
-			mode = null
-
-		# Action
-		balUtilPaths.openFile -> fsUtil.mkdir path, mode, (err) ->
-			balUtilPaths.closeFile()
-			return next(err)
-
-		# Chain
-		@
-
-	# Stat
-	# next(err,stat)
-	stat: (path,next) ->
-		balUtilPaths.openFile -> fsUtil.stat path, (err,stat) ->
-			balUtilPaths.closeFile()
-			return next(err,stat)
-
-		# Chain
-		@
-
-	# Readdir
-	# next(err,files)
-	readdir: (path,next) ->
-		balUtilPaths.openFile ->
-			fsUtil.readdir path, (err,files) ->
-				balUtilPaths.closeFile()
-				return next(err,files)
-
-		# Chain
-		@
-
-	# Unlink
-	# next(err)
-	unlink: (path,next) ->
-		# Stat
-		balUtilPaths.openFile -> fsUtil.unlink path, (err) ->
-			balUtilPaths.closeFile()
-			return next(err)
-
-		# Chain
-		@
-
-	# Rmdir
-	# next(err)
-	rmdir: (path,next) ->
-		# Stat
-		balUtilPaths.openFile -> fsUtil.rmdir path, (err) ->
-			balUtilPaths.closeFile()
-			return next(err)
-
-		# Chain
-		@
-
-	# Exists
-	# next(err)
-	exists: (path,next) ->
-		# Exists function
-		exists = fsUtil.exists or pathUtil.exists
-
-		# Action
-		balUtilPaths.openFile -> exists path, (exists) ->
-			balUtilPaths.closeFile()
-			return next(exists)
-
-		# Chain
-		@
-
-	# Exits Sync
-	# next(err)
-	existsSync: (path) ->
-		# Exists function
-		existsSync = fsUtil.existsSync or pathUtil.existsSync
-
-		# Action
-		result = existsSync(path)
-
-		# Return
-		result
 
 
 	# =====================================
@@ -368,49 +207,15 @@ balUtilPaths =
 	# next(err)
 	cp: (src,dst,next) ->
 		# Copy
-		balUtilPaths.readFile src, 'binary', (err,data) ->
+		safefs.readFile src, 'binary', (err,data) ->
 			# Error
 			return next(err)  if err
 
 			# Success
-			balUtilPaths.writeFile dst, data, 'binary', (err) ->
+			safefs.writeFile dst, data, 'binary', (err) ->
 				# Forward
 				return next(err)
 
-		# Chain
-		@
-
-
-	# Get the parent path
-	getParentPathSync: (p) ->
-		parentPath = p.replace(/[\/\\][^\/\\]+$/, '')
-		return parentPath
-
-
-	# Ensure path exists
-	# next(err,exists)
-	ensurePath: (path,next) ->
-		path = path.replace(/[\/\\]$/, '') # remove trailing slashes
-		balUtilPaths.exists path, (exists) ->
-			# Error
-			return next(null,true)  if exists
-
-			# Success
-			parentPath = balUtilPaths.getParentPathSync(path)
-			balUtilPaths.ensurePath parentPath, (err) ->
-				# Error
-				return next(err,false)  if err
-
-				# Success
-				balUtilPaths.mkdir path, '700', (err) ->
-					balUtilPaths.exists path, (exists) ->
-						# Error
-						if not exists
-							err = new Error("Failed to create the directory: #{path}")
-							return next(err,false)
-
-						# Success
-						next(null,false)
 		# Chain
 		@
 
@@ -433,7 +238,7 @@ balUtilPaths =
 
 		# Otherwise fetch the stat and do the check
 		else
-			balUtilPaths.stat path, (err,stat) ->
+			safefs.stat path, (err,stat) ->
 				# Error
 				return next(err)  if err
 
@@ -597,11 +402,11 @@ balUtilPaths =
 				throw err
 
 		# Group
-		tasks = new balUtilFlow.Group (err) ->
+		tasks = new TaskGroup (err) ->
 			return opts.next(err, list, tree)
 
 		# Cycle
-		balUtilPaths.readdir opts.path, (err,files) ->
+		safefs.readdir opts.path, (err,files) ->
 			# Checks
 			if tasks.exited
 				return
@@ -732,7 +537,7 @@ balUtilPaths =
 								# Append
 								if opts.readFiles
 									# Read file
-									balUtilPaths.readFile fileFullPath, (err,data) ->
+									safefs.readFile fileFullPath, (err,data) ->
 										# Error?
 										return tasks.exit(err)  if err
 										# Append
@@ -789,7 +594,7 @@ balUtilPaths =
 				# Prepare
 				fileOutPath = pathUtil.join(opts.outPath,fileRelativePath)
 				# Ensure the directory that the file is going to exists
-				balUtilPaths.ensurePath pathUtil.dirname(fileOutPath), (err) ->
+				safefs.ensurePath pathUtil.dirname(fileOutPath), (err) ->
 					# Error
 					if err
 						return next(err)
@@ -841,7 +646,7 @@ balUtilPaths =
 				# Prepare
 				fileOutPath = pathUtil.join(opts.outPath,fileRelativePath)
 				# Ensure the directory that the file is going to exists
-				balUtilPaths.ensurePath pathUtil.dirname(fileOutPath), (err) ->
+				safefs.ensurePath pathUtil.dirname(fileOutPath), (err) ->
 					# Error
 					return next(err)  if err
 					# Check if it is worthwhile copying that file
@@ -873,7 +678,7 @@ balUtilPaths =
 	# Remove a directory deeply
 	# next(err)
 	rmdirDeep: (parentPath,next) ->
-		balUtilPaths.exists parentPath, (exists) ->
+		safefs.exists parentPath, (exists) ->
 			# Skip
 			return next()  unless exists
 			# Remove
@@ -883,7 +688,7 @@ balUtilPaths =
 
 				# File
 				(fileFullPath,fileRelativePath,next) ->
-					balUtilPaths.unlink fileFullPath, (err) ->
+					safefs.unlink fileFullPath, (err) ->
 						# Forward
 						return next(err)
 
@@ -900,7 +705,7 @@ balUtilPaths =
 					if err
 						return next(err, list, tree)
 					# Success
-					balUtilPaths.rmdir parentPath, (err) ->
+					safefs.rmdir parentPath, (err) ->
 						# Forward
 						return next(err, list, tree)
 			)
@@ -913,11 +718,11 @@ balUtilPaths =
 	# next(err)
 	writetree: (dstPath,tree,next) ->
 		# Group
-		tasks = new balUtilFlow.Group (err) ->
+		tasks = new TaskGroup (err) ->
 			next(err)
 
 		# Ensure Destination
-		balUtilPaths.ensurePath dstPath, (err) ->
+		safefs.ensurePath dstPath, (err) ->
 			# Checks
 			return tasks.exit(err)  if err
 
@@ -925,10 +730,10 @@ balUtilPaths =
 			for own fileRelativePath, value of tree
 				++tasks.total
 				fileFullPath = pathUtil.join( dstPath, fileRelativePath.replace(/^\/+/,'') )
-				if balUtilTypes.isObject(value)
+				if typeChecker.isObject(value)
 					balUtilPaths.writetree fileFullPath, value, tasks.completer()
 				else
-					balUtilPaths.writeFile fileFullPath, value, (err) ->
+					safefs.writeFile fileFullPath, value, (err) ->
 						return tasks.complete(err)
 
 			# Empty?
@@ -952,7 +757,7 @@ balUtilPaths =
 		if /^http/.test(filePath)
 			# Prepare
 			data = ''
-			tasks = new balUtilFlow.Group (err) ->
+			tasks = new TaskGroup (err) ->
 				return next(err)  if err
 				return next(null,data)
 
@@ -1022,7 +827,7 @@ balUtilPaths =
 
 		# Local
 		else
-			balUtilPaths.readFile filePath, (err,data) ->
+			safefs.readFile filePath, (err,data) ->
 				return next(err)  if err
 				return next(null,data)
 
@@ -1035,12 +840,12 @@ balUtilPaths =
 	# next(err,empty)
 	empty: (filePath,next) ->
 		# Check if we exist
-		balUtilPaths.exists filePath, (exists) ->
+		safefs.exists filePath, (exists) ->
 			# Return empty if we don't exist
 			return next(null,true)  unless exists
 
 			# We do exist, so check if we have content
-			balUtilPaths.stat filePath, (err,stat) ->
+			safefs.stat filePath, (err,stat) ->
 				# Check
 				return next(err)  if err
 				# Return whether or not we are actually empty
@@ -1057,7 +862,7 @@ balUtilPaths =
 	isPathOlderThan: (aPath,bInput,next) ->
 		# Handle mtime
 		bMtime = null
-		if balUtilTypes.isNumber(bInput)
+		if typeChecker.isNumber(bInput)
 			mode = 'time'
 			bMtime = new Date(new Date() - bInput)
 		else
@@ -1070,7 +875,7 @@ balUtilPaths =
 			return next(err,null)  if empty or err
 
 			# We do exist, so let's check how old we are
-			balUtilPaths.stat aPath, (err,aStat) ->
+			safefs.stat aPath, (err,aStat) ->
 				# Check
 				return next(err)  if err
 
@@ -1093,7 +898,7 @@ balUtilPaths =
 						return next(err,null)  if empty or err
 
 						# It does exist so lets get the stat
-						balUtilPaths.stat bPath, (err,bStat) ->
+						safefs.stat bPath, (err,bStat) ->
 							# Check
 							return next(err)  if err
 
@@ -1108,9 +913,7 @@ balUtilPaths =
 
 		# Chain
 		@
+}
 
-
-# =====================================
 # Export
-
 module.exports = balUtilPaths

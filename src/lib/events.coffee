@@ -1,7 +1,8 @@
 # Import
 EventEmitter = require('events').EventEmitter
-balUtilFlow = require('./flow')
-balUtilTypes = require('./types')
+ambi = require('ambi')
+TaskGroup = require('taskgroup')
+typeChecker = require('typechecker')
 
 
 # =====================================
@@ -19,20 +20,23 @@ class EventEmitterEnhanced extends EventEmitter
 		listeners = @listeners(eventName)
 
 		# Prepare tasks
-		tasks = new balUtilFlow.Group(next)
+		tasks = new TaskGroup(next)
 
 		# Add the tasks for the listeners
-		balUtilFlow.each listeners, (listener) ->
+		listeners.forEach (listener) ->
 			# Once will actually wrap around the original listener, which isn't what we want for the introspection
 			# So we must pass fireWithOptionalCallback an array of the method to fire, and the method to introspect
 			# https://github.com/bevry/docpad/issues/462
 			# https://github.com/joyent/node/commit/d1b4dcd6acb1d1c66e423f7992dc6eec8a35c544
-			listener = [listener,listener.listener]  if listener.listener
+			if listener.listener
+				listener = [listener.bind(me), listener.listener]
+			else
+				listener = listener.bind(me)
 
 			# Bind to the task
 			tasks.push (complete) ->
 				# Fire the listener, treating the callback as optional
-				balUtilFlow.fireWithOptionalCallback(listener,[data,complete],me)
+				ambi(listener, data, complete)
 
 		# Return
 		return tasks
@@ -231,8 +235,8 @@ class EventSystem extends EventEmitterEnhanced
 	# next(err)
 	block: (eventNames, next) ->
 		# Ensure array
-		unless balUtilTypes.isArray(eventNames)
-			if balUtilTypes.isString(eventNames)
+		unless typeChecker.isArray(eventNames)
+			if typeChecker.isString(eventNames)
 				eventNames = eventNames.split(/[,\s]+/g)
 			else
 				err = new Error('Unknown eventNames type')
@@ -257,8 +261,8 @@ class EventSystem extends EventEmitterEnhanced
 	# next(err)
 	unblock: (eventNames, next) ->
 		# Ensure array
-		unless balUtilTypes.isArray(eventNames)
-			if balUtilTypes.isString(eventNames)
+		unless typeChecker.isArray(eventNames)
+			if typeChecker.isString(eventNames)
 				eventNames = eventNames.split /[,\s]+/g
 			else
 				err = new Error('Unknown eventNames type')

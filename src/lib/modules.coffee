@@ -1,8 +1,9 @@
 # Import
 balUtilModules = null
+TaskGroup = require('taskgroup')
+typeChecker = require('typechecker')
+safefs = require('safefs')
 balUtilFlow = require('./flow')
-balUtilPaths = require('./paths')
-balUtilTypes = require('./types')
 
 # Prepare
 isWindows = process?.platform?.indexOf('win') is 0
@@ -108,11 +109,11 @@ balUtilModules =
 			stderr = ''
 
 			# Prepare format
-			if balUtilTypes.isString(command)
+			if typeChecker.isString(command)
 				command = command.split(' ')
 
 			# Execute command
-			if balUtilTypes.isArray(command)
+			if typeChecker.isArray(command)
 				pid = spawn(command[0], command.slice(1), opts)
 			else
 				pid = spawn(command.command, command.args or [], command.options or opts)
@@ -151,11 +152,11 @@ balUtilModules =
 		results = []
 
 		# Make sure we send back the arguments
-		tasks = new balUtilFlow.Group opts.tasksMode, (err) ->
+		tasks = new TaskGroup opts.tasksMode, (err) ->
 			next(err,results)
 
 		# Prepare tasks
-		unless balUtilTypes.isArray(commands)
+		unless typeChecker.isArray(commands)
 			commands = [commands]
 
 		# Add tasks
@@ -209,11 +210,11 @@ balUtilModules =
 		results = []
 
 		# Make sure we send back the arguments
-		tasks = new balUtilFlow.Group opts.tasksMode, (err) ->
+		tasks = new TaskGroup opts.tasksMode, (err) ->
 			next(err,results)
 
 		# Prepare tasks
-		unless balUtilTypes.isArray(commands)
+		unless typeChecker.isArray(commands)
 			commands = [commands]
 
 		# Add tasks
@@ -241,7 +242,7 @@ balUtilModules =
 		execPath = null
 
 		# Group
-		tasks = new balUtilFlow.Group (err) ->
+		tasks = new TaskGroup (err) ->
 			next(err,execPath)
 
 		# Handle
@@ -254,7 +255,7 @@ balUtilModules =
 				possibleExecPath = pathUtil.resolve(possibleExecPath)
 
 				# Check if the path exists
-				balUtilPaths.exists possibleExecPath, (exists) ->
+				safefs.exists possibleExecPath, (exists) ->
 					# Skip if the path doesn't exist
 					return complete()  unless exists
 
@@ -539,9 +540,9 @@ balUtilModules =
 		[opts,next] = balUtilFlow.extractOptsAndCallback(opts,next)
 
 		# Extract commands
-		if balUtilTypes.isString(command)
+		if typeChecker.isString(command)
 			command = command.split(' ')
-		else unless balUtilTypes.isArray(command)
+		else unless typeChecker.isArray(command)
 			return next(new Error('unknown command type'))
 
 		# Part Two of this command
@@ -572,11 +573,11 @@ balUtilModules =
 		results = []
 
 		# Make sure we send back the arguments
-		tasks = new balUtilFlow.Group (err) ->
+		tasks = new TaskGroup (err) ->
 			next(err,results)
 
 		# Prepare tasks
-		unless balUtilTypes.isArray(commands)
+		unless typeChecker.isArray(commands)
 			commands = [commands]
 
 		# Add tasks
@@ -601,9 +602,9 @@ balUtilModules =
 		[opts,next] = balUtilFlow.extractOptsAndCallback(opts,next)
 
 		# Extract commands
-		if balUtilTypes.isString(command)
+		if typeChecker.isString(command)
 			command = command.split(' ')
-		else unless balUtilTypes.isArray(command)
+		else unless typeChecker.isArray(command)
 			return next(new Error('unknown command type'))
 
 		# Part Two of this command
@@ -634,11 +635,11 @@ balUtilModules =
 		results = []
 
 		# Make sure we send back the arguments
-		tasks = new balUtilFlow.Group (err) ->
+		tasks = new TaskGroup (err) ->
 			next(err,results)
 
 		# Prepare tasks
-		unless balUtilTypes.isArray(commands)
+		unless typeChecker.isArray(commands)
 			commands = [commands]
 
 		# Add tasks
@@ -663,9 +664,9 @@ balUtilModules =
 		[opts,next] = balUtilFlow.extractOptsAndCallback(opts,next)
 
 		# Extract commands
-		if balUtilTypes.isString(command)
+		if typeChecker.isString(command)
 			command = command.split(' ')
-		else unless balUtilTypes.isArray(command)
+		else unless typeChecker.isArray(command)
 			return next(new Error('unknown command type'))
 
 		# Part Two of this command
@@ -696,11 +697,11 @@ balUtilModules =
 		results = []
 
 		# Make sure we send back the arguments
-		tasks = new balUtilFlow.Group (err) ->
+		tasks = new TaskGroup (err) ->
 			next(err,results)
 
 		# Prepare tasks
-		unless balUtilTypes.isArray(commands)
+		unless typeChecker.isArray(commands)
 			commands = [commands]
 
 		# Add tasks
@@ -761,7 +762,7 @@ balUtilModules =
 		branch or= 'master'
 
 		# Check if it exists
-		balUtilPaths.ensurePath path, (err,exists) =>
+		safefs.ensurePath path, (err,exists) =>
 			return complete(err)  if err
 			if exists
 				opts.cwd = path
@@ -790,7 +791,7 @@ balUtilModules =
 		# Part Two of this command
 		partTwo = ->
 			# If there is no package.json file, then we can't do anything
-			balUtilPaths.exists packageJsonPath, (exists) ->
+			safefs.exists packageJsonPath, (exists) ->
 				return next()  unless exists
 
 				# Prepare command
@@ -806,7 +807,7 @@ balUtilModules =
 
 		# Check if node_modules already exists
 		if force is false
-			balUtilPaths.exists nodeModulesPath, (exists) ->
+			safefs.exists nodeModulesPath, (exists) ->
 				return next()  if exists
 				partTwo()
 		else

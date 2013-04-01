@@ -1,5 +1,5 @@
 # Import
-balUtilFlow = require('./flow')
+TaskGroup = require('taskgroup')
 
 
 # =====================================
@@ -61,7 +61,7 @@ balUtilHTML =
 			[html, element, replace, next] = args
 
 		# Prepare
-		tasks = new balUtilFlow.Group (err) ->
+		tasks = new TaskGroup (err) ->
 			return next(err)  if err
 			return next(null,result)
 
