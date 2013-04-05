@@ -1,5 +1,8 @@
 ## History
 
+- v2.0.1 April 5, 2013
+	- Removed safefs aliases
+
 - v2.0.0 April 5, 2013
 	- We no longer alias split off projects, you should use them directly now
 	- Killed `(git|node|npm)(Command|Commands)` functions, use `spawnCommand` and `spawnCommands` instead

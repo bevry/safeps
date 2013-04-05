@@ -8,7 +8,7 @@ safefs = require('safefs')
 balUtilFlow = require('./flow')
 
 # Define
-balUtilPaths = extendr.extend {}, safefs, {
+balUtilPaths =
 
 	# =================================
 	# Locals
@@ -885,7 +885,7 @@ balUtilPaths = extendr.extend {}, safefs, {
 
 		# Chain
 		@
-}
+
 
 # Export
 module.exports = balUtilPaths

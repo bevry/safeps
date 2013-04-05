@@ -152,7 +152,7 @@ joe.describe 'paths', (describe,it) ->
 		it 'should clean up the srcPath', (done) ->
 			balUtil.rmdirDeep srcPath, (err) ->
 				return done(err)  if err
-				exists = balUtil.existsSync(srcPath)
+				exists = require('fs').existsSync(srcPath)
 				assert.equal(exists,false)
 				done()
 
@@ -160,7 +160,7 @@ joe.describe 'paths', (describe,it) ->
 		it 'should clean up the outPath', (done) ->
 			balUtil.rmdirDeep outPath, (err) ->
 				return done(err)  if err
-				exists = balUtil.existsSync(outPath)
+				exists = require('fs').existsSync(outPath)
 				assert.equal(exists,false)
 				done()
 
