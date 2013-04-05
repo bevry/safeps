@@ -204,7 +204,7 @@ balUtilModules =
 			# Prefix the path to the arguments
 			pieces = []
 			for args in multiArgs
-				pieces.push = [execPath].concat(args)
+				pieces.push [execPath].concat(args)
 
 			# Forward onto spawn multiple
 			balUtilModules.spawnMultiple(pieces, opts, next)
@@ -583,12 +583,12 @@ balUtilModules =
 
 	# Initialize a Git Repository
 	# Requires internet access
-	# opts = {path,remote,url,branch,logger,output,gitPath}
+	# opts = {path,remote,url,branch,log,output}
 	# next(err)
 	initGitRepo: (opts,next) ->
 		# Extract
 		[opts,next] = balUtilFlow.extractOptsAndCallback(opts,next)
-		{path,remote,url,branch,logger,output,gitPath} = opts
+		{path,remote,url,branch,log,output} = opts
 		remote or= 'origin'
 		branch or= 'master'
 
@@ -603,10 +603,10 @@ balUtilModules =
 		]
 
 		# Perform commands
-		logger.log 'debug', "Initializing git repo with url [#{url}] on directory [#{path}]"  if logger
-		balUtilModules.spawnCommands 'git', commands, {gitPath:gitPath,cwd:path,output:output}, (args...) ->
+		log?('debug', "Initializing git repo with url [#{url}] on directory [#{path}]")
+		balUtilModules.spawnCommands 'git', commands, {cwd:path,output:output}, (args...) ->
 			return next(args...)  if args[0]?
-			logger.log 'debug', "Initialized git repo with url [#{url}] on directory [#{path}]"  if logger
+			log?('debug', "Initialized git repo with url [#{url}] on directory [#{path}]")
 			return next(args...)
 
 		# Chain
@@ -640,7 +640,7 @@ balUtilModules =
 		# Prepare
 		pathUtil = require('path')
 		[opts,next] = balUtilFlow.extractOptsAndCallback(opts,next)
-		{path,logger,force} = opts
+		{path,log,force} = opts
 		opts.cwd = path
 
 		# Paths
@@ -658,10 +658,10 @@ balUtilModules =
 				command.push('--force')  if force
 
 				# Execute npm install inside the pugin directory
-				logger.log 'debug', "Initializing node modules\non:   #{dirPath}\nwith:",command  if logger
+				log?('debug', "Initializing node modules\non:   #{dirPath}\nwith:", command)
 				balUtilModules.spawnCommand 'npm', command, opts, (args...) ->
 					return next(args...)  if args[0]?
-					logger.log 'debug', "Initialized node modules\non:   #{dirPath}\nwith:",command  if logger
+					log?('debug', "Initialized node modules\non:   #{dirPath}\nwith:", command)
 					return next(args...)
 
 		# Check if node_modules already exists

@@ -1,5 +1,10 @@
 ## History
 
+- v2.0.3 April 5, 2013
+	- `balUtilModules` changes:
+		- Fixed `spawnCommands`
+		- `initGitRepo` and `initNodeModules` now take a `log` function rather than a `logger` object (regards opts)
+
 - v2.0.2 April 5, 2013
 	- `balUtilModules` changes:
 		- Fixed `spawnCommand` and `spawnCommands`
