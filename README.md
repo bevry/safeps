@@ -1,4 +1,8 @@
-# Balupton's Utility Functions [![Build Status](https://secure.travis-ci.org/balupton/bal-util.png?branch=master)](http://travis-ci.org/balupton/bal-util)
+# Benjamin Lupton's Utility Functions
+
+[![Build Status](https://secure.travis-ci.org/balupton/bal-util.png?branch=master)](http://travis-ci.org/balupton/bal-util)
+[![NPM version](https://badge.fury.io/js/bal-util.png)](https://npmjs.org/package/bal-util)
+
 Common utility functions for Node.js used and maintained by Benjamin Lupton
 
 
