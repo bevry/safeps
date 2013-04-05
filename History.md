@@ -1,12 +1,20 @@
 ## History
 
+- v2.0.2 April 5, 2013
+	- `balUtilModules` changes:
+		- Fixed `spawnCommand` and `spawnCommands`
+		- `closeProcess` now deprecated in favor of completion callback on `openProcess`
+
 - v2.0.1 April 5, 2013
-	- Removed safefs aliases
+	- `balUtilPaths` changes:
+		- Removed safefs aliases
 
 - v2.0.0 April 5, 2013
 	- We no longer alias split off projects, you should use them directly now
-	- Killed `(git|node|npm)(Command|Commands)` functions, use `spawnCommand` and `spawnCommands` instead
-	- `replaceElementAsync` now executes tasks in parallel rather than in serial
+	- `balUtilModules` changes:
+		- Killed `(git|node|npm)(Command|Commands)` functions, use `spawnCommand` and `spawnCommands` instead
+	- `balUtilHTML` changes:
+		- `replaceElementAsync` now executes tasks in parallel rather than in serial
 
 - v1.18.0 April 1, 2013
 	- We now use the projects we split away from bal-util

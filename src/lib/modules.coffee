@@ -8,17 +8,47 @@ balUtilFlow = require('./flow')
 # Prepare
 isWindows = process?.platform?.indexOf('win') is 0
 
-# Create a counter of all the open files we have
-# As the filesystem will throw a fatal error if we have too many open files
-global.numberOfOpenProcesses ?= 0
-global.maxNumberOfOpenProcesses ?= process.env.NODE_MAX_OPEN_PROCESSES ? 30
-global.waitingToOpenProcessDelay ?= 100
+
+# =====================================
+# Define Globals
+
+# Prepare
+global.safepsGlobal ?= {}
+
+# Define Global Pool
+# Create a pool with the concurrency of our max number of open processes
+global.safepsGlobal.pool ?= new TaskGroup().setConfig({
+	concurrency: process.env.NODE_MAX_OPEN_PROCESSES ? 100
+	pauseOnError: false
+}).run()
 
 
 # =====================================
-# Paths
+# Define Module
 
 balUtilModules =
+
+	# =====================================
+	# Open and Close Processes
+
+	# Open a file
+	# Pass your callback to fire when it is safe to open the process
+	openProcess: (fn) ->
+		# Add the task to the pool and execute it right away
+		global.safepsGlobal.pool.addTask(fn)
+
+		# Chain
+		balUtilModules
+
+	# Close a process
+	# Only here for backwards compatibility, do not use this
+	closeFile: ->
+		# Log
+		console.log('safeps.closeFile has been deprecated, please use the safeps.openFile completion callback to close files')
+
+		# Chain
+		balUtilModules
+
 
 	# =================================
 	# Require
@@ -60,35 +90,6 @@ balUtilModules =
 		return countryCode
 
 
-	# =====================================
-	# Open and Close Process
-
-	# Allows us to open processes safely
-	# by tracking the amount of open processes we have
-
-	# Open a process
-	# Pass your callback to fire when it is safe to open the process
-	openProcess: (next) ->
-		if global.numberOfOpenProcesses < 0
-			throw new Error("balUtilModules.openProcess: the numberOfOpenProcesses is [#{global.numberOfOpenProcesses}] which should be impossible...")
-		if global.numberOfOpenProcesses >= global.maxNumberOfOpenProcesses
-			setTimeout(
-				-> balUtilModules.openProcess(next)
-				global.waitingToOpenProcessDelay
-			)
-		else
-			++global.numberOfOpenProcesses
-			next()
-		@
-
-	# Close a process
-	# Call this once you are done with that process
-	closeProcess: (next) ->
-		--global.numberOfOpenProcesses
-		next?()
-		@
-
-
 	# =================================
 	# Spawn
 
@@ -97,7 +98,7 @@ balUtilModules =
 	# next(err,stdout,stderr,code,signal)
 	spawn: (command,opts,next) ->
 		# Patience
-		balUtilModules.openProcess ->
+		balUtilModules.openProcess (closeProcess) ->
 			# Prepare
 			{spawn} = require('child_process')
 			[opts,next] = balUtilFlow.extractOptsAndCallback(opts,next)
@@ -131,7 +132,7 @@ balUtilModules =
 				err = null
 				if code isnt 0
 					err = new Error(stderr or 'exited with a non-zero status code')
-				balUtilModules.closeProcess()
+				closeProcess()
 				next(err,stdout,stderr,code,signal)
 
 			# Stdin?
@@ -185,10 +186,10 @@ balUtilModules =
 			return next(err)  if err
 
 			# Prefix the path to the arguments
-			pieces = args.slice(0).unshift(execPath)
+			pieces = [execPath].concat(args)
 
 			# Forward onto spawn
-			balUtilModules.spawn(pieces, opts next)
+			balUtilModules.spawn(pieces, opts, next)
 
 		# Chain
 		@
@@ -203,10 +204,10 @@ balUtilModules =
 			# Prefix the path to the arguments
 			pieces = []
 			for args in multiArgs
-				pices.push args.slice(0).unshift(execPath)
+				pieces.push = [execPath].concat(args)
 
 			# Forward onto spawn multiple
-			balUtilModules.spawnMultiple(pieces, opts next)
+			balUtilModules.spawnMultiple(pieces, opts, next)
 
 		# Chain
 		@
@@ -220,7 +221,7 @@ balUtilModules =
 	# next(err,stdout,stderr)
 	exec: (command,opts,next) ->
 		# Patience
-		balUtilModules.openProcess ->
+		balUtilModules.openProcess (closeProcess) ->
 			# Prepare
 			{exec} = require('child_process')
 			[opts,next] = balUtilFlow.extractOptsAndCallback(opts,next)
@@ -233,7 +234,7 @@ balUtilModules =
 			# Execute command
 			exec command, opts, (err,stdout,stderr) ->
 				# Complete the task
-				balUtilModules.closeProcess()
+				closeProcess()
 				next(err,stdout,stderr)
 
 		# Chain
