@@ -1,7 +1,7 @@
-# Requires
-assert = require?('assert') or @assert
-joe = require?('joe') or @joe
-balUtil = require?(__dirname+'/../lib/balutil') or @balUtil
+# Import
+{expect,assert} = require('chai')
+joe = require('joe')
+balUtil = require('../../')
 
 
 # =====================================

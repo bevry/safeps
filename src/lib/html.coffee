@@ -1,5 +1,5 @@
 # Import
-TaskGroup = require('taskgroup')
+{TaskGroup} = require('taskgroup')
 
 
 # =====================================
@@ -61,7 +61,7 @@ balUtilHTML =
 			[html, element, replace, next] = args
 
 		# Prepare
-		tasks = new TaskGroup (err) ->
+		tasks = new TaskGroup().setConfig(concurrency:0).once 'complete', (err) ->
 			return next(err)  if err
 			return next(null,result)
 
@@ -75,7 +75,7 @@ balUtilHTML =
 				random = Math.random()
 
 				# Push the actual replace task
-				tasks.push (complete) ->
+				tasks.addTask (complete) ->
 					replace outerHTML, element, attributes, innerHTML, (err,replaceElementResult) ->
 						return complete(err)  if err
 						result = result.replace(random,replaceElementResult)
@@ -85,8 +85,8 @@ balUtilHTML =
 				return random
 		)
 
-		# Run the tasks synchronously
-		tasks.sync()
+		# Run the tasks
+		tasks.run()
 
 		# Chain
 		@

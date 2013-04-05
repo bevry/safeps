@@ -7,7 +7,6 @@ balUtil = require('extendr').extend(
 	require('./html')
 	require('./modules')
 	require('./paths')
-	require('./types')
 )
 
 # Export

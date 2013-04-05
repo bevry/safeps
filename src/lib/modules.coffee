@@ -1,6 +1,6 @@
 # Import
 balUtilModules = null
-TaskGroup = require('taskgroup')
+{TaskGroup} = require('taskgroup')
 typeChecker = require('typechecker')
 safefs = require('safefs')
 balUtilFlow = require('./flow')
@@ -152,7 +152,8 @@ balUtilModules =
 		results = []
 
 		# Make sure we send back the arguments
-		tasks = new TaskGroup opts.tasksMode, (err) ->
+		concurrency = if opts.tasksMode is 'serial' then 1 else 0
+		tasks = new TaskGroup().setConfig({concurrency}).once 'complete', (err) ->
 			next(err,results)
 
 		# Prepare tasks
@@ -160,15 +161,52 @@ balUtilModules =
 			commands = [commands]
 
 		# Add tasks
-		for command in commands
-			tasks.push {command}, (complete) ->
-				balUtilModules.spawn @command, opts, (args...) ->
-					err = args[0] or null
-					results.push(args)
-					complete(err)
+		commands.forEach (command) ->  tasks.addTask (complete) ->
+			balUtilModules.spawn command, opts, (args...) ->
+				err = args[0] or null
+				results.push(args)
+				complete(err)
 
 		# Run the tasks
 		tasks.run()
+
+		# Chain
+		@
+
+
+	# =================================
+	# Command
+
+	# Spawn Command
+	spawnCommand: (command,args=[],opts,next) ->
+		# Get the executable path of the command
+		balUtilModules.getExecPath command, (err,execPath) ->
+			# Check
+			return next(err)  if err
+
+			# Prefix the path to the arguments
+			pieces = args.slice(0).unshift(execPath)
+
+			# Forward onto spawn
+			balUtilModules.spawn(pieces, opts next)
+
+		# Chain
+		@
+
+	# Spawn Commands
+	spawnCommands: (command,multiArgs=[],opts,next) ->
+		# Get the executable path of the command
+		balUtilModules.getExecPath command, (err,execPath) ->
+			# Check
+			return next(err)  if err
+
+			# Prefix the path to the arguments
+			pieces = []
+			for args in multiArgs
+				pices.push args.slice(0).unshift(execPath)
+
+			# Forward onto spawn multiple
+			balUtilModules.spawnMultiple(pieces, opts next)
 
 		# Chain
 		@
@@ -210,7 +248,8 @@ balUtilModules =
 		results = []
 
 		# Make sure we send back the arguments
-		tasks = new TaskGroup opts.tasksMode, (err) ->
+		concurrency = if opts.tasksMode is 'serial' then 1 else 0
+		tasks = new TaskGroup().setConfig({concurrency}).once 'complete', (err) ->
 			next(err,results)
 
 		# Prepare tasks
@@ -218,18 +257,18 @@ balUtilModules =
 			commands = [commands]
 
 		# Add tasks
-		for command in commands
-			tasks.push {command}, (complete) ->
-				balUtilModules.exec @command, opts, (args...) ->
-					err = args[0] or null
-					results.push(args)
-					complete(err)
+		commands.forEach (command) ->  tasks.addTask (complete) ->
+			balUtilModules.exec @command, opts, (args...) ->
+				err = args[0] or null
+				results.push(args)
+				complete(err)
 
-		# Run the tasks synchronously
-		tasks.sync()
+		# Run the tasks
+		tasks.run()
 
 		# Chain
 		@
+
 
 	# =================================
 	# Paths
@@ -242,14 +281,15 @@ balUtilModules =
 		execPath = null
 
 		# Group
-		tasks = new TaskGroup (err) ->
+		tasks = new TaskGroup().once 'complete', (err) ->
 			next(err,execPath)
 
 		# Handle
-		for possibleExecPath in possibleExecPaths
-			continue  unless possibleExecPath
-			tasks.push {possibleExecPath}, (complete) ->
-				{possibleExecPath} = @
+		possibleExecPaths.forEach (possibleExecPath) ->
+			return  unless possibleExecPath
+			tasks.addTask (complete) ->
+				# Check
+				return complete()  if execPath
 
 				# Resolve the path as it may be a virtual or relative path
 				possibleExecPath = pathUtil.resolve(possibleExecPath)
@@ -262,16 +302,14 @@ balUtilModules =
 					# Check to see if the path is an executable
 					balUtilModules.spawn [possibleExecPath, '--version'], {env:process.env}, (err,stdout,stderr,code,signal) ->
 						# Problem
-						if err
-							complete()
+						return complete()  if err
 
 						# Good
-						else
-							execPath = possibleExecPath
-							tasks.exit()
+						execPath = possibleExecPath
+						return complete()
 
-		# Fire the tasks synchronously
-		tasks.sync()
+		# Fire the tasks
+		tasks.run()
 
 		# Chain
 		@
@@ -303,15 +341,25 @@ balUtilModules =
 	# Get an Exec Path
 	# next(err,foundPath)
 	getExecPath: (execName,next) ->
-		# If we are for windows add the paths for .exe as well
-		if isWindows and execName.indexOf('.') is -1
-			possibleExecPaths = balUtilModules.getStandardExecPaths(execName+'.exe').concat(balUtilModules.getStandardExecPaths(execName))
-		else
-			possibleExecPaths = balUtilModules.getStandardExecPaths(execName)
+		# Prepare
+		execNameCapitalized = execName[0].toUpperCase() + execName.substr(1)
+		getExecMethodName = 'get'+execNameCapitalized+'Path'
 
-		# Forward onto determineExecPath
-		# Which will determine which path it is out of the possible paths
-		balUtilModules.determineExecPath(possibleExecPaths, next)
+		# Check for special case
+		if balUtilModules[getExecMethodName]?
+			balUtilModules[getExecMethodName](next)
+		else
+			# Fetch available paths
+			if isWindows and execName.indexOf('.') is -1
+				# we are for windows add the paths for .exe as well
+				possibleExecPaths = balUtilModules.getStandardExecPaths(execName+'.exe').concat(balUtilModules.getStandardExecPaths(execName))
+			else
+				# we are normal, try the paths
+				possibleExecPaths = balUtilModules.getStandardExecPaths(execName)
+
+			# Forward onto determineExecPath
+			# Which will determine which path it is out of the possible paths
+			balUtilModules.determineExecPath(possibleExecPaths, next)
 
 		# Chain
 		@
@@ -530,196 +578,6 @@ balUtilModules =
 
 
 	# =================================
-	# Basic Commands
-
-	# Perform Git Command
-	# opts = {gitPath,cwd,output}
-	# next(err,stdout,stderr,code,signal)
-	gitCommand: (command,opts,next) ->
-		# Extract
-		[opts,next] = balUtilFlow.extractOptsAndCallback(opts,next)
-
-		# Extract commands
-		if typeChecker.isString(command)
-			command = command.split(' ')
-		else unless typeChecker.isArray(command)
-			return next(new Error('unknown command type'))
-
-		# Part Two of this command
-		performSpawn = ->
-			# Prefix the command with the gitPath
-			command.unshift(opts.gitPath)
-			# Spawn command
-			balUtilModules.spawn(command, opts, next)
-
-		# Ensure gitPath
-		if opts.gitPath
-			performSpawn()
-		else
-			balUtilModules.getGitPath (err,gitPath) ->
-				return next(err)  if err
-				opts.gitPath = gitPath
-				performSpawn()
-
-		# Chain
-		@
-
-	# Perform Git Commands
-	# opts = {gitPath,cwd,output}
-	# next(err,results)
-	gitCommands: (commands,opts,next) ->
-		# Extract
-		[opts,next] = balUtilFlow.extractOptsAndCallback(opts,next)
-		results = []
-
-		# Make sure we send back the arguments
-		tasks = new TaskGroup (err) ->
-			next(err,results)
-
-		# Prepare tasks
-		unless typeChecker.isArray(commands)
-			commands = [commands]
-
-		# Add tasks
-		for command in commands
-			tasks.push {command}, (complete) ->
-				balUtilModules.gitCommand @command, opts, (args...) ->
-					err = args[0] or null
-					results.push(args)
-					complete(err)
-
-		# Run the tasks synchronously
-		tasks.sync()
-
-		# Chain
-		@
-
-	# Perform Node Command
-	# opts = {nodePath,cwd,output}
-	# next(err,stdout,stderr,code,signal)
-	nodeCommand: (command,opts,next) ->
-		# Extract
-		[opts,next] = balUtilFlow.extractOptsAndCallback(opts,next)
-
-		# Extract commands
-		if typeChecker.isString(command)
-			command = command.split(' ')
-		else unless typeChecker.isArray(command)
-			return next(new Error('unknown command type'))
-
-		# Part Two of this command
-		performSpawn = ->
-			# Prefix the command with the nodePath
-			command.unshift(opts.nodePath)
-			# Spawn command
-			balUtilModules.spawn(command, opts, next)
-
-		# Ensure nodePath
-		if opts.nodePath
-			performSpawn()
-		else
-			balUtilModules.getNodePath (err,nodePath) ->
-				return next(err)  if err
-				opts.nodePath = nodePath
-				performSpawn()
-
-		# Chain
-		@
-
-	# Perform Noe Commands
-	# opts = {gitPath,cwd,output}
-	# next(err,results)
-	nodeCommands: (commands,opts,next) ->
-		# Extract
-		[opts,next] = balUtilFlow.extractOptsAndCallback(opts,next)
-		results = []
-
-		# Make sure we send back the arguments
-		tasks = new TaskGroup (err) ->
-			next(err,results)
-
-		# Prepare tasks
-		unless typeChecker.isArray(commands)
-			commands = [commands]
-
-		# Add tasks
-		for command in commands
-			tasks.push {command}, (complete) ->
-				balUtilModules.nodeCommand @command, opts, (args...) ->
-					err = args[0] or null
-					results.push(args)
-					complete(err)
-
-		# Run the tasks synchronously
-		tasks.sync()
-
-		# Chain
-		@
-
-	# Perform NPM Command
-	# opts = {npmPath,cwd,output}
-	# next(err,stdout,stderr,code,signal)
-	npmCommand: (command,opts,next) ->
-		# Extract
-		[opts,next] = balUtilFlow.extractOptsAndCallback(opts,next)
-
-		# Extract commands
-		if typeChecker.isString(command)
-			command = command.split(' ')
-		else unless typeChecker.isArray(command)
-			return next(new Error('unknown command type'))
-
-		# Part Two of this command
-		performSpawn = ->
-			# Prefix the command with the npmPath
-			command.unshift(opts.npmPath)
-			# Spawn command
-			balUtilModules.spawn(command, opts, next)
-
-		# Ensure npmPath
-		if opts.npmPath
-			performSpawn()
-		else
-			balUtilModules.getNpmPath (err,npmPath) ->
-				return next(err)  if err
-				opts.npmPath = npmPath
-				performSpawn()
-
-		# Chain
-		@
-
-	# Perform NPM Commands
-	# opts = {gitPath,cwd,output}
-	# next(err,results)
-	npmCommands: (commands,opts,next) ->
-		# Extract
-		[opts,next] = balUtilFlow.extractOptsAndCallback(opts,next)
-		results = []
-
-		# Make sure we send back the arguments
-		tasks = new TaskGroup (err) ->
-			next(err,results)
-
-		# Prepare tasks
-		unless typeChecker.isArray(commands)
-			commands = [commands]
-
-		# Add tasks
-		for command in commands
-			tasks.push {command}, (complete) ->
-				balUtilModules.npmCommand @command, opts, (args...) ->
-					err = args[0] or null
-					results.push(args)
-					complete(err)
-
-		# Run the tasks synchronously
-		tasks.sync()
-
-		# Chain
-		@
-
-
-	# =================================
 	# Special Commands
 
 	# Initialize a Git Repository
@@ -745,7 +603,7 @@ balUtilModules =
 
 		# Perform commands
 		logger.log 'debug', "Initializing git repo with url [#{url}] on directory [#{path}]"  if logger
-		balUtilModules.gitCommands commands, {gitPath:gitPath,cwd:path,output:output}, (args...) ->
+		balUtilModules.spawnCommands 'git', commands, {gitPath:gitPath,cwd:path,output:output}, (args...) ->
 			return next(args...)  if args[0]?
 			logger.log 'debug', "Initialized git repo with url [#{url}] on directory [#{path}]"  if logger
 			return next(args...)
@@ -766,7 +624,7 @@ balUtilModules =
 			return complete(err)  if err
 			if exists
 				opts.cwd = path
-				balUtilModules.gitCommand(['pull',remote,branch], opts, next)
+				balUtilModules.spawnCommand('git', ['pull',remote,branch], opts, next)
 			else
 				balUtilModules.initGitRepo(opts, next)
 
@@ -800,7 +658,7 @@ balUtilModules =
 
 				# Execute npm install inside the pugin directory
 				logger.log 'debug', "Initializing node modules\non:   #{dirPath}\nwith:",command  if logger
-				balUtilModules.npmCommand command, opts, (args...) ->
+				balUtilModules.spawnCommand 'npm', command, opts, (args...) ->
 					return next(args...)  if args[0]?
 					logger.log 'debug', "Initialized node modules\non:   #{dirPath}\nwith:",command  if logger
 					return next(args...)

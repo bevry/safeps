@@ -1,7 +1,7 @@
 # Import
 EventEmitter = require('events').EventEmitter
 ambi = require('ambi')
-TaskGroup = require('taskgroup')
+{TaskGroup} = require('taskgroup')
 typeChecker = require('typechecker')
 
 
@@ -20,7 +20,7 @@ class EventEmitterEnhanced extends EventEmitter
 		listeners = @listeners(eventName)
 
 		# Prepare tasks
-		tasks = new TaskGroup(next)
+		tasks = new TaskGroup().once('complete',next)
 
 		# Add the tasks for the listeners
 		listeners.forEach (listener) ->
@@ -34,7 +34,7 @@ class EventEmitterEnhanced extends EventEmitter
 				listener = listener.bind(me)
 
 			# Bind to the task
-			tasks.push (complete) ->
+			tasks.addTask (complete) ->
 				# Fire the listener, treating the callback as optional
 				ambi(listener, data, complete)
 
@@ -43,11 +43,11 @@ class EventEmitterEnhanced extends EventEmitter
 
 	# Emit Serial
 	emitSync: (args...) -> @emitSerial(args...)
-	emitSerial: (args...) -> @getListenerGroup(args...).run('serial')
+	emitSerial: (args...) -> @getListenerGroup(args...).run()
 
 	# Emit Parallel
 	emitAsync: (args...) -> @emitParallel(args...)
-	emitParallel: (args...) -> @getListenerGroup(args...).run('parallel')
+	emitParallel: (args...) -> @getListenerGroup(args...).setConfig({concurrency:0}).run()
 
 
 # =====================================

@@ -1,9 +1,10 @@
 # Import
 pathUtil = require('path')
+eachr = require('eachr')
 typeChecker = require('typechecker')
 extendr = require('extendr')
 safefs = require('safefs')
-TaskGroup = require('taskgroup')
+{TaskGroup} = require('taskgroup')
 balUtilFlow = require('./flow')
 
 # Define
@@ -374,10 +375,7 @@ balUtilPaths = extendr.extend {}, safefs, {
 				next: args[3] or null
 		else
 			err = new Error('balUtilPaths.scandir: unsupported arguments')
-			if next
-				return next(err)
-			else
-				throw err
+			throw err
 
 		# Prepare defaults
 		opts.recurse ?= true
@@ -385,6 +383,9 @@ balUtilPaths = extendr.extend {}, safefs, {
 		opts.ignorePaths ?= false
 		opts.ignoreHiddenFiles ?= false
 		opts.ignoreCommonPatterns ?= false
+		opts.next ?= (err) ->
+			throw err  if err
+		next = opts.next
 
 		# Action
 		if opts.action?
@@ -396,33 +397,20 @@ balUtilPaths = extendr.extend {}, safefs, {
 			opts.path = opts.parentPath
 		if !opts.path
 			err = new Error('balUtilPaths.scandir: path is needed')
-			if next
-				return next(err)
-			else
-				throw err
-
-		# Group
-		tasks = new TaskGroup (err) ->
-			return opts.next(err, list, tree)
+			return next(err)
 
 		# Cycle
 		safefs.readdir opts.path, (err,files) ->
 			# Checks
-			if tasks.exited
-				return
-			# Error
-			else if err
-				return tasks.exit(err)
+			return next(err)  if err
+			return next(null,list,tree)  if files.length is 0
 
-			# Totals
-			tasks.total += files.length
-
-			# Empty?
-			if !files.length
-				return tasks.exit()
+			# Group
+			tasks = new TaskGroup().setConfig(concurrency:0).once 'complete', (err) ->
+				return opts.next(err, list, tree)
 
 			# Cycle
-			else files.forEach (file) ->
+			files.forEach (file) ->  tasks.addTask (complete) ->
 				# Prepare
 				fileFullPath = pathUtil.join(opts.path,file)
 				fileRelativePath =
@@ -438,128 +426,111 @@ balUtilPaths = extendr.extend {}, safefs, {
 					ignoreCommonPatterns: opts.ignoreCommonPatterns
 					ignoreCustomPatterns: opts.ignoreCustomPatterns
 				})
-				return tasks.complete()  if isIgnoredFile
+				return complete()  if isIgnoredFile
 
 				# IsDirectory
 				balUtilPaths.isDirectory fileFullPath, (err,isDirectory,fileStat) ->
-					# Check
-					if tasks.exited
-						return
-
-					# Error
-					else if err
-						return tasks.exit(err)
+					# Checks
+					return complete(err)  if err
+					return complete()     if tasks.paused
 
 					# Directory
-					else if isDirectory
+					if isDirectory
 						# Prepare
-						complete = (err,skip,subtreeCallback) ->
-							# Error
-							return tasks.exit(err)  if err
+						handle = (err,skip,subtreeCallback) ->
+							# Checks
+							return complete(err)  if err
+							return complete()     if tasks.paused
+							return complete()     if skip
 
-							# Exited
-							return tasks.exit()  if tasks.exited
+							# Append
+							list[fileRelativePath] = 'dir'
+							tree[file] = {}
 
-							# Handle
-							if skip isnt true
-								# Append
-								list[fileRelativePath] = 'dir'
-								tree[file] = {}
+							# No Recurse
+							return complete()  unless opts.recurse
 
-								# No Recurse
-								unless opts.recurse
-									return tasks.complete()
+							# Recurse
+							return balUtilPaths.scandir(
+								# Path
+								path: fileFullPath
+								relativePath: fileRelativePath
 
-								# Recurse
-								else
-									return balUtilPaths.scandir(
-										# Path
-										path: fileFullPath
-										relativePath: fileRelativePath
-										# opts
-										fileAction: opts.fileAction
-										dirAction: opts.dirAction
-										readFiles: opts.readFiles
-										ignorePaths: opts.ignorePaths
-										ignoreHiddenFiles: opts.ignoreHiddenFiles
-										ignoreCommonPatterns: opts.ignoreCommonPatterns
-										ignoreCustomPatterns: opts.ignoreCustomPatterns
-										recurse: opts.recurse
-										stat: opts.fileStat
-										# Completed
-										next: (err,_list,_tree) ->
-											# Merge in children of the parent directory
-											tree[file] = _tree
-											for own filePath, fileType of _list
-												list[filePath] = fileType
+								# Options
+								fileAction: opts.fileAction
+								dirAction: opts.dirAction
+								readFiles: opts.readFiles
+								ignorePaths: opts.ignorePaths
+								ignoreHiddenFiles: opts.ignoreHiddenFiles
+								ignoreCommonPatterns: opts.ignoreCommonPatterns
+								ignoreCustomPatterns: opts.ignoreCustomPatterns
+								recurse: opts.recurse
+								stat: opts.fileStat
 
-											# Exited
-											if tasks.exited
-												return tasks.exit()
-											# Error
-											else if err
-												return tasks.exit(err)
-											# Subtree
-											else if subtreeCallback
-												return subtreeCallback tasks.completer()
-											# Complete
-											else
-												return tasks.complete()
-									)
+								# Completed
+								next: (err,_list,_tree) ->
+									# Merge in children of the parent directory
+									tree[file] = _tree
+									for own filePath, fileType of _list
+										list[filePath] = fileType
 
-							else
-								# Done
-								return tasks.complete()
+									# Checks
+									return complete(err)  if err
+									return complete()     if tasks.paused
+									return subtreeCallback(complete)  if subtreeCallback
+									return complete()
+							)
 
 						# Action
 						if opts.dirAction
-							return opts.dirAction(fileFullPath, fileRelativePath, complete, fileStat)
+							return opts.dirAction(fileFullPath, fileRelativePath, handle, fileStat)
 						else if opts.dirAction is false
-							return complete(err,true)
+							return handle(err,true)
 						else
-							return complete(err,false)
+							return handle(err,false)
 
 					# File
 					else
 						# Prepare
-						complete = (err,skip) ->
-							# Error
-							return tasks.exit(err)  if err
+						handle = (err,skip) ->
+							# Checks
+							return complete(err)  if err
+							return complete()     if tasks.paused
+							return complete()     if skip
 
-							# Exited
-							return tasks.exit()  if tasks.exited
+							# Append
+							if opts.readFiles
+								# Read file
+								safefs.readFile fileFullPath, (err,data) ->
+									# Check
+									return complete(err)  if err
 
-							# Handle
-							if skip
-								# Done
-								return tasks.complete()
+									# Append
+									dataString = data.toString()
+									list[fileRelativePath] = dataString
+									tree[file] = dataString
+
+									# Done
+									return complete()
+
 							else
 								# Append
-								if opts.readFiles
-									# Read file
-									safefs.readFile fileFullPath, (err,data) ->
-										# Error?
-										return tasks.exit(err)  if err
-										# Append
-										dataString = data.toString()
-										list[fileRelativePath] = dataString
-										tree[file] = dataString
-										# Done
-										return tasks.complete()
-								else
-									# Append
-									list[fileRelativePath] = 'file'
-									tree[file] = true
-									# Done
-									return tasks.complete()
+								list[fileRelativePath] = 'file'
+								tree[file] = true
+
+								# Done
+								return complete()
 
 						# Action
 						if opts.fileAction
-							return opts.fileAction(fileFullPath, fileRelativePath, complete, fileStat)
+							return opts.fileAction(fileFullPath, fileRelativePath, handle, fileStat)
 						else if opts.fileAction is false
-							return complete(err,true)
+							return handle(err,true)
 						else
-							return complete(err,false)
+							return handle(err,false)
+
+			# Run the tasks
+			tasks.run()
 
 		# Chain
 		@
@@ -717,31 +688,24 @@ balUtilPaths = extendr.extend {}, safefs, {
 	# Write tree
 	# next(err)
 	writetree: (dstPath,tree,next) ->
-		# Group
-		tasks = new TaskGroup (err) ->
-			next(err)
-
 		# Ensure Destination
 		safefs.ensurePath dstPath, (err) ->
 			# Checks
-			return tasks.exit(err)  if err
+			return next(err)  if err
+
+			# Group
+			tasks = new TaskGroup().setConfig(concurrency:0).once('complete',next)
 
 			# Cycle
-			for own fileRelativePath, value of tree
-				++tasks.total
-				fileFullPath = pathUtil.join( dstPath, fileRelativePath.replace(/^\/+/,'') )
+			eachr tree, (value,fileRelativePath) ->  tasks.addTask (complete) ->
+				fileFullPath = pathUtil.join(dstPath, fileRelativePath.replace(/^\/+/,''))
 				if typeChecker.isObject(value)
-					balUtilPaths.writetree fileFullPath, value, tasks.completer()
+					balUtilPaths.writetree(fileFullPath, value, complete)
 				else
-					safefs.writeFile fileFullPath, value, (err) ->
-						return tasks.complete(err)
+					safefs.writeFile(fileFullPath, value, complete)
 
-			# Empty?
-			if tasks.total is 0
-				tasks.exit()
-
-			# Return
-			return
+			# Run the tasks
+			tasks.run()
 
 		# Chain
 		@
@@ -757,7 +721,7 @@ balUtilPaths = extendr.extend {}, safefs, {
 		if /^http/.test(filePath)
 			# Prepare
 			data = ''
-			tasks = new TaskGroup (err) ->
+			tasks = new TaskGroup().once 'complete', (err) ->
 				return next(err)  if err
 				return next(null,data)
 
@@ -782,7 +746,7 @@ balUtilPaths = extendr.extend {}, safefs, {
 			# Request
 			req = http.request requestOpts, (res) ->
 				# Listend
-				res.on 'data', (chunk) ->  tasks.push (complete) ->
+				res.on 'data', (chunk) ->  tasks.addTask (complete) ->
 					if res.headers['content-encoding'] is 'gzip' and Buffer.isBuffer(chunk)
 						# Check
 						if zlib is null
@@ -804,21 +768,29 @@ balUtilPaths = extendr.extend {}, safefs, {
 					if locationHeader and locationHeader isnt requestOpts.href
 						# Follow the redirect
 						balUtilPaths.readPath locationHeader, (err,_data) ->
-							return tasks.exit(err)  if err
+							return complete(err)  if err
 							data = _data
-							return tasks.exit()
+							return complete()
 					else
 						# All done
-						tasks.run('serial')
+						tasks.run()
 
 			# Timeout
-			req.setTimeout ?= (delay) -> setTimeout((-> req.abort(); tasks.exit(new Error('Request timed out'))),delay)
+			req.setTimeout ?= (delay) ->
+				setTimeout(
+					->
+						req.abort()
+						err = new Error('Request timed out')
+						tasks.exit(err)
+					delay
+				)
 			req.setTimeout(opts.timeout ? 10*1000)  # 10 second timeout
 
 			# Listen
 			req
+				# do not put these on the same line, will cause problems
 				.on 'error', (err) ->
-					return tasks.exit(err)
+					tasks.exit(err)
 				.on 'timeout', ->
 					req.abort()  # must abort manually, will trigger error event
 

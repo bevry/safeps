@@ -1,7 +1,7 @@
-# Requires
-assert = require('assert')
+# Import
+{expect,assert} = require('chai')
 joe = require('joe')
-balUtil = require(__dirname+'/../lib/balutil')
+balUtil = require('../../')
 
 
 # =====================================

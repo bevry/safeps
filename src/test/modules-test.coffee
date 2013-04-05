@@ -1,7 +1,7 @@
-# Requires
-assert = require('assert')
+# Import
+{expect,assert} = require('chai')
 joe = require('joe')
-balUtil = require(__dirname+'/../lib/balutil')
+balUtil = require('../../')
 
 # Local Globals
 travis = process.env.TRAVIS_NODE_VERSION?
@@ -67,9 +67,17 @@ joe.describe 'modules', (describe,it) ->
 				assert.ok(path)
 				done()
 
+	describe 'getExecPath', (describe,it) ->
+		it 'should fetch something', (done) ->
+			balUtil.getExecPath 'ruby', (err,path) ->
+				assert.equal(err||null, null)
+				console.log('ruby:',path)
+				assert.ok(path)
+				done()
+
 	describe 'getGitPath', (describe,it) ->
 		it 'should fetch something', (done) ->
-			balUtil.getGitPath (err,path) ->
+			balUtil.getExecPath 'git', (err,path) ->
 				assert.equal(err||null, null)
 				console.log('git:',path)
 				assert.ok(path)
@@ -77,7 +85,7 @@ joe.describe 'modules', (describe,it) ->
 
 	describe 'getNodePath', (describe,it) ->
 		it 'should fetch something', (done) ->
-			balUtil.getNodePath (err,path) ->
+			balUtil.getExecPath 'node', (err,path) ->
 				assert.equal(err||null, null)
 				console.log('node:',path)
 				assert.ok(path)
@@ -85,16 +93,8 @@ joe.describe 'modules', (describe,it) ->
 
 	describe 'getNpmPath', (describe,it) ->
 		it 'should fetch something', (done) ->
-			balUtil.getNpmPath (err,path) ->
+			balUtil.getExecPath 'npm', (err,path) ->
 				assert.equal(err||null, null)
 				console.log('npm:',path)
-				assert.ok(path)
-				done()
-
-	describe 'getExecPath', (describe,it) ->
-		it 'should fetch something', (done) ->
-			balUtil.getExecPath 'ruby', (err,path) ->
-				assert.equal(err||null, null)
-				console.log('ruby:',path)
 				assert.ok(path)
 				done()

@@ -1,7 +1,7 @@
-# Requires
+# Import
 {expect,assert} = require('chai')
 joe = require('joe')
-{EventEmitterEnhanced,EventSystem} = require(__dirname+'/../lib/balutil')
+{EventEmitterEnhanced,EventSystem} = require('../../')
 debug = false
 
 
@@ -40,6 +40,7 @@ joe.describe 'EventEmitterEnhanced', (describe,it) ->
 
 		# Emit and check
 		eventEmitter.emitSerial 'serial', null, (err) ->
+			expect(err).to.eql(null)
 			expect(first).to.eql(2)
 			expect(second).to.eql(2)
 			done()
@@ -70,6 +71,7 @@ joe.describe 'EventEmitterEnhanced', (describe,it) ->
 
 		# Emit and check
 		eventEmitter.emitParallel 'parallel', null, (err) ->
+			expect(err).to.eql(null)
 			expect(first).to.eql(2)
 			expect(second).to.eql(2)
 			done()
@@ -100,6 +102,7 @@ joe.describe 'EventEmitterEnhanced', (describe,it) ->
 
 		# Emit and check
 		eventEmitter.emitParallel 'once', null, (err) ->
+			expect(err).to.eql(null)
 			expect(first).to.eql(2)
 			expect(second).to.eql(2)
 			expect(eventEmitter.listeners('once').length).to.eql(0)

@@ -1,5 +1,10 @@
 ## History
 
+- v2.0.0 April 5, 2013
+	- We no longer alias split off projects, you should use them directly now
+	- Killed `(git|node|npm)(Command|Commands)` functions, use `spawnCommand` and `spawnCommands` instead
+	- `replaceElementAsync` now executes tasks in parallel rather than in serial
+
 - v1.18.0 April 1, 2013
 	- We now use the projects we split away from bal-util
 
