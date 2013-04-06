@@ -768,9 +768,9 @@ balUtilPaths =
 					if locationHeader and locationHeader isnt requestOpts.href
 						# Follow the redirect
 						balUtilPaths.readPath locationHeader, (err,_data) ->
-							return complete(err)  if err
+							return tasks.exit(err)  if err
 							data = _data
-							return complete()
+							return tasks.exit()
 					else
 						# All done
 						tasks.run()

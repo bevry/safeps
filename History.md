@@ -1,5 +1,9 @@
 ## History
 
+- v2.0.4 April 6, 2013
+	- `balUtilPaths` changes:
+		- Fixed redirect handling on `readPath`
+
 - v2.0.3 April 5, 2013
 	- `balUtilModules` changes:
 		- Fixed `spawnCommands`
