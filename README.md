@@ -2,6 +2,7 @@
 
 [![Build Status](https://secure.travis-ci.org/balupton/bal-util.png?branch=master)](http://travis-ci.org/balupton/bal-util)
 [![NPM version](https://badge.fury.io/js/bal-util.png)](https://npmjs.org/package/bal-util)
+[![Flattr this project](https://raw.github.com/balupton/flattr-buttons/master/badge-89x18.gif)](http://flattr.com/thing/344188/balupton-on-Flattr)
 
 Common utility functions for Node.js used and maintained by Benjamin Lupton
 
