@@ -730,6 +730,7 @@ balUtilPaths =
 			requestOpts.path ?= requestOpts.pathname
 			requestOpts.method ?= 'GET'
 			requestOpts.headers ?= {}
+			requestOpts.headers['user-agent'] ?= 'Wget/1.14 (linux-gnu)'
 
 			# Import
 			http = if requestOpts.protocol is 'https:' then require('https') else require('http')

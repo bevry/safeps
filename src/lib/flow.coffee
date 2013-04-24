@@ -14,13 +14,28 @@ balUtilFlow =
 		setTimeout(fn,delay)
 
 	# Extract the correct options and completion callback from the passed arguments
-	extractOptsAndCallback: (opts,next) ->
+	extractOptsAndCallback: (opts,next,config={}) ->
+		# Prepare
+		config.completionCallbackNames ?= ['next']
+
+		# Arguments
 		if typeChecker.isFunction(opts) and next? is false
 			next = opts
 			opts = {}
 		else
 			opts or= {}
-		next or= opts.next or null
+
+		# Completion callback
+		unless next
+			for completionCallbackName in config.completionCallbackNames
+				next = opts[completionCallbackName]
+				break  if next
+
+
+		# Ensure
+		next or= null
+
+		# Return
 		return [opts,next]
 
 	# Flow through a series of actions on an object
@@ -40,9 +55,9 @@ balUtilFlow =
 
 		# Create tasks group and cycle through it
 		actions ?= action.split(/[,\s]+/g)
-		object ?= global
+		object ?= null
 		tasks or= new TaskGroup().once('complete',next)
-		eachr actions, (action) -> tasks.addTask (complete) ->
+		actions.forEach (action) -> tasks.addTask (complete) ->
 			# Prepare callback
 			argsClone = (args or []).slice()
 			argsClone.push(complete)

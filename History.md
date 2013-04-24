@@ -1,5 +1,11 @@
 ## History
 
+- v2.0.5 April 25, 2013
+	- `balUtilFlow` changes:
+		- `extractOptsAndCallback` now accepts config argument
+	- `balUtilPaths` changes:
+		- `readPath` now uses `Wget/1.14 (linux-gnu)` as the default user agent
+
 - v2.0.4 April 6, 2013
 	- `balUtilPaths` changes:
 		- Fixed redirect handling on `readPath`

@@ -109,15 +109,19 @@ balUtilModules =
 			stdout = ''
 			stderr = ''
 
-			# Prepare format
+			# Format the command: string to array
 			if typeChecker.isString(command)
 				command = command.split(' ')
 
-			# Execute command
+			# Format the command: array to object
 			if typeChecker.isArray(command)
-				pid = spawn(command[0], command.slice(1), opts)
-			else
-				pid = spawn(command.command, command.args or [], command.options or opts)
+				command =
+					command: command[0]
+					args: command.slice(1)
+					options: opts
+
+			# Spawn
+			pid = spawn(command.command, command.args or [], command.options or opts)
 
 			# Fetch
 			pid.stdout.on 'data', (data) ->
