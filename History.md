@@ -1,5 +1,10 @@
 ## History
 
+- v2.1.0 May 25, 2013
+	- `balUtilEvent` changes:
+		- Event listeners can now have priorities. Highest priorities run first. Set them by `listener.priority = 500`
+		- Added `off` alias for `removeListener`
+
 - v2.0.5 April 25, 2013
 	- `balUtilFlow` changes:
 		- `extractOptsAndCallback` now accepts config argument

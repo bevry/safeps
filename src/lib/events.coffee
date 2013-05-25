@@ -22,6 +22,10 @@ class EventEmitterEnhanced extends EventEmitter
 		# Prepare tasks
 		tasks = new TaskGroup().once('complete',next)
 
+		# Sort the listeners by highest priority first
+		listeners.sort (a,b) ->
+			return (b.priority or 0) - (a.priority or 0)
+
 		# Add the tasks for the listeners
 		listeners.forEach (listener) ->
 			# Once will actually wrap around the original listener, which isn't what we want for the introspection
@@ -40,6 +44,9 @@ class EventEmitterEnhanced extends EventEmitter
 
 		# Return
 		return tasks
+
+	# Off
+	off: (args...) -> @removeListener(args...)
 
 	# Emit Serial
 	emitSync: (args...) -> @emitSerial(args...)
