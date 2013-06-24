@@ -67,6 +67,7 @@ joe.describe 'modules', (describe,it) ->
 				assert.ok(path)
 				done()
 
+	unless travis then \
 	describe 'getExecPath', (describe,it) ->
 		it 'should fetch something', (done) ->
 			safeps.getExecPath 'ruby', (err,path) ->
