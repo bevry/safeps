@@ -1,5 +1,8 @@
 ## History
 
+- v2.2.3 June 25, 2013
+	- `spawn` now works when `stdio` is set to `inherit`
+
 - v2.2.2 June 24, 2013
 	- `determineExecPath` now works for processes that do not implement `--version`
 	- `spawn` now won't crash on `EACCESS` errors
