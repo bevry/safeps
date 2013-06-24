@@ -1,100 +1,39 @@
 # Import
-{expect,assert} = require('chai')
+{expect} = require('chai')
 joe = require('joe')
-balUtil = require('../../')
+safefs = require('../..')
+TaskGroup = require('taskgroup')
 
-# Local Globals
-travis = process.env.TRAVIS_NODE_VERSION?
+# Test
+joe.describe 'safeps', (describe,it) ->
 
+	it 'should work correctly', (done) ->
+		openFiles = 0
+		closedFiles = 0
+		maxOpenFiles = 100
+		totalFiles = maxOpenFiles*2
 
-# =====================================
-# Tests
+		# Add all our open tasks
+		[0...totalFiles].forEach (i) ->
+			# Open
+			safefs.openFile (closeFile) ->
+				++openFiles
 
-joe.describe 'modules', (describe,it) ->
+				# Check for logical conditions
+				expect(openFiles, 'check 1').to.be.lte(maxOpenFiles)
 
-	describe 'requireFresh', (describe,it) ->
-		it 'should fetch something', ->
-			result = balUtil.requireFresh(__dirname+'/../../package.json')
-			assert.ok(result)
-			assert.ok(result?.version)
+				# Delay would go here if we are over the limit
+				process.nextTick ->
+					# Check for logical conditions
+					expect(openFiles, 'check 2').to.be.lte(maxOpenFiles)
 
-	describe 'locale', (describe,it) ->
-		describe 'getLocaleCode', (describe,it) ->
-			it 'should fetch something', ->
-				localeCode = balUtil.getLocaleCode()
-				console.log('localeCode:', localeCode)
-				assert.ok(localeCode)
+					# Close the file
+					closeFile()
+					++closedFiles
+					--openFiles
 
-			it 'should fetch something when passed something', ->
-				localeCode = balUtil.getLocaleCode('fr-CH')
-				assert.equal(localeCode, 'fr_ch')
-				localeCode = balUtil.getLocaleCode('fr_CH')
-				assert.equal(localeCode, 'fr_ch')
+					if closedFiles is totalFiles
+						done()
 
-		describe 'getCountryCode', (describe,it) ->
-			it 'should fetch something', ->
-				countryCode = balUtil.getCountryCode()
-				console.log('countryCode:', countryCode)
-				assert.ok(countryCode)
-
-			it 'should fetch something when passed something', ->
-				countryCode = balUtil.getCountryCode('fr-CH')
-				assert.equal(countryCode, 'ch')
-
-		describe 'getLanguageCode', (describe,it) ->
-			it 'should fetch something', ->
-				languageCode = balUtil.getLanguageCode()
-				console.log('languageCode:', languageCode)
-				assert.ok(languageCode)
-
-			it 'should fetch something when passed something', ->
-				languageCode = balUtil.getLanguageCode('fr-CH')
-				assert.equal(languageCode, 'fr')
-
-	describe 'getHomePath', (describe,it) ->
-		it 'should fetch something', (done) ->
-			balUtil.getHomePath (err,path) ->
-				assert.equal(err||null, null)
-				console.log('home:',path)
-				assert.ok(path)
-				done()
-
-	describe 'getTmpPath', (describe,it) ->
-		it 'should fetch something', (done) ->
-			balUtil.getTmpPath (err,path) ->
-				assert.equal(err||null, null)
-				console.log('tmp:',path)
-				assert.ok(path)
-				done()
-
-	describe 'getExecPath', (describe,it) ->
-		it 'should fetch something', (done) ->
-			balUtil.getExecPath 'ruby', (err,path) ->
-				assert.equal(err||null, null)
-				console.log('ruby:',path)
-				assert.ok(path)
-				done()
-
-	describe 'getGitPath', (describe,it) ->
-		it 'should fetch something', (done) ->
-			balUtil.getExecPath 'git', (err,path) ->
-				assert.equal(err||null, null)
-				console.log('git:',path)
-				assert.ok(path)
-				done()
-
-	describe 'getNodePath', (describe,it) ->
-		it 'should fetch something', (done) ->
-			balUtil.getExecPath 'node', (err,path) ->
-				assert.equal(err||null, null)
-				console.log('node:',path)
-				assert.ok(path)
-				done()
-
-	describe 'getNpmPath', (describe,it) ->
-		it 'should fetch something', (done) ->
-			balUtil.getExecPath 'npm', (err,path) ->
-				assert.equal(err||null, null)
-				console.log('npm:',path)
-				assert.ok(path)
-				done()
+			# Check for logical conditions
+			expect(openFiles, 'check 4').to.be.lte(maxOpenFiles)

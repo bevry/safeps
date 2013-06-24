@@ -1,5 +1,8 @@
 ## History
 
+- v2.2.0 June 24, 2013
+	- Split from bal-util
+
 - v2.1.0 May 25, 2013
 	- `balUtilEvent` changes:
 		- Event listeners can now have priorities. Highest priorities run first. Set them by `listener.priority = 500`
@@ -35,9 +38,6 @@
 		- Killed `(git|node|npm)(Command|Commands)` functions, use `spawnCommand` and `spawnCommands` instead
 	- `balUtilHTML` changes:
 		- `replaceElementAsync` now executes tasks in parallel rather than in serial
-
-- v1.18.0 April 1, 2013
-	- We now use the projects we split away from bal-util
 
 - v1.17.0 March 27, 2013
 	- Killed explicit browser support, use [Browserify](http://browserify.org/) instead

@@ -1,66 +1,43 @@
 {
-	"name": "bal-util",
-	"version": "2.1.0",
-	"description": "Common utility functions for Node.js used and maintained by Benjamin Lupton",
-	"homepage": "https://github.com/balupton/bal-util",
+	"name": "safeps",
+	"version": "2.2.0",
+	"description": "Work with processes safely and easily with Node.js",
+	"homepage": "https://github.com/bevry/safefs",
 	"keywords": [
-		"javascript",
-		"flow",
-		"control",
-		"async",
-		"sync",
-		"tasks",
-		"batch",
-		"utility",
-		"util",
-		"utilities",
-		"paths",
-		"path",
-		"events",
-		"event",
-		"module",
-		"modules",
-		"compare",
-		"comparison",
-		"html"
+		"ps", "process", "openProcess", "closeProcess", "spawn", "exec", "child_process"
 	],
-	"author": "Benjamin Lupton <b@lupton.cc> (http://balupton.com)",
+	"author": "Bevry Pty Ltd <us@bevry.me> (http://bevry.me)",
 	"maintainers": [
 		"Benjamin Lupton <b@lupton.cc> (https://github.com/balupton)"
 	],
 	"contributors": [
-		"Benjamin Lupton <b@lupton.cc> (https://github.com/balupton)",
-		"Sean Fridman <fridman@mail.sfsu.edu> (https://github.com/sfrdmn)"
+		"Benjamin Lupton <b@lupton.cc> (https://github.com/balupton)"
 	],
 	"bugs": {
-		"url": "https://github.com/balupton/bal-util/issues"
+		"url": "https://github.com/bevry/safeps/issues"
 	},
 	"repository" : {
 		"type": "git",
-		"url": "http://github.com/balupton/bal-util.git"
+		"url": "http://github.com/bevry/safeps.git"
 	},
 	"engines" : {
 		"node": ">=0.4"
 	},
 	"dependencies": {
-		"ambi": "~2.0.0",
-		"eachr": "~2.0.2",
-		"extendr": "~2.0.1",
-		"safefs": "~3.0.1",
-		"taskgroup": "~3.1.1",
-		"typechecker": "~2.0.1"
+		"taskgroup": "~3.1.2",
+		"extract-opts": "~2.2.0"
 	},
 	"devDependencies": {
 		"coffee-script": "~1.6.2",
 		"joe": "~1.2.0",
-		"joe-reporter-console": "~1.2.0",
-		"chai": "~1.6.0"
+		"joe-reporter-console": "~1.2.1",
+		"chai": "~1.5.0"
 	},
 	"directories": {
 		"lib": "./out/lib"
 	},
 	"scripts": {
-		"test": "node ./out/test/everything-test.js"
+		"test": "node ./out/test/safeps-test.js"
 	},
-	"main": "./out/lib/balutil"
+	"main": "./out/lib/safeps.js"
 }
