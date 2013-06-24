@@ -5,6 +5,7 @@ safeps = require('../../')
 
 # Local Globals
 travis = process.env.TRAVIS_NODE_VERSION?
+process.env.LANG ?= 'en_AU.UTF-8'
 
 
 # =====================================
@@ -20,7 +21,7 @@ joe.describe 'modules', (describe,it) ->
 
 	describe 'locale', (describe,it) ->
 		describe 'getLocaleCode', (describe,it) ->
-			it 'should fetch something', ->
+			it 'should fetch something from the environment', ->
 				localeCode = safeps.getLocaleCode()
 				console.log('localeCode:', localeCode)
 				assert.ok(localeCode)
