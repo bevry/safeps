@@ -26,7 +26,7 @@ var safeps = require('safeps');
 - `openProcess(task)` fire a process task, and keep it open until the task's completion callback fires
 	- `task(complete)`
 - `spawn(command, opts?, next?)` spawn a process, with respect to the maximum amount of processes we can open at once
-	- `command` can be an array of arguments to execute, as well as an object of `{command:'git', args:['status'], opts:{}}`
+	- `command` an array of arguments to execute
 	- `opts={safe:true, read:true, output:false, stdin:null}` options are also sent on to `require('child_process').spawn`
 		- `safe` whether or not we should attempt to get the absolute executable path of the command to execute via `require('safeps').getExecPath`
 		- `read` whether or not we should listen to the child process's stdout and stderr streams for use in the completion callback
@@ -43,7 +43,7 @@ var safeps = require('safeps');
 - `spawnCommand(command, args, opts?, next?)` alias of `require('safeps').spawn` but with the `command` prefixed to the `args`, e.g. `spawnCommand('git', 'status')`
 - `spawnCommands(command, multiArgs, opts?, next?` alias of `require('safeps').spawnMultiple` but with the `command` prefixed to the `multiArgs`, e.g. `spawnCommands('git', [['status'],['pull']])`
 - `exec(command, opts?, next?)` execute a process, with respect to the maximum amount of processes we can open at once
-	- `command` is a string to execute
+	- `command` a string to execute
 	- `opts={output:false}` options are also sent on to `require('child_process').exec`
 		- `output` if set to `true` will set the `stdio` option to `inherit` which will output the child process's stdout and stderr to our own
 	- `next(err, stdout, stderr)`
