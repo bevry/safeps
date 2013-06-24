@@ -1,5 +1,8 @@
 ## History
 
+- v2.2.4 June 25, 2013
+	- Repackaged
+
 - v2.2.3 June 25, 2013
 	- `spawn` now works when `stdio` is set to `inherit`
 
