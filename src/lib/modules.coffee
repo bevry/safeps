@@ -160,6 +160,9 @@ safeps =
 					pid.stdin.write(opts.stdin)
 					pid.stdin.end()
 
+			# Run
+			tasks.run()
+
 		# Chain
 		@
 
@@ -331,6 +334,9 @@ safeps =
 
 	# Get Environment Paths
 	getEnvironmentPaths: ->
+		# Prepare
+		pathUtil = require('path')
+
 		# Fetch system include paths with the correct delimiter for the system
 		environmentPaths = process.env.PATH.split(pathUtil.delimiter)
 
@@ -339,6 +345,9 @@ safeps =
 
 	# Get Standard Paths
 	getStandardExecPaths: (execName) ->
+		# Prepare
+		pathUtil = require('path')
+
 		# Prepare
 		possibleExecPaths = [process.cwd()].concat(safeps.getEnvironmentPaths())
 
