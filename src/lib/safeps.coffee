@@ -40,15 +40,6 @@ safeps =
 		# Chain
 		safeps
 
-	# Close a process
-	# Only here for backwards compatibility, do not use this
-	closeProcess: ->
-		# Log
-		console.log('safeps.closeProcess has been deprecated, please use the safeps.openProcess completion callback to close files')
-
-		# Chain
-		safeps
-
 
 	# =================================
 	# Require
@@ -103,28 +94,31 @@ safeps =
 			{spawn} = require('child_process')
 			[opts,next] = extractOptsAndCallback(opts, next)
 			opts.safe ?= true
+			opts.env  ?= process.env
 			opts.read ?= true
 			opts.output ?= false
 			opts.stdin ?= null
+
+			# Prepare env
+			delete opts.env  if opts.env is false
 
 			# Format the command: string to array
 			command = command.split(' ')  if typeChecker.isString(command)
 
 			# Prepare
 			pid = null
-			err = null
 			stdout = null
 			stderr = null
 			code = null
 			signal = null
-			tasks = new TaskGroup().once 'complete', ->
+			tasks = new TaskGroup().once 'complete', (err) ->
 				closeProcess()
 				return next?(err, stdout, stderr, code, signal)
 
 			# Find
 			if opts.safe
 				tasks.addTask (complete) ->
-					safeps.getExecPath command, (err,execPath) ->
+					safeps.getExecPath command[0], (err,execPath) ->
 						return complete(err)  if err
 						command[0] = execPath
 						return complete()
@@ -149,11 +143,18 @@ safeps =
 						stderr += data.toString()
 
 				# Wait
-				pid.on 'close', (code,signal) ->
+				pid.on 'close', (_code,_signal) ->
+					# Apply
+					code = _code
+					signal = _signal
+
+					# Check
 					err = null
 					if code isnt 0
 						err = new Error(stderr or 'exited with a non-zero status code')
-					return complete()
+
+					# Complete
+					return complete(err)
 
 				# Write
 				if opts.stdin
@@ -253,7 +254,7 @@ safeps =
 			exec command, opts, (err,stdout,stderr) ->
 				# Complete the task
 				closeProcess()
-				return next(err, stdout, stderr)
+				return next?(err, stdout, stderr)
 
 		# Chain
 		@
@@ -299,8 +300,8 @@ safeps =
 		execPath = null
 
 		# Group
-		tasks = new TaskGroup().once 'complete', (err) ->
-			next(err, execPath)
+		tasks = new TaskGroup().once 'complete', ->
+			next(null, execPath)
 
 		# Handle
 		possibleExecPaths.forEach (possibleExecPath) ->
@@ -318,13 +319,14 @@ safeps =
 					return complete()  unless exists
 
 					# Check to see if the path is an executable
-					safeps.spawn [possibleExecPath, '--version'], {env:process.env}, (err,stdout,stderr,code,signal) ->
+					safeps.spawn [possibleExecPath, '--version'], (err,result...) ->
 						# Problem
 						return complete()  if err
 
 						# Good
 						execPath = possibleExecPath
-						return complete()
+						err = new Error('found the executable, so exit')
+						return complete(err)
 
 		# Fire the tasks
 		tasks.run()
@@ -359,9 +361,19 @@ safeps =
 		# Return
 		return possibleExecPaths
 
+	# Exec Path Cache
+	execPathCache: {}
+
 	# Get an Exec Path
+	# We should not absolute relative paths, as relative paths should be attempt at each possible path
 	# next(err,foundPath)
 	getExecPath: (execName,next) ->
+		# Check for absolute path, as we would not be needed and would just currupt the output
+		return next(null, execName)  if execName.substr(0,1) is '/' or execName.substr(1,1) is ':'
+
+		# Check for cache
+		return next(null, safeps.execPathCache[execName])  if safeps.execPathCache[execName]?
+
 		# Prepare
 		execNameCapitalized = execName[0].toUpperCase() + execName.substr(1)
 		getExecMethodName = 'get'+execNameCapitalized+'Path'
@@ -380,7 +392,18 @@ safeps =
 
 			# Forward onto determineExecPath
 			# Which will determine which path it is out of the possible paths
-			safeps.determineExecPath(possibleExecPaths, next)
+			safeps.determineExecPath possibleExecPaths, (err,execPath) ->
+				# Check
+				return next(err)  if err
+				unless execPath
+					err = new Error('Could not locate the '+execName+' executable path')
+					return next(err)
+
+				# Save to cache
+				safeps.execPathCache[execName] = execPath
+
+				# Forward
+				return next(null, execPath)
 
 		# Chain
 		@
@@ -462,11 +485,10 @@ safeps =
 
 		# Prepare
 		execName = if isWindows then 'git.exe' else 'git'
-		possibleExecPaths =
-			[
-				process.env.GIT_PATH
-				process.env.GITPATH
-			]
+		possibleExecPaths = []
+		possibleExecPaths.push(process.env.GIT_PATH)  if process.env.GIT_PATH
+		possibleExecPaths.push(process.env.GITPATH)   if process.env.GITPATH
+		possibleExecPaths = possibleExecPaths
 			.concat(safeps.getStandardExecPaths(execName))
 			.concat(
 				if isWindows
@@ -490,10 +512,12 @@ safeps =
 
 			# Check
 			return next(err)  if err
-			return next(new Error('Could not locate git binary'))  unless execPath
+			unless execPath
+				err = new Error('Could not locate git binary')
+				return next(err)
 
 			# Forward
-			return next(null,execPath)
+			return next(null, execPath)
 
 		# Chain
 		@
@@ -510,12 +534,11 @@ safeps =
 
 		# Prepare
 		execName = if isWindows then 'node.exe' else 'node'
-		possibleExecPaths =
-			[
-				process.env.NODE_PATH
-				process.env.NODEPATH
-				(if /node(.exe)?$/.test(process.execPath) then process.execPath else '')
-			]
+		possibleExecPaths = []
+		possibleExecPaths.push(process.env.NODE_PATH)  if process.env.NODE_PATH
+		possibleExecPaths.push(process.env.NODEPATH)   if process.env.NODEPATH
+		possibleExecPaths.push(process.execPath)       if /node(.exe)?$/.test(process.execPath)
+		possibleExecPaths = possibleExecPaths
 			.concat(safeps.getStandardExecPaths(execName))
 			.concat(
 				if isWindows
@@ -539,10 +562,12 @@ safeps =
 
 			# Check
 			return next(err)  if err
-			return next(new Error('Could not locate node binary'))  unless execPath
+			unless execPath
+				err = new Error('Could not locate node binary')
+				return next(err)
 
 			# Forward
-			return next(null,execPath)
+			return next(null, execPath)
 
 		# Chain
 		@
@@ -560,12 +585,11 @@ safeps =
 
 		# Prepare
 		execName = if isWindows then 'npm.cmd' else 'npm'
-		possibleExecPaths =
-			[
-				process.env.NPM_PATH
-				process.env.NPMPATH
-				(if /node(.exe)?$/.test(process.execPath) then process.execPath.replace(/node(.exe)?$/, execName) else '')
-			]
+		possibleExecPaths = []
+		possibleExecPaths.push(process.env.NPM_PATH)  if process.env.NPM_PATH
+		possibleExecPaths.push(process.env.NPMPATH)   if process.env.NPMPATH
+		possibleExecPaths.push(process.execPath.replace(/node(.exe)?$/, execName))  if /node(.exe)?$/.test(process.execPath)
+		possibleExecPaths = possibleExecPaths
 			.concat(safeps.getStandardExecPaths(execName))
 			.concat(
 				if isWindows
@@ -589,10 +613,12 @@ safeps =
 
 			# Check
 			return next(err)  if err
-			return next(new Error('Could not locate npm binary'))  unless execPath
+			unless execPath
+				err = new Error('Could not locate npm binary')
+				return next(err)
 
 			# Forward
-			return next(null,execPath)
+			return next(null, execPath)
 
 		# Chain
 		@

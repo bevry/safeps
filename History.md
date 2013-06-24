@@ -1,5 +1,17 @@
 ## History
 
+- v2.2.1 June 24, 2013
+	- `determinePossibleExecPath` is now more effecient
+	- `getGitPath`, `getNodePath`, `getNpmPath` won't added `undefined` paths
+	- `spawn`
+		- will now inherit our `process.env` by default, can be changed with `opts.env`
+		- will now send `signal` and `code` in the completion callback correctly
+		- now works
+	- `getExecPath`
+		- now caches the result
+		- won't currupt absolute paths
+		- will work with relative paths
+
 - v2.2.0 June 24, 2013
 	- Split from [bal-util](https://github.com/balupton/bal-util)
 	- `spawn` is now safe rather than just `spawnCommand`
