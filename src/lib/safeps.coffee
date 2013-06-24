@@ -141,10 +141,11 @@ safeps =
 						stderr = ''
 
 						# Listen
-						pid.stdout.on 'data', (data) ->
+						# Streams may be null if stdio is 'inherit'
+						pid.stdout?.on 'data', (data) ->
 							process.stdout.write(data)  if opts.output
 							stdout += data.toString()
-						pid.stderr.on 'data', (data) ->
+						pid.stderr?.on 'data', (data) ->
 							process.stderr.write(data)  if opts.output
 							stderr += data.toString()
 
@@ -164,8 +165,8 @@ safeps =
 
 					# Write
 					if opts.stdin
-						pid.stdin.write(opts.stdin)
-						pid.stdin.end()
+						pid.stdin?.write(opts.stdin)
+						pid.stdin?.end()
 
 			# Run
 			tasks.run()
