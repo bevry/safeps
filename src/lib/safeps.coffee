@@ -86,7 +86,7 @@ safeps =
 
 	# Spawn
 	# Wrapper around node's spawn command for a cleaner and more powerful API
-	# next(err,stdout,stderr,code,signal)
+	# next(err, stdout, stderr, code, signal)
 	spawn: (command, opts, next) ->
 		# Patience
 		safeps.openProcess (closeProcess) ->
@@ -123,43 +123,49 @@ safeps =
 						command[0] = execPath
 						return complete()
 
-			# Execute
+			# Spawn
 			tasks.addTask (complete) ->
-				# Spawn
-				pid = spawn(command[0], command.slice(1), opts)
-
-				# Read
-				if opts.read
-					# Prepare
-					stdout = ''
-					stderr = ''
-
-					# Listen
-					pid.stdout.on 'data', (data) ->
-						process.stdout.write(data)  if opts.output
-						stdout += data.toString()
-					pid.stderr.on 'data', (data) ->
-						process.stderr.write(data)  if opts.output
-						stderr += data.toString()
-
-				# Wait
-				pid.on 'close', (_code,_signal) ->
-					# Apply
-					code = _code
-					signal = _signal
-
-					# Check
-					err = null
-					if code isnt 0
-						err = new Error(stderr or 'exited with a non-zero status code')
-
-					# Complete
+				# Protect ourselves against certain types of errors
+				# like EACCESS errors
+				d = require('domain').create()
+				d.on 'error', (err) ->
 					return complete(err)
+				d.run ->
+					# Spawn
+					pid = spawn(command[0], command.slice(1), opts)
 
-				# Write
-				if opts.stdin
-					pid.stdin.write(opts.stdin)
-					pid.stdin.end()
+					# Read
+					if opts.read
+						# Prepare
+						stdout = ''
+						stderr = ''
+
+						# Listen
+						pid.stdout.on 'data', (data) ->
+							process.stdout.write(data)  if opts.output
+							stdout += data.toString()
+						pid.stderr.on 'data', (data) ->
+							process.stderr.write(data)  if opts.output
+							stderr += data.toString()
+
+					# Wait
+					pid.on 'close', (_code,_signal) ->
+						# Apply
+						code = _code
+						signal = _signal
+
+						# Check
+						err = null
+						if code isnt 0
+							err = new Error(stderr or 'exited with a non-zero status code')
+
+						# Complete
+						return complete(err)
+
+					# Write
+					if opts.stdin
+						pid.stdin.write(opts.stdin)
+						pid.stdin.end()
 
 			# Run
 			tasks.run()
@@ -300,8 +306,8 @@ safeps =
 		execPath = null
 
 		# Group
-		tasks = new TaskGroup().once 'complete', ->
-			next(null, execPath)
+		tasks = new TaskGroup().once 'complete', (err) ->
+			return next(err, execPath)
 
 		# Handle
 		possibleExecPaths.forEach (possibleExecPath) ->
@@ -319,14 +325,15 @@ safeps =
 					return complete()  unless exists
 
 					# Check to see if the path is an executable
-					safeps.spawn [possibleExecPath, '--version'], (err,result...) ->
-						# Problem
-						return complete()  if err
+					safeps.spawn [possibleExecPath, '--version'], (err,stdout,stderr,code,signal) ->
+						# Safe error?
+						# We deliberatly ignore stderr errors as they indicate the process exists
+						# and are probably just due to `--version` handling not existing
+						return complete()  if (err?.message or '').indexOf('spawn') isnt -1
 
 						# Good
 						execPath = possibleExecPath
-						err = new Error('found the executable, so exit')
-						return complete(err)
+						return tasks.exit()
 
 		# Fire the tasks
 		tasks.run()

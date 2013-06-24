@@ -1,11 +1,15 @@
 ## History
 
+- v2.2.2 June 24, 2013
+	- `determineExecPath` now works for processes that do not implement `--version`
+	- `spawn` now won't crash on `EACCESS` errors
+
 - v2.2.1 June 24, 2013
 	- `determinePossibleExecPath` is now more effecient
 	- `getGitPath`, `getNodePath`, `getNpmPath` won't added `undefined` paths
 	- `spawn`
-		- will now inherit our `process.env` by default, can be changed with `opts.env`
-		- will now send `signal` and `code` in the completion callback correctly
+		- now inherits our `process.env` by default, can be changed with `opts.env`
+		- now sends `signal` and `code` in the completion callback correctly
 		- now works
 	- `getExecPath`
 		- now caches the result
