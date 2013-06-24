@@ -11,7 +11,8 @@
 		"Benjamin Lupton <b@lupton.cc> (https://github.com/balupton)"
 	],
 	"contributors": [
-		"Benjamin Lupton <b@lupton.cc> (https://github.com/balupton)"
+		"Benjamin Lupton <b@lupton.cc> (https://github.com/balupton)",
+		"Johny Jose <johny@playlyfe.com>"
 	],
 	"bugs": {
 		"url": "https://github.com/bevry/safeps/issues"
@@ -24,6 +25,8 @@
 		"node": ">=0.4"
 	},
 	"dependencies": {
+		"typechecker": "~2.0.1",
+		"safefs": "~3.0.1",
 		"taskgroup": "~3.1.2",
 		"extract-opts": "~2.2.0"
 	},
@@ -31,7 +34,7 @@
 		"coffee-script": "~1.6.2",
 		"joe": "~1.2.0",
 		"joe-reporter-console": "~1.2.1",
-		"chai": "~1.5.0"
+		"chai": "~1.7.0"
 	},
 	"directories": {
 		"lib": "./out/lib"

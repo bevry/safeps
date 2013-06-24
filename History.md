@@ -1,7 +1,13 @@
 ## History
 
 - v2.2.0 June 24, 2013
-	- Split from bal-util
+	- Split from [bal-util](https://github.com/balupton/bal-util)
+	- `spawn` is now safe rather than just `spawnCommand`
+	- `spawn` now waits for `close` instead of `exit`
+		- Thanks to Johny Jose for [balupton/bal-util#9](https://github.com/balupton/bal-util/pull/9)
+	- `getEnvironmentPaths` now uses `require('path').delimiter` for seperation
+	- `getStandardExecPaths` now uses `require('path').join` for joining `execName` to a possible path
+	- `initGitRepo`, `initOrPullGitRepo` and `initNodeModules` now use `opts.cwd` instead of `opts.path`
 
 - v2.1.0 May 25, 2013
 	- `balUtilEvent` changes:
