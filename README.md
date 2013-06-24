@@ -36,7 +36,7 @@ var safeps = require('safeps');
 - `spawnMultiple(commands, opts?, next?)` spawn multiple processes, forwards on to `require('safeps').spawn`
 	- `commands` an array of commands to execute
 	- `opts={concurrency:1}` options are also sent on to `require('safeps').spawn`
-		`concurrency` how many processes should we execute at once?
+		- `concurrency` how many processes should we execute at once?
 	- `next(err, results)`
 		- `results = [result...]`
 			- `result = [err, stdout, stderr, code, signal]`
@@ -50,7 +50,7 @@ var safeps = require('safeps');
 - `execMultiple(commands, opts, next)` execute multiple processes, forwards on to `require('safeps').exec`
 	- `commands` is an array of commands to execute
 	- `opts={concurrency:1}` options are also sent to `require('safeps').exec`
-		`concurrency` how many processes should we execute at once?
+		- `concurrency` how many processes should we execute at once?
 	- `next(err, results)`
 		- `results = [result...]`
 			- `result = [err, stdout, stderr]`
