@@ -1,5 +1,10 @@
 ## History
 
+- v2.2.5 June 29, 2013
+	- Split out possible exec path functionality from `getExecPath` to `getPossibleExecPaths(execName?)`
+	- Added support for `.bat` aliases on windows to `getPossibleExecPaths`
+	- More efficient possible exec paths ordering when on windows
+
 - v2.2.4 June 25, 2013
 	- Repackaged
 
