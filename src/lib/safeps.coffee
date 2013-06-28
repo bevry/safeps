@@ -358,13 +358,29 @@ safeps =
 		# Prepare
 		pathUtil = require('path')
 
-		# Prepare
-		possibleExecPaths = [process.cwd()].concat(safeps.getEnvironmentPaths())
+		# Fetch
+		standardExecPaths = [process.cwd()].concat(safeps.getEnvironmentPaths())
 
 		# Get the possible exec paths
 		if execName
-			possibleExecPaths = possibleExecPaths.map (path) ->
+			standardExecPaths = standardExecPaths.map (path) ->
 				return pathUtil.join(path, execName)
+
+		# Return
+		return standardExecPaths
+
+	# Get Possible Exec Paths
+	getPossibleExecPaths: (execName) ->
+		# Fetch available paths
+		if isWindows and execName.indexOf('.') is -1
+			# we are for windows add the paths for .exe as well
+			standardExecPaths = safeps.getStandardExecPaths(execName)
+			possibleExecPaths = []
+			for standardExecPath in standardExecPaths
+				possibleExecPaths.push(standardExecPath, standardExecPath+'.exe', standardExecPath+'.bat')
+		else
+			# we are normal, try the paths
+			possibleExecPaths = safeps.getStandardExecPaths(execName)
 
 		# Return
 		return possibleExecPaths
@@ -390,13 +406,8 @@ safeps =
 		if safeps[getExecMethodName]?
 			safeps[getExecMethodName](next)
 		else
-			# Fetch available paths
-			if isWindows and execName.indexOf('.') is -1
-				# we are for windows add the paths for .exe as well
-				possibleExecPaths = safeps.getStandardExecPaths(execName+'.exe').concat(safeps.getStandardExecPaths(execName))
-			else
-				# we are normal, try the paths
-				possibleExecPaths = safeps.getStandardExecPaths(execName)
+			# Fetch possible exec paths
+			possibleExecPaths = safeps.getPossibleExecPaths(execName)
 
 			# Forward onto determineExecPath
 			# Which will determine which path it is out of the possible paths
