@@ -377,7 +377,7 @@ safeps =
 			standardExecPaths = safeps.getStandardExecPaths(execName)
 			possibleExecPaths = []
 			for standardExecPath in standardExecPaths
-				possibleExecPaths.push(standardExecPath, standardExecPath+'.exe', standardExecPath+'.bat')
+				possibleExecPaths.push(standardExecPath, standardExecPath+'.exe', standardExecPath+'.cmd', standardExecPath+'.bat')
 		else
 			# we are normal, try the paths
 			possibleExecPaths = safeps.getStandardExecPaths(execName)
