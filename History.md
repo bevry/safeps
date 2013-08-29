@@ -1,5 +1,8 @@
 ## History
 
+- v2.2.7 August 29, 2013
+	- Updated dependencies
+
 - v2.2.6 June 29, 2013
 	- Added support for `.cmd` aliases on windows to `getPossibleExecPaths`
 
