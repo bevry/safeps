@@ -91,7 +91,6 @@ safeps =
 		# Patience
 		safeps.openProcess (closeProcess) ->
 			# Prepare
-			{spawn} = require('child_process')
 			[opts,next] = extractOptsAndCallback(opts, next)
 			opts.safe ?= true
 			opts.env  ?= process.env
@@ -127,12 +126,14 @@ safeps =
 			tasks.addTask (complete) ->
 				# Protect ourselves against certain types of errors
 				# like EACCESS errors
+				exited = false  # ensure we only exit once if there is an error
 				d = require('domain').create()
 				d.on 'error', (err) ->
+					exited = true
 					return complete(err)
 				d.run ->
 					# Spawn
-					pid = spawn(command[0], command.slice(1), opts)
+					pid = require('child_process').spawn(command[0], command.slice(1), opts)
 
 					# Read
 					if opts.read
@@ -151,6 +152,13 @@ safeps =
 
 					# Wait
 					pid.on 'close', (_code,_signal) ->
+						# Check if we have already exited due to domains
+						# as without this, then we will fire the completion callback twice
+						# once for the domain error that will happen first
+						# then again for the close error
+						# if it happens the other way round, close, then error, we want to be alerted of that
+						return  if exited is true
+
 						# Apply
 						code = _code
 						signal = _signal
@@ -248,7 +256,6 @@ safeps =
 		# Patience
 		safeps.openProcess (closeProcess) ->
 			# Prepare
-			{exec} = require('child_process')
 			[opts,next] = extractOptsAndCallback(opts, next)
 			opts.output ?= false
 
@@ -258,7 +265,7 @@ safeps =
 				delete opts.output
 
 			# Execute command
-			exec command, opts, (err,stdout,stderr) ->
+			require('child_process').exec command, opts, (err,stdout,stderr) ->
 				# Complete the task
 				closeProcess()
 				return next?(err, stdout, stderr)
