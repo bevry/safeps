@@ -1,4 +1,8 @@
-## History
+# History
+
+- v2.2.9 November 6, 2013
+	- Repackaged
+	- Updated dependencies
 
 - v2.2.8 September 16, 2013
 	- Fixed `Error: A task's completion callback has fired when the task was already in a completed state, this is unexpected` when an error occurs before close within a spawned process
