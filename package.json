@@ -3,7 +3,7 @@
   "name": "safeps",
   "version": "2.2.9",
   "description": "Work with processes safely and easily with Node.js",
-  "homepage": "https://github.com/bevry/safefs",
+  "homepage": "https://github.com/bevry/safeps",
   "license": {
     "type": "MIT"
   },
