@@ -1,7 +1,7 @@
 {
   "title": "Safe PS",
   "name": "safeps",
-  "version": "2.2.9",
+  "version": "2.2.10",
   "description": "Work with processes safely and easily with Node.js",
   "homepage": "https://github.com/bevry/safeps",
   "license": {
@@ -29,6 +29,7 @@
   ],
   "contributors": [
     "Benjamin Lupton <b@lupton.cc> (https://github.com/balupton)",
+    "giodamelio (https://github.com/giodamelio)",
     "sfrdmn (https://github.com/sfrdmn)"
   ],
   "bugs": {
@@ -43,7 +44,7 @@
   },
   "dependencies": {
     "typechecker": "~2.0.8",
-    "safefs": "~3.0.4",
+    "safefs": "~3.1.0",
     "taskgroup": "~3.3.1",
     "extract-opts": "~2.2.0"
   },
@@ -52,7 +53,7 @@
     "joe": "~1.3.0",
     "joe-reporter-console": "~1.2.1",
     "chai": "~1.8.1",
-    "projectz": "~0.2.5"
+    "projectz": "~0.3.2"
   },
   "directories": {
     "lib": "./out/lib"
