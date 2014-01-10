@@ -144,10 +144,14 @@ safeps =
 						# Listen
 						# Streams may be null if stdio is 'inherit'
 						pid.stdout?.on 'data', (data) ->
-							process.stdout.write(data)  if opts.output
+							if opts.output
+								data = opts.outputPrefix+data.toString().trim().replace(/\n/g, '\n'+opts.outputPrefix)+'\n'  if opts.outputPrefix
+								process.stdout.write(data)
 							stdout += data.toString()
 						pid.stderr?.on 'data', (data) ->
-							process.stderr.write(data)  if opts.output
+							if opts.output
+								data = opts.outputPrefix+data.toString().trim().replace(/\n/g, '\n'+opts.outputPrefix)+'\n'  if opts.outputPrefix
+								process.stderr.write(data)
 							stderr += data.toString()
 
 					# Wait

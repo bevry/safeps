@@ -10,9 +10,12 @@
 
 [![Build Status](http://img.shields.io/travis-ci/bevry/safeps.png?branch=master)](http://travis-ci.org/bevry/safeps "Check this project's build status on TravisCI")
 [![NPM version](http://badge.fury.io/js/safeps.png)](https://npmjs.org/package/safeps "View this project on NPM")
+[![Dependency Status](https://david-dm.org/bevry/safeps.png?theme=shields.io)](https://david-dm.org/bevry/safeps)
+[![Development Dependency Status](https://david-dm.org/bevry/safeps/dev-status.png?theme=shields.io)](https://david-dm.org/bevry/safeps#info=devDependencies)<br/>
 [![Gittip donate button](http://img.shields.io/gittip/bevry.png)](https://www.gittip.com/bevry/ "Donate weekly to this project using Gittip")
 [![Flattr donate button](http://img.shields.io/flattr/donate.png?color=yellow)](http://flattr.com/thing/344188/balupton-on-Flattr "Donate monthly to this project using Flattr")
 [![PayPayl donate button](http://img.shields.io/paypal/donate.png?color=yellow)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QB8GQPZAH84N6 "Donate once-off to this project using Paypal")
+[![BitCoin donate button](http://img.shields.io/bitcoin/donate.png?color=yellow)](https://coinbase.com/checkouts/9ef59f5479eec1d97d63382c9ebcb93a "Donate once-off to this project using BitCoin")
 
 <!-- /BADGES -->
 
@@ -50,7 +53,8 @@ var safeps = require('safeps');
 	- `opts={safe:true, read:true, output:false, stdin:null}` options are also sent on to `require('child_process').spawn`
 		- `safe` whether or not we should attempt to get the absolute executable path of the command to execute via `require('safeps').getExecPath`
 		- `read` whether or not we should listen to the child process's stdout and stderr streams for use in the completion callback
-		- `output` if set to `true` will output the child process's stdout to our process's stdout
+		- `output` if set to `true` will output the child process's stdout to our process's stdout, and provide those values in the completion callback
+		- `outputPrefix` if set to a string, this string will be outputted before each line of the output
 		- `stdin` if set will be written to the child process's stdin
 	- `next(err, stdout, stderr, code, signal)`
 - `spawnMultiple(commands, opts?, next?)` spawn multiple processes, forwards on to `require('safeps').spawn`
@@ -164,6 +168,7 @@ No sponsors yet! Will you be the first?
 [![Gittip donate button](http://img.shields.io/gittip/bevry.png)](https://www.gittip.com/bevry/ "Donate weekly to this project using Gittip")
 [![Flattr donate button](http://img.shields.io/flattr/donate.png?color=yellow)](http://flattr.com/thing/344188/balupton-on-Flattr "Donate monthly to this project using Flattr")
 [![PayPayl donate button](http://img.shields.io/paypal/donate.png?color=yellow)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QB8GQPZAH84N6 "Donate once-off to this project using Paypal")
+[![BitCoin donate button](http://img.shields.io/bitcoin/donate.png?color=yellow)](https://coinbase.com/checkouts/9ef59f5479eec1d97d63382c9ebcb93a "Donate once-off to this project using BitCoin")
 
 ### Contributors
 
