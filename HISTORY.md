@@ -1,5 +1,8 @@
 # History
 
+- v2.2.12 February 8th, 2014
+	- Updated dependencies
+
 - v2.2.11 January 10, 2014
 	- Added `outputPrefix` option for `safeps.spawn`
 

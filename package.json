@@ -1,7 +1,7 @@
 {
   "title": "Safe PS",
   "name": "safeps",
-  "version": "2.2.11",
+  "version": "2.2.12",
   "description": "Work with processes safely and easily with Node.js",
   "homepage": "https://github.com/bevry/safeps",
   "license": {
@@ -15,7 +15,8 @@
     "gittip": "bevry",
     "flattr": "344188/balupton-on-Flattr",
     "paypal": "QB8GQPZAH84N6",
-    "bitcoin": "https://coinbase.com/checkouts/9ef59f5479eec1d97d63382c9ebcb93a"
+    "bitcoin": "https://coinbase.com/checkouts/9ef59f5479eec1d97d63382c9ebcb93a",
+    "wishlist": "http://amzn.com/w/2F8TXKSNAFG4V"
   },
   "keywords": [
     "ps",
@@ -47,16 +48,16 @@
   },
   "dependencies": {
     "typechecker": "~2.0.8",
-    "safefs": "~3.1.0",
-    "taskgroup": "~3.3.6",
+    "safefs": "~3.1.1",
+    "taskgroup": "~3.3.8",
     "extract-opts": "~2.2.0"
   },
   "devDependencies": {
-    "coffee-script": "~1.6.2",
-    "joe": "~1.3.0",
+    "coffee-script": "~1.7.1",
+    "joe": "~1.3.2",
     "joe-reporter-console": "~1.2.1",
-    "chai": "~1.8.1",
-    "projectz": "~0.3.5"
+    "chai": "~1.9.0",
+    "projectz": "~0.3.10"
   },
   "directories": {
     "lib": "./out/lib"
