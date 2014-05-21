@@ -295,7 +295,7 @@ safeps =
 
 		# Add tasks
 		commands.forEach (command) ->  tasks.addTask (complete) ->
-			safeps.exec @command, opts, (args...) ->
+			safeps.exec command, opts, (args...) ->
 				err = args[0] or null
 				results.push(args)
 				complete(err)

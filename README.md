@@ -31,7 +31,7 @@ Work with processes safely and easily with Node.js
 
 ## Install
 
-### [Node](http://nodejs.org/)
+### [NPM](http://npmjs.org/)
 - Use: `require('safeps')`
 - Install: `npm install --save safeps`
 

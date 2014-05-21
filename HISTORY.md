@@ -1,5 +1,9 @@
 # History
 
+- v2.2.12 May 21, 2014
+	- Fix `execMultiple`
+	- Updated dependencies
+
 - v2.2.11 January 10, 2014
 	- Added `outputPrefix` option for `safeps.spawn`
 
