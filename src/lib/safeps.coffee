@@ -7,7 +7,8 @@ safefs = require('safefs')
 
 # Prepare
 isWindows = process?.platform?.indexOf('win') is 0
-
+# check .exe last to give script types priority
+windowsExts = ['.cmd', '.bat', '.exe']
 
 # =====================================
 # Define Globals
@@ -119,6 +120,22 @@ safeps =
 				tasks.addTask (complete) ->
 					safeps.getExecPath command[0], (err,execPath) ->
 						return complete(err)  if err
+						
+						# for windows we need to ensure an ext is present
+						if safeps.isWindows()
+							ext = require('path').extname(execPath)
+							
+							# check for no extension
+							if ext is ""
+								
+								# try to determine path with ext
+								safeps.getPossibleExecExtPaths execPath, (err, execExtPath) ->
+									return complete(err)  if err
+									command[0] = execExtPath
+									return complete()
+								
+								return
+							
 						command[0] = execPath
 						return complete()
 
@@ -383,12 +400,16 @@ safeps =
 	# Get Possible Exec Paths
 	getPossibleExecPaths: (execName) ->
 		# Fetch available paths
-		if isWindows and execName.indexOf('.') is -1
+		if isWindows and require('path').extname(execName) is ''
 			# we are for windows add the paths for .exe as well
 			standardExecPaths = safeps.getStandardExecPaths(execName)
 			possibleExecPaths = []
 			for standardExecPath in standardExecPaths
-				possibleExecPaths.push(standardExecPath, standardExecPath+'.exe', standardExecPath+'.cmd', standardExecPath+'.bat')
+				possibleExecPaths.push standardExecPath
+				# check .exe last to give script types priority
+				windowsExts.forEach (testExt) ->
+					possibleExecPaths.push standardExecPath+testExt
+
 		else
 			# we are normal, try the paths
 			possibleExecPaths = safeps.getStandardExecPaths(execName)
@@ -435,6 +456,19 @@ safeps =
 				# Forward
 				return next(null, execPath)
 
+		# Chain
+		@
+
+	# check against all possible ext's
+	getPossibleExecExtPaths: (execPath, next) ->
+		# Fetch possible exec paths
+		possibleExecExtPaths = []
+		windowsExts.forEach (testExt) ->
+			possibleExecExtPaths.push execPath+testExt
+		
+		# Determine which path it is out of the possible ext paths
+		safeps.determineExecPath possibleExecExtPaths, next
+		
 		# Chain
 		@
 
