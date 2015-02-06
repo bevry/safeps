@@ -1,7 +1,7 @@
 {
   "title": "Safe PS",
   "name": "safeps",
-  "version": "2.2.12",
+  "version": "2.2.13",
   "description": "Work with processes safely and easily with Node.js",
   "homepage": "https://github.com/bevry/safeps",
   "license": {
@@ -10,12 +10,14 @@
   "badges": {
     "travis": true,
     "npm": true,
+    "npmdownloads": true,
     "david": true,
     "daviddev": true,
-    "gittip": "bevry",
+    "gratipay": "bevry",
     "flattr": "344188/balupton-on-Flattr",
     "paypal": "QB8GQPZAH84N6",
-    "bitcoin": "https://coinbase.com/checkouts/9ef59f5479eec1d97d63382c9ebcb93a"
+    "bitcoin": "https://coinbase.com/checkouts/9ef59f5479eec1d97d63382c9ebcb93a",
+    "wishlist": "http://amzn.com/w/2F8TXKSNAFG4V"
   },
   "keywords": [
     "ps",
@@ -46,17 +48,17 @@
     "node": ">=0.4"
   },
   "dependencies": {
-    "typechecker": "~2.0.8",
-    "safefs": "~3.1.0",
-    "taskgroup": "~3.4.0",
-    "extract-opts": "~2.2.0"
+    "typechecker": "^2.0.8",
+    "safefs": "^3.1.0",
+    "taskgroup": "^4.2.0",
+    "extract-opts": "^2.2.0"
   },
   "devDependencies": {
-    "coffee-script": "~1.7.1",
-    "joe": "~1.4.0",
-    "joe-reporter-console": "~1.2.1",
-    "chai": "~1.9.1",
-    "projectz": "~0.3.5"
+    "coffee-script": "^1.9.0",
+    "joe": "^1.6.0",
+    "joe-reporter-console": "^1.2.1",
+    "chai": "^1.10.0",
+    "projectz": "^0.3.17"
   },
   "directories": {
     "lib": "./out/lib"
@@ -65,5 +67,8 @@
     "preinstall": "node ./cyclic.js",
     "test": "node ./out/test/safeps-test.js"
   },
-  "main": "./out/lib/safeps.js"
+  "main": "./out/lib/safeps.js",
+  "cakeConfiguration": {
+    "COFFEE_SRC_PATH": "src"
+  }
 }

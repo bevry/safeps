@@ -53,7 +53,7 @@ joe.describe 'modules', (describe,it) ->
 				assert.equal(languageCode, 'fr')
 
 	describe 'getHomePath', (describe,it) ->
-		it 'should fetch something', (done) ->
+		it 'should fetch home', (done) ->
 			safeps.getHomePath (err,path) ->
 				assert.equal(err||null, null)
 				console.log('home:',path)
@@ -61,7 +61,7 @@ joe.describe 'modules', (describe,it) ->
 				done()
 
 	describe 'getTmpPath', (describe,it) ->
-		it 'should fetch something', (done) ->
+		it 'should fetch tmp', (done) ->
 			safeps.getTmpPath (err,path) ->
 				assert.equal(err||null, null)
 				console.log('tmp:',path)
@@ -70,7 +70,7 @@ joe.describe 'modules', (describe,it) ->
 
 	unless travis then \
 	describe 'getExecPath', (describe,it) ->
-		it 'should fetch something', (done) ->
+		it 'should fetch ruby', (done) ->
 			safeps.getExecPath 'ruby', (err,path) ->
 				assert.equal(err||null, null)
 				console.log('ruby:',path)
@@ -78,7 +78,7 @@ joe.describe 'modules', (describe,it) ->
 				done()
 
 	describe 'getGitPath', (describe,it) ->
-		it 'should fetch something', (done) ->
+		it 'should fetch git', (done) ->
 			safeps.getExecPath 'git', (err,path) ->
 				assert.equal(err||null, null)
 				console.log('git:',path)
@@ -86,7 +86,7 @@ joe.describe 'modules', (describe,it) ->
 				done()
 
 	describe 'getNodePath', (describe,it) ->
-		it 'should fetch something', (done) ->
+		it 'should fetch node', (done) ->
 			safeps.getExecPath 'node', (err,path) ->
 				assert.equal(err||null, null)
 				console.log('node:',path)
@@ -94,7 +94,7 @@ joe.describe 'modules', (describe,it) ->
 				done()
 
 	describe 'getNpmPath', (describe,it) ->
-		it 'should fetch something', (done) ->
+		it 'should fetch npm', (done) ->
 			safeps.getExecPath 'npm', (err,path) ->
 				assert.equal(err||null, null)
 				console.log('npm:',path)

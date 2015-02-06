@@ -110,7 +110,7 @@ safeps =
 			stderr = null
 			code = null
 			signal = null
-			tasks = new TaskGroup().once 'complete', (err) ->
+			tasks = new TaskGroup().done (err) ->
 				closeProcess()
 				return next?(err, stdout, stderr, code, signal)
 
@@ -195,7 +195,7 @@ safeps =
 		results = []
 
 		# Make sure we send back the arguments
-		tasks = new TaskGroup().setConfig({concurrency:opts.concurrency}).once 'complete', (err) ->
+		tasks = new TaskGroup().setConfig({concurrency:opts.concurrency}).done (err) ->
 			next(err, results)
 
 		# Prepare tasks
@@ -286,7 +286,7 @@ safeps =
 		results = []
 
 		# Make sure we send back the arguments
-		tasks = new TaskGroup().setConfig({concurrency: opts.concurrency}).once 'complete', (err) ->
+		tasks = new TaskGroup().setConfig({concurrency: opts.concurrency}).done (err) ->
 			next(err, results)
 
 		# Prepare tasks
@@ -318,7 +318,7 @@ safeps =
 		execPath = null
 
 		# Group
-		tasks = new TaskGroup().once 'complete', (err) ->
+		tasks = new TaskGroup().done (err) ->
 			return next(err, execPath)
 
 		# Handle
@@ -336,7 +336,7 @@ safeps =
 					# Skip if the path doesn't exist
 					return complete()  unless exists
 
-					# Check to see if the path is an executable
+					# Check to see if the path is an executable->
 					safeps.spawn [possibleExecPath, '--version'], (err,stdout,stderr,code,signal) ->
 						# Safe error?
 						# We deliberatly ignore stderr errors as they indicate the process exists
@@ -345,7 +345,7 @@ safeps =
 
 						# Good
 						execPath = possibleExecPath
-						return tasks.exit()
+						return complete()
 
 		# Fire the tasks
 		tasks.run()
