@@ -158,6 +158,13 @@ joe.describe 'modules', (describe,it) ->
 			equal(stdout instanceof Buffer, true)
 			assert.ok(stdout)
 
+		it "can't read if stdio is set", (done) ->
+			safeps.spawn 'node --version', {stdio:'inherit'}, (err,stdout,stderr,status,signal) ->
+				errorEqual(err, null)
+				equal(stdout, null)
+				equal(stderr, null)
+				done()
+
 	describe 'exec node', (describe, it) ->
 		it 'should work asynchronously', (done) ->
 			safeps.exec 'node --version', (err,stdout,stderr) ->

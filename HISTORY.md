@@ -1,5 +1,8 @@
 # History
 
+## v3.0.2 March 17, 2015
+- Will no longer attempt to read `stdout` and `stderr` on spawn if `stdio` option is set (it's not possible)
+
 ## v3.0.1 March 17, 2015
 - Fixed Buffer concatenation error inside spawn
 

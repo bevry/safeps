@@ -151,10 +151,15 @@ safeps =
 		opts or= {}
 		opts.safe ?= true
 		opts.env ?= process.env
-		opts.read ?= true
-		opts.output ?= !!opts.outputPrefix
-		opts.outputPrefix ?= null
 		opts.stdin ?= null
+		opts.stdio ?= null
+		if opts.stdio
+			opts.read = opts.output = false
+			opts.outputPrefix = null
+		else
+			opts.read ?= true
+			opts.output ?= !!opts.outputPrefix
+			opts.outputPrefix ?= null
 
 		# Prepare env
 		delete opts.env  if opts.env is false
