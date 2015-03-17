@@ -1,5 +1,8 @@
 # History
 
+## v3.0.1 March 17, 2015
+- Fixed Buffer concatenation error inside spawn
+
 ## v3.0.0 March 17, 2015
 - Backwards Compatibility Breaks:
 	- `spawn`'s `stdout` and `stderr` are now Buffers

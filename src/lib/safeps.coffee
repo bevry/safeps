@@ -304,14 +304,14 @@ safeps =
 						if opts.output
 							safeps.outputData(data, 'stdout', opts.outputPrefix)
 						if result.stdout
-							result.stdout = Buffer.concat(result.stdout, data)
+							result.stdout = Buffer.concat([result.stdout, data])
 						else
 							result.stdout = data
 					result.pid.stderr?.on 'data', (data) ->
 						if opts.output
 							safeps.outputData(data, 'stderr', opts.outputPrefix)
 						if result.stderr
-							result.stderr = Buffer.concat(result.stderr, data)
+							result.stderr = Buffer.concat([result.stderr, data])
 						else
 							result.stderr = data
 
