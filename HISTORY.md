@@ -1,5 +1,24 @@
 # History
 
+## v3.0.0 March 17, 2015
+- Backwards Compatibility Breaks:
+	- `spawn`'s `stdout` and `stderr` are now Buffers
+		- If you're upgrading, all you have to do to get the previous functionality is to do `stdout.toString()`
+	- `outputPrefix` value no longer affects `stdout` and `stderr` results (only their output to the terminal)
+- Added:
+	- `hasSpawnSync`
+	- `hasExecSync`
+	- `isExecutable(path, opts?, next)`
+	- `isExecutableSync(path, opts?, next?)`
+	- `spawnSync(command, opts?, next?)`
+	- `execSync(command, opts?, next?)`
+- Improvements:
+	- `exec` now supports `outputPrefix` option
+	- The checks to see if an executable path exists and works have been greatly improved and abstracted out from `determineExecPath` into `isExecutable` and `isExecutableSync`
+	- `determineExecPath`, `getExecPath`, and `isExecutable` can now operate synchronously with a callback using the `sync: true` option
+	- Retrieval and writing to a path cache can now be disabled using the `cache: false` option
+- Updated dependencies
+
 ## v2.2.13 February 7, 2015
 - Updated dependencies
 

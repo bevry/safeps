@@ -3,7 +3,7 @@ safeps = null
 {TaskGroup} = require('taskgroup')
 typeChecker = require('typechecker')
 safefs = require('safefs')
-{extractOptsAndCallback} = require('extract-opts')
+extractOptsAndCallback = require('extract-opts')
 
 # Prepare
 isWindows = process?.platform?.indexOf('win') is 0
@@ -82,103 +82,257 @@ safeps =
 
 
 	# =================================
+	# Executeable Helpers
+
+	# Has Spawn Sync
+	hasSpawnSync: ->
+		return require('child_process').spawnSync?
+
+	# Has Exec Sync
+	hasExecSync: ->
+		return require('child_process').execSync?
+
+	# Is Executable
+	# next(err, executable)
+	isExecutable: (path,opts,next) ->
+		# Prepare
+		[opts,next] = extractOptsAndCallback(opts, next)
+
+		# Sync?
+		if opts.sync
+			return safeps.isExecutableSync(path, opts, next)
+
+		# Access (Node 0.12+)
+		fs = require('fs')
+		if fs.access
+			fs.access path, fs.X_OK, (err) ->
+				executable = !err
+				return next(null, executable)
+
+		# Shim
+		else
+			require('child_process').exec path+' --version', (err) ->
+				executable = !err or (err.code isnt 127 and /EACCESS|Permission denied/.test(err.message) is false)
+				return next(null, executable)
+
+		# Chain
+		@
+
+	# Is Executable Sync
+	# next(err, executable)
+	isExecutableSync: (path,opts,next) ->
+		# Access (Node 0.12+)
+		fs = require('fs')
+		if fs.accessSync
+			try
+				fs.accessSync(path, fs.X_OK)
+				executable = true
+			catch err
+				executable = false
+
+		# Shim
+		else
+			try
+				require('child_process').execSync(path+' --version')
+				executable = true
+			catch err
+				executable = err.code isnt 127 and /EACCESS|Permission denied/.test(err.message) is false
+
+		# Return
+		if next
+			next(null, executable)
+			return @
+		else
+			return executable
+
+	# Internal: Prepare options for an execution
+	prepareExecutableOptions: (opts) ->
+		# Prepare
+		opts or= {}
+		opts.safe ?= true
+		opts.env ?= process.env
+		opts.read ?= true
+		opts.output ?= !!opts.outputPrefix
+		opts.outputPrefix ?= null
+		opts.stdin ?= null
+
+		# Prepare env
+		delete opts.env  if opts.env is false
+
+		# Return
+		return opts
+
+	###
+	Internal: Prepare result of an execution
+	result: Object
+		pid Number Pid of the child process
+		output Array Array of results from stdio output
+		stdout Buffer|String The contents of output[1]
+		stderr Buffer|String The contents of output[2]
+		status Number The exit code of the child process
+		signal String The signal used to kill the child process
+		error Error The error object if the child process failed or timed out
+	###
+	prepareExecutableResult: (result, opts) ->
+		# Output
+		if opts.output
+			safeps.outputData(result.stdout, 'stdout', opts.outputPrefix)
+			safeps.outputData(result.stderr, 'stderr', opts.outputPrefix)
+
+		# Error
+		return result  if result.error
+
+		# Check Code
+		if result.status? and result.status isnt 0
+			message = "Command exited with a non-zero status code."
+			if result.stdout
+				tmp = safeps.prefixData(result.stdout)
+				message += "\nThe command's stdout output:\n"+tmp  if tmp
+			if result.stderr
+				tmp = safeps.prefixData(result.stderr)
+				message += "\nThe command's stderr output:\n"+tmp  if tmp
+
+			result.error = new Error(message)
+			return result
+
+		# Success
+		return result
+
+	# Internal: Prefix Data
+	prefixData: (data, prefix='>\t') ->
+		data = data?.toString?() or ''
+		data = prefix+data.trim().replace(/\n/g, '\n'+prefix)+'\n'  if prefix and data
+		return data
+
+	# Internal: Output Data
+	outputData: (data, mode='stdout', prefix) ->
+		if data.toString().trim().length isnt 0
+			data = safeps.prefixData(data, prefix)  if prefix
+			process[mode].write(data)
+		return null
+
+
+	# =================================
 	# Spawn
+
+	# Spawn Sync
+	# return {error, pid, output, stdout, stderr, status, signal}
+	# next(error, stdout, stderr, status, signal)
+	spawnSync: (command, opts, next) ->
+		# Prepare
+		[opts,next] = extractOptsAndCallback(opts, next)
+		opts = safeps.prepareExecutableOptions(opts)
+		opts.sync = true
+
+		# Format the command: string to array
+		command = command.split(' ')  if typeChecker.isString(command)
+
+		# Get correct executable path
+		if opts.safe
+			wasSync = 0
+			safeps.getExecPath command[0], opts, (err,execPath) ->
+				return  if err
+				command[0] = execPath
+				wasSync = 1
+			if wasSync is 0
+				process.stderr.write('safeps.spawnSync: was unable to get the executable path synchronously')
+
+		# Spawn Synchronously
+		result = require('child_process').spawnSync(command[0], command.slice(1), opts)
+		result = safeps.prepareExecutableResult(result, opts)
+
+		# Complete
+		if next
+			next(result.error, result.stdout, result.stderr, result.status, result.signal)
+		else
+			return result
 
 	# Spawn
 	# Wrapper around node's spawn command for a cleaner and more powerful API
-	# next(err, stdout, stderr, code, signal)
+	# next(error, stdout, stderr, status, signal)
 	spawn: (command, opts, next) ->
+		# Prepare
+		[opts,next] = extractOptsAndCallback(opts, next)
+		opts = safeps.prepareExecutableOptions(opts)
+
+		# Check if we want sync instead
+		if opts.sync
+			return safeps.spawnSync(command, opts, next)
+
 		# Patience
 		safeps.openProcess (closeProcess) ->
-			# Prepare
-			[opts,next] = extractOptsAndCallback(opts, next)
-			opts.safe ?= true
-			opts.env  ?= process.env
-			opts.read ?= true
-			opts.output ?= false
-			opts.stdin ?= null
-
-			# Prepare env
-			delete opts.env  if opts.env is false
-
 			# Format the command: string to array
 			command = command.split(' ')  if typeChecker.isString(command)
 
 			# Prepare
-			pid = null
-			stdout = null
-			stderr = null
-			code = null
-			signal = null
-			tasks = new TaskGroup().done (err) ->
-				closeProcess()
-				return next?(err, stdout, stderr, code, signal)
+			result = {}
+			exited = false
 
-			# Find
+			# Tasks
+			tasks = new TaskGroup().done (err) ->
+				exited = true
+				closeProcess()
+				return next(err or result.error, result.stdout, result.stderr, result.status, result.signal)
+
+			# Get correct executable path
 			if opts.safe
 				tasks.addTask (complete) ->
-					safeps.getExecPath command[0], (err,execPath) ->
+					safeps.getExecPath command[0], opts, (err,execPath) ->
 						return complete(err)  if err
 						command[0] = execPath
 						return complete()
 
 			# Spawn
 			tasks.addTask (complete) ->
-				# Protect ourselves against certain types of errors
-				# like EACCESS errors
-				exited = false  # ensure we only exit once if there is an error
-				d = require('domain').create()
-				d.on 'error', (err) ->
-					exited = true
-					return complete(err)
-				d.run ->
-					# Spawn
-					pid = require('child_process').spawn(command[0], command.slice(1), opts)
+				# Spawn
+				result.pid = require('child_process').spawn(command[0], command.slice(1), opts)
 
-					# Read
-					if opts.read
-						# Prepare
-						stdout = ''
-						stderr = ''
+				# Write
+				if opts.stdin
+					result.pid.stdin?.write(opts.stdin)
+					result.pid.stdin?.end()
 
-						# Listen
-						# Streams may be null if stdio is 'inherit'
-						pid.stdout?.on 'data', (data) ->
-							if opts.output
-								data = opts.outputPrefix+data.toString().trim().replace(/\n/g, '\n'+opts.outputPrefix)+'\n'  if opts.outputPrefix
-								process.stdout.write(data)
-							stdout += data.toString()
-						pid.stderr?.on 'data', (data) ->
-							if opts.output
-								data = opts.outputPrefix+data.toString().trim().replace(/\n/g, '\n'+opts.outputPrefix)+'\n'  if opts.outputPrefix
-								process.stderr.write(data)
-							stderr += data.toString()
+				# Read
+				if opts.read
+					# Update our local globals to strings
+					result.stdout = null
+					result.stderr = null
 
-					# Wait
-					pid.on 'close', (_code,_signal) ->
-						# Check if we have already exited due to domains
-						# as without this, then we will fire the completion callback twice
-						# once for the domain error that will happen first
-						# then again for the close error
-						# if it happens the other way round, close, then error, we want to be alerted of that
-						return  if exited is true
+					# Listen
+					# Streams may be null if stdio is 'inherit'
+					result.pid.stdout?.on 'data', (data) ->
+						if opts.output
+							safeps.outputData(data, 'stdout', opts.outputPrefix)
+						if result.stdout
+							result.stdout = Buffer.concat(result.stdout, data)
+						else
+							result.stdout = data
+					result.pid.stderr?.on 'data', (data) ->
+						if opts.output
+							safeps.outputData(data, 'stderr', opts.outputPrefix)
+						if result.stderr
+							result.stderr = Buffer.concat(result.stderr, data)
+						else
+							result.stderr = data
 
-						# Apply
-						code = _code
-						signal = _signal
+				# Wait
+				result.pid.on 'close', (status, signal) ->
+					# Apply to local global
+					result.status = status
+					result.signal = signal
 
-						# Check
-						err = null
-						if code isnt 0
-							err = new Error(stderr or 'exited with a non-zero status code')
+					# Check if we have already exited due to domains
+					# as without this, then we will fire the completion callback twice
+					# once for the domain error that will happen first
+					# then again for the close error
+					# if it happens the other way round, close, then error, we want to be alerted of that
+					return  if exited is true
 
-						# Complete
-						return complete(err)
+					# Check result and complete
+					opts.output = false
+					result = safeps.prepareExecutableResult(result, opts)
+					return complete(result.error)
 
-					# Write
-					if opts.stdin
-						pid.stdin?.write(opts.stdin)
-						pid.stdin?.end()
 
 			# Run
 			tasks.run()
@@ -187,7 +341,7 @@ safeps =
 		@
 
 	# Spawn Multiple
-	# next(err,results), results = [result...], result = [err,stdout,stderr,code,signal]
+	# next(err,results), results = [result...], result = [err,stdout,stderr,status,signal]
 	spawnMultiple: (commands,opts,next) ->
 		# Prepare
 		[opts,next] = extractOptsAndCallback(opts, next)
@@ -253,26 +407,72 @@ safeps =
 	# =================================
 	# Exec
 
+	# Exec Sync
+	# return {error, stdout}
+	# next(error, stdout, stderr)
+	# @NOTE:
+	# stdout and stderr should be Buffers but they are strings unless encoding:null
+	# for now, nothing we should do, besides wait for joyent to reply
+	# https://github.com/joyent/node/issues/5833#issuecomment-82189525
+	execSync: (command, opts) ->
+		# Prepare
+		[opts,next] = extractOptsAndCallback(opts, next)
+		opts = safeps.prepareExecutableOptions(opts)
+		opts.sync = true
+
+		# Output
+		if opts.output is true and !opts.outputPrefix
+			opts.stdio = 'inherit'
+			delete opts.output
+
+		# Spawn Synchronously
+		try
+			stdout = require('child_process').execSync(command, opts)
+		catch err
+			error = err
+
+		# Check result
+		result = safeps.prepareExecutableResult({error, stdout}, opts)
+
+		# Complete
+		if next
+			next(result.error, result.stdout, result.stderr)
+		else
+			return result
+
 	# Exec
 	# Wrapper around node's exec command for a cleaner and more powerful API
-	# next(err,stdout,stderr)
+	# next(err, stdout, stderr)
+	# @NOTE:
+	# stdout and stderr should be Buffers but they are strings unless encoding:null
+	# for now, nothing we should do, besides wait for joyent to reply
+	# https://github.com/joyent/node/issues/5833#issuecomment-82189525
 	exec: (command,opts,next) ->
+		# Prepare
+		[opts,next] = extractOptsAndCallback(opts, next)
+		opts = safeps.prepareExecutableOptions(opts)
+
+		# Check if we want sync instead
+		if opts.sync
+			return safeps.execSync(command, opts, next)
+
 		# Patience
 		safeps.openProcess (closeProcess) ->
-			# Prepare
-			[opts,next] = extractOptsAndCallback(opts, next)
-			opts.output ?= false
-
 			# Output
-			if opts.output
+			if opts.output is true and !opts.outputPrefix
 				opts.stdio = 'inherit'
 				delete opts.output
 
 			# Execute command
-			require('child_process').exec command, opts, (err,stdout,stderr) ->
+			require('child_process').exec command, opts, (error,stdout,stderr) ->
 				# Complete the task
 				closeProcess()
-				return next?(err, stdout, stderr)
+
+				# Prepare result
+				result = safeps.prepareExecutableResult({error, stdout, stderr}, opts)
+
+				# Complete
+				return next(result.error, result.stdout, result.stderr)
 
 		# Chain
 		@
@@ -312,13 +512,15 @@ safeps =
 
 	# Determine an executable path
 	# next(err,execPath)
-	determineExecPath: (possibleExecPaths,next) ->
+	determineExecPath: (possibleExecPaths,opts,next) ->
 		# Prepare
+		[opts,next] = extractOptsAndCallback(opts, next)
+		opts.sync ?= false
 		pathUtil = require('path')
 		execPath = null
 
 		# Group
-		tasks = new TaskGroup().done (err) ->
+		tasks = new TaskGroup(sync:opts.sync).done (err) ->
 			return next(err, execPath)
 
 		# Handle
@@ -331,21 +533,11 @@ safeps =
 				# Resolve the path as it may be a virtual or relative path
 				possibleExecPath = pathUtil.resolve(possibleExecPath)
 
-				# Check if the path exists
-				safefs.exists possibleExecPath, (exists) ->
-					# Skip if the path doesn't exist
-					return complete()  unless exists
-
-					# Check to see if the path is an executable->
-					safeps.spawn [possibleExecPath, '--version'], (err,stdout,stderr,code,signal) ->
-						# Safe error?
-						# We deliberatly ignore stderr errors as they indicate the process exists
-						# and are probably just due to `--version` handling not existing
-						return complete()  if (err?.message or '').indexOf('spawn') isnt -1
-
-						# Good
-						execPath = possibleExecPath
-						return complete()
+				# Check if the executeable exists
+				safeps.isExecutable possibleExecPath, opts, (err, executable) ->
+					return complete()  if err or !executable
+					execPath = possibleExecPath
+					return complete()
 
 		# Fire the tasks
 		tasks.run()
@@ -402,12 +594,15 @@ safeps =
 	# Get an Exec Path
 	# We should not absolute relative paths, as relative paths should be attempt at each possible path
 	# next(err,foundPath)
-	getExecPath: (execName,next) ->
-		# Check for absolute path, as we would not be needed and would just currupt the output
-		return next(null, execName)  if execName.substr(0,1) is '/' or execName.substr(1,1) is ':'
+	getExecPath: (execName,opts,next) ->
+		# Prepare
+		[opts,next] = extractOptsAndCallback(opts, next)
+		opts.cache ?= true
 
-		# Check for cache
-		return next(null, safeps.execPathCache[execName])  if safeps.execPathCache[execName]?
+		# Check for absolute path, as we would not be needed and would just currupt the output
+		if execName.substr(0,1) is '/' or execName.substr(1,1) is ':'
+			next(null, execName)
+			return @
 
 		# Prepare
 		execNameCapitalized = execName[0].toUpperCase() + execName.substr(1)
@@ -415,14 +610,19 @@ safeps =
 
 		# Check for special case
 		if safeps[getExecMethodName]?
-			safeps[getExecMethodName](next)
+			return safeps[getExecMethodName](opts, next)
 		else
+			# Check for cache
+			if opts.cache and safeps.execPathCache[execName]?
+				next(null, safeps.execPathCache[execName])
+				return @
+
 			# Fetch possible exec paths
 			possibleExecPaths = safeps.getPossibleExecPaths(execName)
 
 			# Forward onto determineExecPath
 			# Which will determine which path it is out of the possible paths
-			safeps.determineExecPath possibleExecPaths, (err,execPath) ->
+			safeps.determineExecPath possibleExecPaths, opts, (err,execPath) ->
 				# Check
 				return next(err)  if err
 				unless execPath
@@ -430,7 +630,7 @@ safeps =
 					return next(err)
 
 				# Save to cache
-				safeps.execPathCache[execName] = execPath
+				safeps.execPathCache[execName] = execPath  if opts.cache
 
 				# Forward
 				return next(null, execPath)
@@ -441,10 +641,14 @@ safeps =
 	# Get Home Path
 	# Based upon home function from: https://github.com/isaacs/osenv
 	# next(err,homePath)
-	getHomePath: (next) ->
+	getHomePath: (opts, next) ->
+		# Prepare
+		[opts,next] = extractOptsAndCallback(opts, next)
+		opts.cache ?= true
+
 		# Cached
-		if safeps.cachedHomePath?
-			next(null,safeps.cachedHomePath)
+		if opts.cache and safeps.cachedHomePath?
+			next(null, safeps.cachedHomePath)
 			return @
 
 		# Fetch
@@ -452,8 +656,8 @@ safeps =
 
 		# Forward
 		homePath or= null
-		safeps.cachedHomePath = homePath
-		next(null,homePath)
+		safeps.cachedHomePath = homePath  if opts.cache
+		next(null, homePath)
 
 		# Chain
 		@
@@ -461,10 +665,14 @@ safeps =
 	# Get Tmp Path
 	# Based upon tmpdir function from: https://github.com/isaacs/osenv
 	# next(err,tmpPath)
-	getTmpPath: (next) ->
+	getTmpPath: (opts, next) ->
+		# Prepare
+		[opts,next] = extractOptsAndCallback(opts, next)
+		opts.cache ?= true
+
 		# Cached
-		if safeps.cachedTmpPath?
-			next(null,safeps.cachedTmpPath)
+		if opts.cache and safeps.cachedTmpPath?
+			next(null, safeps.cachedTmpPath)
 			return @
 
 		# Prepare
@@ -482,9 +690,10 @@ safeps =
 
 		# Fallback
 		unless tmpPath
-			safeps.getHomePath (err,homePath) ->
+			safeps.getHomePath opts, (err,homePath) ->
 				return next(err)  if err
 				tmpPath = pathUtil.resolve(homePath, tmpDirName)
+
 				# Fallback
 				unless tmpPath
 					tmpPath =
@@ -497,8 +706,8 @@ safeps =
 
 		# Forward
 		tmpPath or= null
-		safeps.cachedTmpPath = tmpPath
-		next(null,tmpPath)
+		safeps.cachedTmpPath = tmpPath  if opts.cache
+		next(null, tmpPath)
 
 		# Chain
 		@
@@ -507,10 +716,14 @@ safeps =
 	# As `git` is not always available to use, we should check common path locations
 	# and if we find one that works, then we should use it
 	# next(err,gitPath)
-	getGitPath: (next) ->
+	getGitPath: (opts, next) ->
+		# Prepare
+		[opts,next] = extractOptsAndCallback(opts, next)
+		opts.cache ?= true
+
 		# Cached
-		if safeps.cachedGitPath?
-			next(null,safeps.cachedGitPath)
+		if opts.cache and safeps.cachedGitPath?
+			next(null, safeps.cachedGitPath)
 			return @
 
 		# Prepare
@@ -536,9 +749,9 @@ safeps =
 			)
 
 		# Determine the right path
-		safeps.determineExecPath possibleExecPaths, (err,execPath) ->
+		safeps.determineExecPath possibleExecPaths, opts, (err,execPath) ->
 			# Cache
-			safeps.cachedGitPath = execPath
+			safeps.cachedGitPath = execPath  if opts.cache
 
 			# Check
 			return next(err)  if err
@@ -556,10 +769,14 @@ safeps =
 	# As `node` is not always available to use, we should check common path locations
 	# and if we find one that works, then we should use it
 	# next(err,nodePath)
-	getNodePath: (next) ->
+	getNodePath: (opts, next) ->
+		# Prepare
+		[opts,next] = extractOptsAndCallback(opts, next)
+		opts.cache ?= true
+
 		# Cached
-		if safeps.cachedNodePath?
-			next(null,safeps.cachedNodePath)
+		if opts.cache and safeps.cachedNodePath?
+			next(null, safeps.cachedNodePath)
 			return @
 
 		# Prepare
@@ -586,9 +803,9 @@ safeps =
 			)
 
 		# Determine the right path
-		safeps.determineExecPath possibleExecPaths, (err,execPath) ->
+		safeps.determineExecPath possibleExecPaths, opts, (err,execPath) ->
 			# Cache
-			safeps.cachedNodePath = execPath
+			safeps.cachedNodePath = execPath  if opts.cache
 
 			# Check
 			return next(err)  if err
@@ -607,10 +824,14 @@ safeps =
 	# As `npm` is not always available to use, we should check common path locations
 	# and if we find one that works, then we should use it
 	# next(err,npmPath)
-	getNpmPath: (next) ->
+	getNpmPath: (opts, next) ->
+		# Prepare
+		[opts,next] = extractOptsAndCallback(opts, next)
+		opts.cache ?= true
+
 		# Cached
-		if safeps.cachedNpmPath?
-			next(null,safeps.cachedNpmPath)
+		if opts.cache and safeps.cachedNpmPath?
+			next(null, safeps.cachedNpmPath)
 			return @
 
 		# Prepare
@@ -637,9 +858,9 @@ safeps =
 			)
 
 		# Determine the right path
-		safeps.determineExecPath possibleExecPaths, (err,execPath) ->
+		safeps.determineExecPath possibleExecPaths, opts, (err,execPath) ->
 			# Cache
-			safeps.cachedNpmPath = execPath
+			safeps.cachedNpmPath = execPath  if opts.cache
 
 			# Check
 			return next(err)  if err
@@ -698,7 +919,7 @@ safeps =
 		opts.branch or= 'master'
 
 		# Check if it exists
-		safefs.ensurePath opts.cwd, (err,exists) =>
+		safefs.ensurePath opts.cwd, (err,exists) ->
 			return complete(err)  if err
 			if exists
 				safeps.spawnCommand 'git', ['pull', opts.remote, opts.branch], opts, (err,result...) ->

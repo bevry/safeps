@@ -1,5 +1,6 @@
 # Import
-{expect,assert} = require('chai')
+assert = require('assert')
+{equal, deepEqual, errorEqual} = require('assert-helpers')
 joe = require('joe')
 safeps = require('../../')
 
@@ -28,9 +29,9 @@ joe.describe 'modules', (describe,it) ->
 
 			it 'should fetch something when passed something', ->
 				localeCode = safeps.getLocaleCode('fr-CH')
-				assert.equal(localeCode, 'fr_ch')
+				equal(localeCode, 'fr_ch')
 				localeCode = safeps.getLocaleCode('fr_CH')
-				assert.equal(localeCode, 'fr_ch')
+				equal(localeCode, 'fr_ch')
 
 		describe 'getCountryCode', (describe,it) ->
 			it 'should fetch something', ->
@@ -40,7 +41,7 @@ joe.describe 'modules', (describe,it) ->
 
 			it 'should fetch something when passed something', ->
 				countryCode = safeps.getCountryCode('fr-CH')
-				assert.equal(countryCode, 'ch')
+				equal(countryCode, 'ch')
 
 		describe 'getLanguageCode', (describe,it) ->
 			it 'should fetch something', ->
@@ -50,12 +51,12 @@ joe.describe 'modules', (describe,it) ->
 
 			it 'should fetch something when passed something', ->
 				languageCode = safeps.getLanguageCode('fr-CH')
-				assert.equal(languageCode, 'fr')
+				equal(languageCode, 'fr')
 
 	describe 'getHomePath', (describe,it) ->
 		it 'should fetch home', (done) ->
 			safeps.getHomePath (err,path) ->
-				assert.equal(err||null, null)
+				errorEqual(err, null)
 				console.log('home:',path)
 				assert.ok(path)
 				done()
@@ -63,7 +64,7 @@ joe.describe 'modules', (describe,it) ->
 	describe 'getTmpPath', (describe,it) ->
 		it 'should fetch tmp', (done) ->
 			safeps.getTmpPath (err,path) ->
-				assert.equal(err||null, null)
+				errorEqual(err, null)
 				console.log('tmp:',path)
 				assert.ok(path)
 				done()
@@ -71,16 +72,19 @@ joe.describe 'modules', (describe,it) ->
 	unless travis then \
 	describe 'getExecPath', (describe,it) ->
 		it 'should fetch ruby', (done) ->
+			wasSync = 0
 			safeps.getExecPath 'ruby', (err,path) ->
-				assert.equal(err||null, null)
+				wasSync = 1
+				errorEqual(err, null)
 				console.log('ruby:',path)
 				assert.ok(path)
 				done()
+			equal(wasSync, 0)
 
 	describe 'getGitPath', (describe,it) ->
 		it 'should fetch git', (done) ->
 			safeps.getExecPath 'git', (err,path) ->
-				assert.equal(err||null, null)
+				errorEqual(err, null)
 				console.log('git:',path)
 				assert.ok(path)
 				done()
@@ -88,15 +92,120 @@ joe.describe 'modules', (describe,it) ->
 	describe 'getNodePath', (describe,it) ->
 		it 'should fetch node', (done) ->
 			safeps.getExecPath 'node', (err,path) ->
-				assert.equal(err||null, null)
+				errorEqual(err, null)
 				console.log('node:',path)
 				assert.ok(path)
 				done()
 
+		it 'should fetch node from cache', (done) ->
+			wasSync = 0
+			safeps.getExecPath 'node', (err,path) ->
+				wasSync = 1
+				errorEqual(err, null)
+				console.log('node:',path)
+				assert.ok(path)
+			equal(wasSync, 1)
+			done()
+
+		it 'should fetch node without cache synchronously', (done) ->
+			wasSync = 0
+			safeps.getExecPath 'node', {sync:true,cache:false}, (err,path) ->
+				wasSync = 1
+				errorEqual(err, null)
+				console.log('node:',path)
+				assert.ok(path)
+			equal(wasSync, 1)
+			done()
+
 	describe 'getNpmPath', (describe,it) ->
 		it 'should fetch npm', (done) ->
 			safeps.getExecPath 'npm', (err,path) ->
-				assert.equal(err||null, null)
+				errorEqual(err, null)
 				console.log('npm:',path)
 				assert.ok(path)
 				done()
+
+	# Prepare for later
+	nodeVersion = null
+
+	describe 'spawn node', (describe, it) ->
+		it 'should work asynchronously', (done) ->
+			safeps.spawn 'node --version', (err,stdout,stderr,status,signal) ->
+				errorEqual(err, null)
+				console.log('node version:', stdout.toString().trim())
+				equal(stdout instanceof Buffer, true)
+				assert.ok(stdout)
+				nodeVersion = stdout.toString().trim()
+				done()
+
+		if safeps.hasSpawnSync() then \
+		it 'should work synchronously with callback', (done) ->
+			wasSync = 0
+			safeps.spawnSync 'node --version', (err,stdout,stderr,status,signal) ->
+				wasSync = 1
+				errorEqual(err, null)
+				console.log('node version:', stdout.toString().trim())
+				equal(stdout instanceof Buffer, true)
+				assert.ok(stdout)
+			equal(wasSync, 1)
+			done()
+
+		if safeps.hasSpawnSync() then \
+		it 'should work synchronously', ->
+			{error,stdout,stderr,status,signal} = safeps.spawnSync('node --version')
+			equal(error?.stack or null, null)
+			console.log('node version:', stdout.toString().trim())
+			equal(stdout instanceof Buffer, true)
+			assert.ok(stdout)
+
+	describe 'exec node', (describe, it) ->
+		it 'should work asynchronously', (done) ->
+			safeps.exec 'node --version', (err,stdout,stderr) ->
+				errorEqual(err, null)
+				console.log('node version:', stdout.toString().trim())
+				# equal(stdout instanceof Buffer, true)
+				# ^ https://github.com/joyent/node/issues/5833#issuecomment-82189525
+				assert.ok(stdout)
+				done()
+
+		if safeps.hasExecSync() then \
+		it 'should work synchronously with callback', (done) ->
+			wasSync = 0
+			safeps.execSync 'node --version', (err,stdout,stderr,status,signal) ->
+				wasSync = 1
+				errorEqual(err, null)
+				console.log('node version:', stdout.toString().trim())
+				# equal(stdout instanceof Buffer, true)
+				# ^ https://github.com/joyent/node/issues/5833#issuecomment-82189525
+				assert.ok(stdout)
+			equal(wasSync, 1)
+			done()
+
+		if safeps.hasExecSync() then \
+		it 'should work synchronously', ->
+			{error,stdout,stderr} = safeps.execSync('node --version')
+			equal(error?.stack or null, null)
+			console.log('node version:', stdout.toString().trim())
+			# equal(stdout instanceof Buffer, true)
+			# ^ https://github.com/joyent/node/issues/5833#issuecomment-82189525
+			assert.ok(stdout)
+
+	#
+	# describe 'output prefix node', (describe, it) ->
+	# 	it 'should work asynchronously', (done) ->
+	# 		safeps.spawn 'node --version', {outputPrefix:'> '}, (err,stdout,stderr,status,signal) ->
+	# 			errorEqual(err, null)
+	# 			console.log('node version:', stdout.toString().trim())
+	# 			equal(stdout instanceof Buffer, true)
+	# 			equal(stdout.toString(), stdout.toString())
+	# 			done()
+	#
+	# 	if safeps.hasSpawnSync() then \
+	# 	it 'should work synchronously', ->
+	# 		{error,stdout,stderr,status,signal} = safeps.spawnSync('node --version', {outputPrefix:'> '})
+	# 		equal(error?.stack or null, null)
+	# 		console.log('node version:', stdout.toString().trim())
+	# 		equal(stdout instanceof Buffer, true)
+	# 		equal(stdout.toString(), stdout.toString())
+	#
+	# ^ Would need to pass them a stream to write in, which we can read what was written
