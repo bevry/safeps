@@ -1,7 +1,7 @@
 {
   "title": "Safe PS",
   "name": "safeps",
-  "version": "3.0.2",
+  "version": "4.0.0",
   "description": "Work with processes safely and easily with Node.js",
   "homepage": "https://github.com/bevry/safeps",
   "license": {
@@ -54,11 +54,11 @@
     "typechecker": "^2.0.8"
   },
   "devDependencies": {
-    "coffee-script": "^1.9.0",
+    "coffee-script": "^1.9.1",
     "assert-helpers": "^1.0.2",
     "joe": "^1.6.0",
     "joe-reporter-console": "^1.2.1",
-    "projectz": "^0.3.17"
+    "projectz": "^0.5.0"
   },
   "directories": {
     "lib": "./out/lib"

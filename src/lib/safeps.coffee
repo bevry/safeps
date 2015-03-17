@@ -376,40 +376,6 @@ safeps =
 
 
 	# =================================
-	# Command
-
-	# Spawn Command
-	spawnCommand: (command,args=[],opts,next) ->
-		# Prepare
-		[opts,next] = extractOptsAndCallback(opts, next)
-
-		# Prefix the path to the arguments
-		pieces = [command].concat(args)
-
-		# Forward onto spawn
-		safeps.spawn(pieces, opts, next)
-
-		# Chain
-		@
-
-	# Spawn Commands
-	spawnCommands: (command,multiArgs=[],opts,next) ->
-		# Prepare
-		[opts,next] = extractOptsAndCallback(opts, next)
-
-		# Prefix the path to the arguments
-		pieces = []
-		for args in multiArgs
-			pieces.push [command].concat(args)
-
-		# Forward onto spawn multiple
-		safeps.spawnMultiple(pieces, opts, next)
-
-		# Chain
-		@
-
-
-	# =================================
 	# Exec
 
 	# Exec Sync
@@ -899,15 +865,15 @@ safeps =
 
 		# Prepare commands
 		commands = []
-		commands.push ['init']
-		commands.push ['remote', 'add', opts.remote, opts.url]  if opts.url
-		commands.push ['fetch', opts.remote]
-		commands.push ['pull', opts.remote, opts.branch]
-		commands.push ['submodule', 'init']
-		commands.push ['submodule', 'update', '--recursive']
+		commands.push ['git', 'init']
+		commands.push ['git', 'remote', 'add', opts.remote, opts.url]  if opts.url
+		commands.push ['git', 'fetch', opts.remote]
+		commands.push ['git', 'pull', opts.remote, opts.branch]
+		commands.push ['git', 'submodule', 'init']
+		commands.push ['git', 'submodule', 'update', '--recursive']
 
 		# Perform commands
-		safeps.spawnCommands('git', commands, opts, next)
+		safeps.spawnMultiple(commands, opts, next)
 
 		# Chain
 		@
@@ -927,7 +893,7 @@ safeps =
 		safefs.ensurePath opts.cwd, (err,exists) ->
 			return complete(err)  if err
 			if exists
-				safeps.spawnCommand 'git', ['pull', opts.remote, opts.branch], opts, (err,result...) ->
+				safeps.spawn ['git', 'pull', opts.remote, opts.branch], opts, (err,result...) ->
 					return next(err, 'pull', result)
 			else
 				safeps.initGitRepo opts, (err,result) ->
@@ -962,10 +928,10 @@ safeps =
 				return next()  unless exists
 
 				# Prepare command
-				command = ['install'].concat(opts.args)
+				command = ['npm', 'install'].concat(opts.args)
 
 				# Execute npm install inside the pugin directory
-				safeps.spawnCommand('npm', command, opts, next)
+				safeps.spawn(command, opts, next)
 
 		# Check if node_modules already exists
 		if opts.force is false

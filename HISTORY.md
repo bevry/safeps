@@ -1,5 +1,8 @@
 # History
 
+## v4.0.0 March 17, 2015
+- Removed `spawnCommand` and `spawnCommands` use `spawn` and `spawnMultiple` instead
+
 ## v3.0.2 March 17, 2015
 - Will no longer attempt to read `stdout` and `stderr` on spawn if `stdio` option is set (it's not possible)
 
