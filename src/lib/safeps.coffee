@@ -43,6 +43,7 @@ safeps =
 
 	# =================================
 	# Environments
+	# @TODO These should be abstracted out into their own packages
 
 	# Is Windows
 	# Returns whether or not we are running on a windows machine
@@ -835,6 +836,7 @@ safeps =
 
 	# =================================
 	# Special Commands
+	# @TODO These should be abstracted out into their own packages
 
 	# Initialize a Git Repository
 	# Requires internet access
