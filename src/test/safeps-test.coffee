@@ -14,12 +14,6 @@ process.env.LANG ?= 'en_AU.UTF-8'
 
 joe.describe 'modules', (describe,it) ->
 
-	describe 'requireFresh', (describe,it) ->
-		it 'should fetch something', ->
-			result = safeps.requireFresh(__dirname+'/../../package.json')
-			assert.ok(result)
-			assert.ok(result?.version)
-
 	describe 'locale', (describe,it) ->
 		describe 'getLocaleCode', (describe,it) ->
 			it 'should fetch something from the environment', ->

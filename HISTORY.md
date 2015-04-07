@@ -1,5 +1,9 @@
 # History
 
+## v5.0.0 April 7, 2015
+- Removed `requireFresh(path)` instead use the [requirefresh](https://npmjs.org/package/requirefresh) package
+- Deprecated `path` option on `initGitRepo`, `initOrPullGitRepo`, `initNodeModules` - use `cwd` option instead
+
 ## v4.0.0 March 17, 2015
 - Removed `spawnCommand` and `spawnCommands` use `spawn` and `spawnMultiple` instead
 

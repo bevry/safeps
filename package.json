@@ -1,7 +1,7 @@
 {
   "title": "Safe PS",
   "name": "safeps",
-  "version": "4.0.0",
+  "version": "5.0.0",
   "description": "Work with processes safely and easily with Node.js",
   "homepage": "https://github.com/bevry/safeps",
   "license": {
@@ -49,13 +49,14 @@
   },
   "dependencies": {
     "extract-opts": "^3.0.1",
-    "safefs": "^3.1.0",
+    "safefs": "^3.1.3",
     "taskgroup": "^4.3.0",
     "typechecker": "^2.0.8"
   },
   "devDependencies": {
-    "coffee-script": "^1.9.1",
     "assert-helpers": "^1.0.2",
+    "coffee-script": "^1.9.1",
+    "coffeelint": "^1.9.3",
     "joe": "^1.6.0",
     "joe-reporter-console": "^1.2.1",
     "projectz": "^0.5.0"
@@ -64,11 +65,19 @@
     "lib": "./out/lib"
   },
   "scripts": {
-    "preinstall": "node ./cyclic.js",
+    "clean": "./node_modules/.bin/cake clean",
+    "setup": "./node_modules/.bin/cake setup",
+    "compile": "./node_modules/.bin/cake compile",
+    "watch": "./node_modules/.bin/cake watch",
+    "verify": "./node_modules/.bin/cake verify",
+    "meta": "./node_modules/.bin/cake meta",
+    "prepare": "./node_modules/.bin/cake prepare",
+    "release": "./node_modules/.bin/cake release",
     "test": "node ./out/test/safeps-test.js"
   },
   "main": "./out/lib/safeps.js",
   "cakeConfiguration": {
-    "COFFEE_SRC_PATH": "src"
+    "COFFEE_SRC_PATH": "src",
+    "COFFEELINT_SRC_PATH": "src"
   }
 }

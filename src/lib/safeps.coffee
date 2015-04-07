@@ -1,12 +1,12 @@
 # Import
 safeps = null
-{TaskGroup} = require('taskgroup')
+TaskGroup = require('taskgroup')
 typeChecker = require('typechecker')
 safefs = require('safefs')
 extractOptsAndCallback = require('extract-opts')
 
 # Prepare
-isWindows = process?.platform?.indexOf('win') is 0
+isWindows = process.platform?.indexOf('win') is 0
 
 
 # =====================================
@@ -39,19 +39,6 @@ safeps =
 
 		# Chain
 		safeps
-
-
-	# =================================
-	# Require
-
-	# Require Fresh
-	# Require the file without adding it into the cache
-	requireFresh: (path) ->
-		path = require('path').resolve(path)
-		delete require.cache[path]  # clear require cache for the config file
-		result = require(path)
-		delete require.cache[path]  # clear require cache for the config file
-		return result
 
 
 	# =================================
@@ -856,9 +843,9 @@ safeps =
 	initGitRepo: (opts,next) ->
 		# Extract
 		[opts,next] = extractOptsAndCallback(opts,next)
-		if opts.path  # legacy
-			opts.cwd = opts.path
-			delete opts.path
+		if opts.path
+			err = new Error('safeps.initGitRepo: `path` option is deprecated, use `cwd` option instead.')
+			return next(err); @
 		opts.cwd    or= process.cwd()
 		opts.remote or= 'origin'
 		opts.branch or= 'master'
@@ -882,9 +869,9 @@ safeps =
 	initOrPullGitRepo: (opts,next) ->
 		# Extract
 		[opts,next] = extractOptsAndCallback(opts,next)
-		if opts.path  # legacy
-			opts.cwd = opts.path
-			delete opts.path
+		if opts.path
+			err = new Error('safeps.initOrPullGitRepo: `path` option is deprecated, use `cwd` option instead.')
+			return next(err); @
 		opts.cwd    or= process.cwd()
 		opts.remote or= 'origin'
 		opts.branch or= 'master'
@@ -910,9 +897,9 @@ safeps =
 		# Prepare
 		pathUtil = require('path')
 		[opts,next] = extractOptsAndCallback(opts,next)
-		if opts.path  # legacy
-			opts.cwd = opts.path
-			delete opts.path
+		if opts.path
+			err = new Error('safeps.initNodeModules: `path` option is deprecated, use `cwd` option instead.')
+			return next(err); @
 		opts.cwd    or= process.cwd()
 		opts.args   ?=  []
 		opts.force  ?=  false
