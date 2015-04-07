@@ -932,6 +932,49 @@ safeps =
 		# Chain
 		@
 
+	# Spawn a Node Module
+	# with cross platform support
+	# supports linux, heroku, osx, windows
+	# spawnNodeModule(name:string, args:array, opts:object, next:function)
+	# Better than https://github.com/mafintosh/npm-execspawn as it uses safeps
+	# next(err,results)
+	spawnNodeModule: (args...) ->
+		# Prepare
+		pathUtil = require('path')
+		opts = {cwd: process.cwd()}
+
+		# Extract options
+		for arg in args
+			type = typeof arg
+			if Array.isArray(arg)
+				opts.args = arg
+			else if type is 'object'
+				if arg.next?
+					next = arg.next
+					delete arg.next
+				for own key,value of arg
+					opts[key] = value
+			else if type is 'function'
+				next = arg
+			else if type is 'string'
+				opts.name = arg
+
+		# Command
+		if opts.name
+			command = [opts.name].concat(opts.args or [])
+		else
+			command = opts.args or []
+		delete opts.name
+		delete opts.args
+
+		# Paths
+		command[0] = pathUtil.join(opts.cwd, 'node_modules', '.bin', command[0])
+
+		# Spawn
+		safeps.spawn(command, opts, next)
+
+		# Chain
+		@
 
 # =====================================
 # Export

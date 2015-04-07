@@ -191,6 +191,16 @@ joe.describe 'modules', (describe,it) ->
 			# ^ https://github.com/joyent/node/issues/5833#issuecomment-82189525
 			assert.ok(stdout)
 
+	describe 'spawn node module', (describe, it) ->
+		it 'should work', (done) ->
+			safeps.spawnNodeModule 'coffeelint', ['--version'], (err,stdout,stderr,status,signal) ->
+				errorEqual(err, null)
+				console.log('coffeelint version:', stdout.toString().trim())
+				equal(stdout instanceof Buffer, true)
+				assert.ok(stdout)
+				nodeVersion = stdout.toString().trim()
+				done()
+
 	#
 	# describe 'output prefix node', (describe, it) ->
 	# 	it 'should work asynchronously', (done) ->
