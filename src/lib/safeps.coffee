@@ -882,7 +882,14 @@ safeps =
 		safefs.ensurePath opts.cwd, (err,exists) ->
 			return complete(err)  if err
 			if exists
-				safeps.spawn ['git', 'pull', opts.remote, opts.branch], opts, (err,result...) ->
+				# this ensures the repo is on the correct branch before performing a merge or fast-forward
+				commands = []
+				commands.push ['git', 'fetch', opts.remote]
+				commands.push ['git', 'checkout', opts.branch]
+				commands.push ['git', 'merge', "#{opts.remote}/#{opts.branch}"]
+
+				# Perform commands
+				safeps.spawnMultiple commands, opts, (err,result...) ->
 					return next(err, 'pull', result)
 			else
 				safeps.initGitRepo opts, (err,result) ->
