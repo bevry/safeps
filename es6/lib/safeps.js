@@ -1,3 +1,5 @@
+/* eslint no-sync:0 */
+
 // Import
 const TaskGroup = require('taskgroup')
 const typeChecker = require('typechecker')
@@ -114,7 +116,12 @@ const safeps = {
 		// Shim
 		else {
 			require('child_process').exec(path + ' --version', function (err) {
-				const isExecutable = !err || (err.code !== 127 && (/EACCESS|Permission denied/).test(err.message) === false)
+				// If there was no error, then execution worked fine, so we are executable
+				if ( !err )  return next(null, true)
+				// If there was an error
+				// determine if it was an error with trying to run it (not executable)
+				// or an error from running it (executable)
+				const isExecutable = err.code !== 127 && (/EACCESS|Permission denied/).test(err.message) === false
 				return next(null, isExecutable)
 			})
 		}
@@ -147,6 +154,9 @@ const safeps = {
 				isExecutable = true
 			}
 			catch ( err ) {
+				// If there was an error
+				// determine if it was an error with trying to run it (not executable)
+				// or an error from running it (executable)
 				isExecutable = err.code !== 127 && (/EACCESS|Permission denied/).test(err.message) === false
 			}
 		}
@@ -193,8 +203,6 @@ const safeps = {
 		// If we don't want to inherit environment variables, then don't
 		else if ( opts.env === false ) {
 			opts.env = null
-			// delete opts.env
-			// @TODO verify swapping delete for null set has the same result
 		}
 
 		// Return
@@ -502,7 +510,6 @@ const safeps = {
 		if ( opts.output === true && !opts.outputPrefix ) {
 			opts.stdio = 'inherit'
 			opts.output = null
-			// delete opts.output
 		}
 
 		// Spawn Synchronously
@@ -550,7 +557,6 @@ const safeps = {
 			if ( opts.output === true && !opts.outputPrefix ) {
 				opts.stdio = 'inherit'
 				opts.output = null
-				// delete opts.output
 			}
 
 			// Execute command
@@ -637,11 +643,11 @@ const safeps = {
 				if ( execPath )  return complete()
 
 				// Resolve the path as it may be a virtual or relative path
-				const possibleExecPath = pathUtil.resolve(possibleExecPath)
+				possibleExecPath = pathUtil.resolve(possibleExecPath)
 
 				// Check if the executeable exists
-				safeps.isExecutable(possibleExecPath, opts, function (err, executable) {
-					if ( err || !executable )  return complete()
+				safeps.isExecutable(possibleExecPath, opts, function (err, isExecutable) {
+					if ( err || !isExecutable )  return complete()
 					execPath = possibleExecPath
 					return complete()
 				})
@@ -1180,7 +1186,6 @@ const safeps = {
 				if ( arg.next ) {
 					next = arg.next
 					arg.next = null
-					// delete arg.next
 				}
 				for ( const key of Object.keys(arg) ) {
 					opts[key] = arg[key]

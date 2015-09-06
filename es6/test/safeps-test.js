@@ -1,3 +1,5 @@
+/* eslint no-console:0, no-unused-vars:0, no-sync:0 */
+
 // Import
 const assert = require('assert')
 const {equal, errorEqual} = require('assert-helpers')
@@ -238,9 +240,9 @@ joe.describe('modules', function (describe, it) {
 
 	describe('spawn node module', function (describe, it) {
 		it('should work', function (done) {
-			safeps.spawnNodeModule('coffeelint', ['--version'], function (err, stdout, stderr, status, signal) {
+			safeps.spawnNodeModule('babel', ['--version'], function (err, stdout, stderr, status, signal) {
 				errorEqual(err, null)
-				console.log('coffeelint version:', stdout.toString().trim())
+				console.log('babel version:', stdout.toString().trim())
 				equal(stdout instanceof Buffer, true)
 				assert.ok(stdout)
 				done()
