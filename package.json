@@ -1,7 +1,7 @@
 {
   "title": "Safe PS",
   "name": "safeps",
-  "version": "5.1.0",
+  "version": "6.0.0",
   "description": "Work with processes safely and easily with Node.js",
   "homepage": "https://github.com/bevry/safeps",
   "license": {
@@ -72,7 +72,6 @@
     "meta": "node --harmony nakefile.js meta",
     "prepare": "node --harmony nakefile.js prepare",
     "release": "node --harmony nakefile.js release",
-
     "test": "node --harmony ./es5/test/safeps-test.js"
   },
   "nakeConfiguration": {

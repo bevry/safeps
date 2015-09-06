@@ -1,5 +1,11 @@
 # History
 
+## v6.0.0 September 7, 2015
+- Dropped support for node 0.10 and earlier, minimum supported version is now 0.12
+- Moved from CoffeeScript to ES6+
+- Fixed callback support on `execSync`
+- Fixed error handling on `initOrPullGitRepo`
+
 ## v5.1.0 April 7, 2015
 - Added `spawnNodeModule`
 
