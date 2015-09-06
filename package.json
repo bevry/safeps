@@ -45,11 +45,11 @@
     "url": "http://github.com/bevry/safeps.git"
   },
   "engines": {
-    "node": ">=0.4"
+    "node": ">=0.12"
   },
   "dependencies": {
     "extract-opts": "^3.0.1",
-    "safefs": "^3.2.2",
+    "safefs": "^4.0.0",
     "taskgroup": "^4.3.0",
     "typechecker": "^3.0.0"
   },
