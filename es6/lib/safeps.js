@@ -33,13 +33,31 @@ if ( global.safepsGlobal.pool == null ) {
 // =====================================
 // Define Module
 
+/**
+* Contains methods to safely spawn and manage
+* various file system processes. It differs 
+* from the standard node.js child_process
+* (https://nodejs.org/docs/v0.11.13/api/child_process.html#child_process_child_process)
+* module in that it intercepts and handles
+* many common errors that might occur when
+* invoking child processes that could cause
+* an application to crash. Most commonly, errors
+* such as ENOENT and EACCESS. This enables
+* an application to be both cleaner and more robust.
+* @class safeps
+* @static
+*/
 const safeps = {
 
 	// =====================================
 	// Open and Close Processes
 
-	// Open a file
-	// Pass your callback to fire when it is safe to open the process
+	/**
+	* Open a file.
+	* Pass your callback to fire when it is safe to open the process
+	* @method openProcess
+	* @param {Function} fn callback
+	*/
 	openProcess: function (fn) {
 		// Add the task to the pool and execute it right away
 		global.safepsGlobal.pool.addTask(fn)
@@ -53,27 +71,48 @@ const safeps = {
 	// Environments
 	// @TODO These should be abstracted out into their own packages
 
-	// Is Windows
-	// Returns whether or not we are running on a windows machine
+	/**
+	* Returns whether or not we are running on a windows machine
+	* @method isWindows
+	* @return {Boolean}
+	*/
 	isWindows: function () {
 		return isWindows
 	},
 
-	// Get Locale Code
+	/**
+	* Get locale code - eg: en-AU,
+	* fr-FR, zh-CN etc.
+	* @method getLocaleCode
+	* @param {String} lang
+	* @return {String}
+	*/
 	getLocaleCode: function (lang) {
 		lang = lang || process.env.LANG || ''
 		const localeCode = lang.replace(/\..+/, '').replace('-', '_').toLowerCase() || null
 		return localeCode
 	},
 
-	// Get Language Code
+	/**
+	* Given the localeCode, return
+	* the language code.
+	* @method getLanguageCode
+	* @param {String} localeCode
+	* @return {String}
+	*/
 	getLanguageCode: function (localeCode) {
 		localeCode = safeps.getLocaleCode(localeCode) || ''
 		const languageCode = localeCode.replace(/^([a-z]+)[_-]([a-z]+)$/i, '$1').toLowerCase() || null
 		return languageCode
 	},
 
-	// Get Country Code
+	/**
+	* Given the localeCode, return
+	* the country code.
+	* @method getCountryCode
+	* @param {String} localeCode
+	* @return {String}
+	*/
 	getCountryCode: function (localeCode) {
 		localeCode = safeps.getLocaleCode(localeCode) || ''
 		const countryCode = localeCode.replace(/^([a-z]+)[_-]([a-z]+)$/i, '$2').toLowerCase() || null
@@ -84,18 +123,40 @@ const safeps = {
 	// =================================
 	// Executeable Helpers
 
-	// Has Spawn Sync
+	/**
+	* Has spawn sync. Returns the node.js
+	* child_process.spawnSync method.
+	* @method hasSpawnSync
+	* @return {Function}
+	*/
 	hasSpawnSync: function () {
 		return require('child_process').spawnSync != null
 	},
 
-	// Has Exec Sync
+	/**
+	* Has exec sync. Returns the node.js
+	* child_process.execSync method.
+	* @method hasExecSync
+	* @return {Function}
+	*/
 	hasExecSync: function () {
 		return require('child_process').execSync != null
 	},
 
-	// Is Executable
-	// next(err, isExecutable)
+	/**
+	* Is the path to a file object an executable?
+	* Boolean result returned as the isExecutable parameter
+	* of the passed callback.
+	* next(err, isExecutable)
+	* @method isExecutable
+	* @param {String} path path to test
+	* @param {Object} [opts]
+	* @param {Booleant} [opts.sync] true to test sync rather than async
+	* @param {Function} next callback
+	* @param {Error} next.err
+	* @param {Boolean} next.isExecutable
+	* @return {Boolean} returned if opts.sync = true
+	*/
 	isExecutable: function (path, opts, next) {
 		// Prepare
 		[opts, next] = extractOptsAndCallback(opts, next)
@@ -130,8 +191,17 @@ const safeps = {
 		return safeps
 	},
 
-	// Is Executable Sync
-	// next(err, isExecutable)
+	/**
+	* Is the path to a file object an executable?
+	* Synchronised version of isExecutable 
+	* @method isExecutableSync
+	* @param {String} path path to test
+	* @param {Object} opts
+	* @param {Function} [next]
+	* @param {Error} next.err
+	* @param {Boolean} next.isExecutable
+	* @return {Boolean}
+	*/
 	isExecutableSync: function (path, opts, next) {
 		// Prepare
 		let isExecutable
@@ -171,7 +241,20 @@ const safeps = {
 		}
 	},
 
-	// Internal: Prepare options for an execution
+	/**
+	* Internal: Prepare options for an execution.
+	* Makes sure all options are populated or exist and
+	* gives the opportunity to prepopulate some of those
+	* options.
+	* @private
+	* @method prepareExecutableOptions
+	* @param {Object} [opts]
+	* @param {Stream} [opts.stdin=null] in stream
+	* @param {Array} [opts.stdio=null] Child's stdio configuration
+	* @param {Boolean} [opts.safe=true]
+	* @param {Object} [opts.env=process.env]
+	* @return {Object} opts
+	*/
 	prepareExecutableOptions: function (opts) {
 		// Prepare
 		opts = opts || {}
@@ -209,16 +292,22 @@ const safeps = {
 		return opts
 	},
 
-	/*
-	Internal: Prepare result of an execution
-	result: Object
-		pid Number Pid of the child process
-		output Array Array of results from stdio output
-		stdout Buffer|String The contents of output[1]
-		stderr Buffer|String The contents of output[2]
-		status Number The exit code of the child process
-		signal String The signal used to kill the child process
-		error Error The error object if the child process failed or timed out
+	/**
+	* Internal: Prepare result of an execution
+	* @private
+	* @method updateExecutableResult
+	* @param {Object} result
+	* @param {Object} result.pid  Number Pid of the child process
+	* @param {Object} result.output output Array Array of results from stdio output
+	* @param {Stream} result.stdout stdout The contents of output
+	* @param {Stream} result.stderr stderr The contents of output
+	* @param {Number} result.status status The exit code of the child process
+	* @param {String} result.signal signal The signal used to kill the child process
+	* @param {Error} result.error The error object if the child process failed or timed out
+	* @param {Object} [opts]
+	* @param {Object} [opts.output]
+	* @param {Object} [opts.outputPrefix]
+	* @return {Object} result
 	*/
 	updateExecutableResult: function (result, opts) {
 		// If we want to output, then output the correct streams with the correct prefixes
@@ -262,7 +351,15 @@ const safeps = {
 		return result
 	},
 
-	// Internal: Prefix Data
+
+	/**
+	* Internal: prefix data
+	* @private
+	* @method prefixData
+	* @param {Object} data
+	* @param {String} [prefix = '>\t']
+	* @return {Object} data
+	*/
 	prefixData: function (data, prefix = '>\t') {
 		data = data && data.toString && data.toString() || ''
 		if ( prefix && data ) {
@@ -271,7 +368,14 @@ const safeps = {
 		return data
 	},
 
-	// Internal: Output Data
+	/**
+	* Internal: Set output data
+	* @private
+	* @method outputData
+	* @param {Object} data
+	* @param {Object} [channel = 'stdout']
+	* @param {Object} prefix
+	*/
 	outputData: function (data, channel = 'stdout', prefix) {
 		if ( data.toString().trim().length !== 0 ) {
 			if ( prefix ) {
@@ -286,9 +390,49 @@ const safeps = {
 	// =================================
 	// Spawn
 
-	// Spawn Sync
-	// return {error, pid, output, stdout, stderr, status, signal}
-	// next(error, stdout, stderr, status, signal)
+	/**
+	* Syncronised version of spawn. Will not return until the 
+	* child process has fully closed. Results can be returned
+	* from the method call or via a passed callback. Even if
+	* a callback is passed to spawnSync, the method will still
+	* be syncronised with the child process and the callback will
+	* only return after the child process has closed.
+	*
+	* Simple usage example:
+	*
+	*	var safeps = require('safeps');
+	*	var command = ['npm', 'install', 'jade', '--save'];
+	*
+	*	//a lot of the time you won't need the opts argument
+	*	var opts = {
+	*		cwd: __dirname //this is actually pointless in a real application
+	*	};
+	*
+	*	var result = safeps.spawnSync(command, opts);
+	*
+	*	console.log(result.error);
+	*	console.log(result.status);
+	*	console.log(result.signal);
+	*	console.log("I've finished...");
+	*
+	* @method spawnSync
+	* @param {Array|String} command
+	* @param {Object} [opts]
+	* @param {String} opts.cwd Current working directory of the child process
+	* @param {Array|String} opts.stdio Child's stdio configuration.
+	* @param {Array} opts.customFds Deprecated File descriptors for the child to use for stdio.
+	* @param {Object} opts.env Environment key-value pairs.
+	* @param {Boolean} opts.detached The child will be a process group leader.
+	* @param {Number} opts.uid Sets the user identity of the process.
+	* @param {Number} opts.gid Sets the group identity of the process
+	* @param {Function} [next] callback
+	* @param {Error} next.error
+	* @param {Stream} next.stdout out stream
+	* @param {Stream} next.stderr error stream
+	* @param {Number} next.status node.js exit code
+	* @param {String} next.signal unix style signal such as SIGKILL or SIGHUP	
+	* @return {Object} {error, pid, output, stdout, stderr, status, signal}
+	*/
 	spawnSync: function (command, opts, next) {
 		// Prepare
 		[opts, next] = extractOptsAndCallback(opts, next)
@@ -328,9 +472,47 @@ const safeps = {
 		}
 	},
 
-	// Spawn
-	// Wrapper around node's spawn command for a cleaner and more powerful API
-	// next(error, stdout, stderr, status, signal)
+	/**
+	* Wrapper around node's spawn command for a cleaner, more robust and powerful API.
+	* Launches a new process with the given command. Command line arguments are
+	* part of the command parameter (unlike the node.js spawn). Command can be
+	* an array of command line arguments or a command line string. Opts allows
+	* additional options to be sent to the spawning action.
+	*
+	* Simple usage example:
+	*
+	* 	var safeps = require('safeps');
+	*	var command = ['npm', 'install','jade','--save'];
+	*
+	*	//a lot of the time you won't need the opts argument
+	*	var opts = {
+	*		cwd: __dirname //this is actually pointless in a real application
+	*	}
+	*	function myCallback(error, stdout, stderr, status, signal){
+	*		console.log(error); 
+	*		console.log(status);
+	*		console.log(signal);
+	*		console.log("I've finished...");
+	*	}
+	*	safeps.spawn(command, opts, myCallback);
+	*
+	* @method spawn
+	* @param {Array|String} command
+	* @param {Object} [opts]
+	* @param {String} opts.cwd Current working directory of the child process
+	* @param {Array|String} opts.stdio Child's stdio configuration.
+	* @param {Array} opts.customFds Deprecated File descriptors for the child to use for stdio.
+	* @param {Object} opts.env Environment key-value pairs.
+	* @param {Boolean} opts.detached The child will be a process group leader.
+	* @param {Number} opts.uid Sets the user identity of the process.
+	* @param {Number} opts.gid Sets the group identity of the process.
+	* @param {Function} next callback
+	* @param {Error} next.error
+	* @param {Stream} next.stdout out stream
+	* @param {Stream} next.stderr error stream
+	* @param {Number} next.status node.js exit code
+	* @param {String} next.signal unix style signal such as SIGKILL or SIGHUP
+	*/
 	spawn: function (command, opts, next) {
 		// Prepare
 		[opts, next] = extractOptsAndCallback(opts, next)
