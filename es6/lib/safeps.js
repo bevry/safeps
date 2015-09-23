@@ -124,20 +124,22 @@ const safeps = {
 	// Executeable Helpers
 
 	/**
-	* Has spawn sync. Returns the node.js
-	* child_process.spawnSync method.
+	* Has spawn sync. Returns true
+	* if the child_process spawnSync
+	* method exists, otherwise false
 	* @method hasSpawnSync
-	* @return {Function}
+	* @return {Boolean}
 	*/
 	hasSpawnSync: function () {
 		return require('child_process').spawnSync != null
 	},
 
 	/**
-	* Has exec sync. Returns the node.js
-	* child_process.execSync method.
+	* Has exec sync. Returns true
+	* if the child_process execSync
+	* method exists, otherwise false
 	* @method hasExecSync
-	* @return {Function}
+	* @return {Boolean}
 	*/
 	hasExecSync: function () {
 		return require('child_process').execSync != null
