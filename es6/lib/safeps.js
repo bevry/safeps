@@ -153,7 +153,7 @@ const safeps = {
 	* @method isExecutable
 	* @param {String} path path to test
 	* @param {Object} [opts]
-	* @param {Booleant} [opts.sync] true to test sync rather than async
+	* @param {Boolean} [opts.sync] true to test sync rather than async
 	* @param {Function} next callback
 	* @param {Error} next.err
 	* @param {Boolean} next.isExecutable
