@@ -716,7 +716,7 @@ const safeps = {
 	* Stdout and stderr should be Buffers but they are strings unless encoding:null
 	* for now, nothing we should do, besides wait for joyent to reply
 	* https://github.com/joyent/node/issues/5833#issuecomment-82189525.
-	* @method exec
+	* @method execSync
 	* @param {Object} command
 	* @param {Object} [opts]
 	* @param {Boolean} [opts.sync] true to execute sync rather than async
@@ -838,7 +838,7 @@ const safeps = {
 	* string or an array of command line inputs. It is also possible
 	* to pass a single command string and in this case calling
 	* execMultiple will be effectively the same as calling safeps.exec.
-	* @method spawnMultiple
+	* @method execMultiple
 	* @param {Array|String} commands
 	* @param {Object} [opts]
 	* @param {Boolean} [opts.concurrency=1] Whether to exec processes concurrently.

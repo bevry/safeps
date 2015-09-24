@@ -128,7 +128,11 @@ an application to be both cleaner and more robust.</p>
 
                             </li>
                             <li class="index-item method">
-                                <a href="#method_exec">exec</a>
+                                <a href="#method_execMultiple">execMultiple</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_execSync">execSync</a>
 
                             </li>
                             <li class="index-item method">
@@ -229,10 +233,6 @@ an application to be both cleaner and more robust.</p>
                             </li>
                             <li class="index-item method">
                                 <a href="#method_spawn">spawn</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_spawnMultiple">spawnMultiple</a>
 
                             </li>
                             <li class="index-item method">
@@ -391,6 +391,442 @@ a given executable name.</p>
 </div>
 <div id="method_exec" class="method item">
     <h3 class="name"><code>exec</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>command</code>
+                </li>
+                <li class="arg">
+                        <code class="optional">[opts]</code>
+                </li>
+                <li class="arg">
+                        <code>next</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/esnext_lib_safeps.js.html#l772"><code>esnext&#x2F;lib&#x2F;safeps.js:772</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Wrapper around node's exec command for a cleaner, more robust and powerful API.
+Runs a command in a shell and buffers the output.
+Note:
+Stdout and stderr should be Buffers but they are strings unless encoding:null
+for now, nothing we should do, besides wait for joyent to reply
+<a href="https://github.com/joyent/node/issues/5833#issuecomment-82189525">https://github.com/joyent/node/issues/5833#issuecomment-82189525</a>.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">command</code>
+                        <span class="type">Object</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name optional">[opts]</code>
+                        <span class="type">Object</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                        <ul class="params-list">
+                            <li class="param">
+                                    <code class="param-name optional">[sync]</code>
+                                    <span class="type">Boolean</span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+
+                                <div class="param-description">
+                                    <p>true to execute sync rather than async</p>
+
+                                </div>
+
+                            </li>
+                            <li class="param">
+                                    <code class="param-name optional">[cwd]</code>
+                                    <span class="type">String</span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+
+                                <div class="param-description">
+                                    <p>Current working directory of the child process</p>
+
+                                </div>
+
+                            </li>
+                            <li class="param">
+                                    <code class="param-name optional">[env]</code>
+                                    <span class="type">Object</span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+
+                                <div class="param-description">
+                                    <p>Environment key-value pairs</p>
+
+                                </div>
+
+                            </li>
+                            <li class="param">
+                                    <code class="param-name optional">[encoding=&#x27;utf8&#x27;]</code>
+                                    <span class="type">String</span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+
+                                <div class="param-description">
+                                    
+                                </div>
+
+                            </li>
+                            <li class="param">
+                                    <code class="param-name optional">[shell]</code>
+                                    <span class="type">String</span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+
+                                <div class="param-description">
+                                    <p>Shell to execute the command with (Default: '/bin/sh' on UNIX, 'cmd.exe' on Windows, The shell should understand the -c switch on UNIX or /s /c on Windows. On Windows, command line parsing should be compatible with cmd.exe.)</p>
+
+                                </div>
+
+                            </li>
+                            <li class="param">
+                                    <code class="param-name optional">[timeout=0]</code>
+                                    <span class="type">Number</span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+
+                                <div class="param-description">
+                                    
+                                </div>
+
+                            </li>
+                            <li class="param">
+                                    <code class="param-name optional">[maxBuffer=200*1024]</code>
+                                    <span class="type">Number</span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+
+                                <div class="param-description">
+                                    <p>Largest amount of data (in bytes) allowed on stdout or stderr - if exceeded child process is killed.</p>
+
+                                </div>
+
+                            </li>
+                            <li class="param">
+                                    <code class="param-name optional">[killSignal=&#x27;SIGTERM&#x27;]</code>
+                                    <span class="type">String</span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+
+                                <div class="param-description">
+                                    
+                                </div>
+
+                            </li>
+                            <li class="param">
+                                    <code class="param-name optional">[uid]</code>
+                                    <span class="type">Number</span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+
+                                <div class="param-description">
+                                    <p>Sets the user identity of the process.</p>
+
+                                </div>
+
+                            </li>
+                            <li class="param">
+                                    <code class="param-name optional">[gid]</code>
+                                    <span class="type">Number</span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+
+                                <div class="param-description">
+                                    <p>Sets the group identity of the process.</p>
+
+                                </div>
+
+                            </li>
+                        </ul>
+                </li>
+                <li class="param">
+                        <code class="param-name">next</code>
+                        <span class="type">Function</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                        <ul class="params-list">
+                            <li class="param">
+                                    <code class="param-name">err</code>
+                                    <span class="type">Error</span>
+
+                                <div class="param-description">
+                                    
+                                </div>
+
+                            </li>
+                            <li class="param">
+                                    <code class="param-name">stdout</code>
+                                    <span class="type">Buffer | String</span>
+
+                                <div class="param-description">
+                                    <p>out buffer</p>
+
+                                </div>
+
+                            </li>
+                            <li class="param">
+                                    <code class="param-name">stderr</code>
+                                    <span class="type">Buffer | String</span>
+
+                                <div class="param-description">
+                                    <p>error buffer</p>
+
+                                </div>
+
+                            </li>
+                        </ul>
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
+<div id="method_execMultiple" class="method item">
+    <h3 class="name"><code>execMultiple</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>commands</code>
+                </li>
+                <li class="arg">
+                        <code class="optional">[opts]</code>
+                </li>
+                <li class="arg">
+                        <code>next</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/esnext_lib_safeps.js.html#l833"><code>esnext&#x2F;lib&#x2F;safeps.js:833</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Exec multiple processes in the one method call.
+Launches new processes with the given array of commands.
+Each item in the commands array represents a command parameter
+sent to the safeps.exec method, so each item can be a command line
+string or an array of command line inputs. It is also possible
+to pass a single command string and in this case calling
+execMultiple will be effectively the same as calling safeps.exec.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">commands</code>
+                        <span class="type">Array | String</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name optional">[opts]</code>
+                        <span class="type">Object</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                        <ul class="params-list">
+                            <li class="param">
+                                    <code class="param-name optional">[concurrency=1]</code>
+                                    <span class="type">Boolean</span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+
+                                <div class="param-description">
+                                    <p>Whether to exec processes concurrently.</p>
+
+                                </div>
+
+                            </li>
+                            <li class="param">
+                                    <code class="param-name">cwd</code>
+                                    <span class="type">String</span>
+
+                                <div class="param-description">
+                                    <p>Current working directory of the child process.</p>
+
+                                </div>
+
+                            </li>
+                            <li class="param">
+                                    <code class="param-name">stdio</code>
+                                    <span class="type">Array | String</span>
+
+                                <div class="param-description">
+                                    <p>Child's stdio configuration.</p>
+
+                                </div>
+
+                            </li>
+                            <li class="param">
+                                    <code class="param-name">customFds</code>
+                                    <span class="type">Array</span>
+
+                                <div class="param-description">
+                                    <p>Deprecated File descriptors for the child to use for stdio.</p>
+
+                                </div>
+
+                            </li>
+                            <li class="param">
+                                    <code class="param-name">env</code>
+                                    <span class="type">Object</span>
+
+                                <div class="param-description">
+                                    <p>Environment key-value pairs.</p>
+
+                                </div>
+
+                            </li>
+                            <li class="param">
+                                    <code class="param-name">detached</code>
+                                    <span class="type">Boolean</span>
+
+                                <div class="param-description">
+                                    <p>The child will be a process group leader.</p>
+
+                                </div>
+
+                            </li>
+                            <li class="param">
+                                    <code class="param-name">uid</code>
+                                    <span class="type">Number</span>
+
+                                <div class="param-description">
+                                    <p>Sets the user identity of the process.</p>
+
+                                </div>
+
+                            </li>
+                            <li class="param">
+                                    <code class="param-name">gid</code>
+                                    <span class="type">Number</span>
+
+                                <div class="param-description">
+                                    <p>Sets the group identity of the process.</p>
+
+                                </div>
+
+                            </li>
+                        </ul>
+                </li>
+                <li class="param">
+                        <code class="param-name">next</code>
+                        <span class="type">Function</span>
+
+
+                    <div class="param-description">
+                        <p>callback</p>
+
+                    </div>
+
+                        <ul class="params-list">
+                            <li class="param">
+                                    <code class="param-name">error</code>
+                                    <span class="type">Error</span>
+
+                                <div class="param-description">
+                                    
+                                </div>
+
+                            </li>
+                            <li class="param">
+                                    <code class="param-name">results</code>
+                                    <span class="type">Array</span>
+
+                                <div class="param-description">
+                                    <p>array of exec results</p>
+
+                                </div>
+
+                            </li>
+                            <li class="param">
+                                    <code class="param-name">results[i].stdout</code>
+                                    <span class="type">Stream</span>
+
+                                <div class="param-description">
+                                    <p>out buffer</p>
+
+                                </div>
+
+                            </li>
+                            <li class="param">
+                                    <code class="param-name">results[i].stderr</code>
+                                    <span class="type">Stream</span>
+
+                                <div class="param-description">
+                                    <p>error buffer</p>
+
+                                </div>
+
+                            </li>
+                        </ul>
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
+<div id="method_execSync" class="method item">
+    <h3 class="name"><code>execSync</code></h3>
 
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
@@ -628,231 +1064,6 @@ for now, nothing we should do, besides wait for joyent to reply
 
             </div>
         </div>
-
-
-</div>
-<div id="method_exec" class="method item">
-    <h3 class="name"><code>exec</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>command</code>
-                </li>
-                <li class="arg">
-                        <code class="optional">[opts]</code>
-                </li>
-                <li class="arg">
-                        <code>next</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/esnext_lib_safeps.js.html#l772"><code>esnext&#x2F;lib&#x2F;safeps.js:772</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>Wrapper around node's exec command for a cleaner, more robust and powerful API.
-Runs a command in a shell and buffers the output.
-Note:
-Stdout and stderr should be Buffers but they are strings unless encoding:null
-for now, nothing we should do, besides wait for joyent to reply
-<a href="https://github.com/joyent/node/issues/5833#issuecomment-82189525">https://github.com/joyent/node/issues/5833#issuecomment-82189525</a>.</p>
-
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">command</code>
-                        <span class="type">Object</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name optional">[opts]</code>
-                        <span class="type">Object</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                        <ul class="params-list">
-                            <li class="param">
-                                    <code class="param-name optional">[sync]</code>
-                                    <span class="type">Boolean</span>
-                                    <span class="flag optional" title="This parameter is optional.">optional</span>
-
-                                <div class="param-description">
-                                    <p>true to execute sync rather than async</p>
-
-                                </div>
-
-                            </li>
-                            <li class="param">
-                                    <code class="param-name optional">[cwd]</code>
-                                    <span class="type">String</span>
-                                    <span class="flag optional" title="This parameter is optional.">optional</span>
-
-                                <div class="param-description">
-                                    <p>Current working directory of the child process</p>
-
-                                </div>
-
-                            </li>
-                            <li class="param">
-                                    <code class="param-name optional">[env]</code>
-                                    <span class="type">Object</span>
-                                    <span class="flag optional" title="This parameter is optional.">optional</span>
-
-                                <div class="param-description">
-                                    <p>Environment key-value pairs</p>
-
-                                </div>
-
-                            </li>
-                            <li class="param">
-                                    <code class="param-name optional">[encoding=&#x27;utf8&#x27;]</code>
-                                    <span class="type">String</span>
-                                    <span class="flag optional" title="This parameter is optional.">optional</span>
-
-                                <div class="param-description">
-                                    
-                                </div>
-
-                            </li>
-                            <li class="param">
-                                    <code class="param-name optional">[shell]</code>
-                                    <span class="type">String</span>
-                                    <span class="flag optional" title="This parameter is optional.">optional</span>
-
-                                <div class="param-description">
-                                    <p>Shell to execute the command with (Default: '/bin/sh' on UNIX, 'cmd.exe' on Windows, The shell should understand the -c switch on UNIX or /s /c on Windows. On Windows, command line parsing should be compatible with cmd.exe.)</p>
-
-                                </div>
-
-                            </li>
-                            <li class="param">
-                                    <code class="param-name optional">[timeout=0]</code>
-                                    <span class="type">Number</span>
-                                    <span class="flag optional" title="This parameter is optional.">optional</span>
-
-                                <div class="param-description">
-                                    
-                                </div>
-
-                            </li>
-                            <li class="param">
-                                    <code class="param-name optional">[maxBuffer=200*1024]</code>
-                                    <span class="type">Number</span>
-                                    <span class="flag optional" title="This parameter is optional.">optional</span>
-
-                                <div class="param-description">
-                                    <p>Largest amount of data (in bytes) allowed on stdout or stderr - if exceeded child process is killed.</p>
-
-                                </div>
-
-                            </li>
-                            <li class="param">
-                                    <code class="param-name optional">[killSignal=&#x27;SIGTERM&#x27;]</code>
-                                    <span class="type">String</span>
-                                    <span class="flag optional" title="This parameter is optional.">optional</span>
-
-                                <div class="param-description">
-                                    
-                                </div>
-
-                            </li>
-                            <li class="param">
-                                    <code class="param-name optional">[uid]</code>
-                                    <span class="type">Number</span>
-                                    <span class="flag optional" title="This parameter is optional.">optional</span>
-
-                                <div class="param-description">
-                                    <p>Sets the user identity of the process.</p>
-
-                                </div>
-
-                            </li>
-                            <li class="param">
-                                    <code class="param-name optional">[gid]</code>
-                                    <span class="type">Number</span>
-                                    <span class="flag optional" title="This parameter is optional.">optional</span>
-
-                                <div class="param-description">
-                                    <p>Sets the group identity of the process.</p>
-
-                                </div>
-
-                            </li>
-                        </ul>
-                </li>
-                <li class="param">
-                        <code class="param-name">next</code>
-                        <span class="type">Function</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                        <ul class="params-list">
-                            <li class="param">
-                                    <code class="param-name">err</code>
-                                    <span class="type">Error</span>
-
-                                <div class="param-description">
-                                    
-                                </div>
-
-                            </li>
-                            <li class="param">
-                                    <code class="param-name">stdout</code>
-                                    <span class="type">Buffer | String</span>
-
-                                <div class="param-description">
-                                    <p>out buffer</p>
-
-                                </div>
-
-                            </li>
-                            <li class="param">
-                                    <code class="param-name">stderr</code>
-                                    <span class="type">Buffer | String</span>
-
-                                <div class="param-description">
-                                    <p>error buffer</p>
-
-                                </div>
-
-                            </li>
-                        </ul>
-                </li>
-            </ul>
-        </div>
-
 
 
 </div>
@@ -3270,217 +3481,6 @@ safeps.spawn(command, opts, myCallback);</code></pre>
 
                                 <div class="param-description">
                                     <p>unix style signal such as SIGKILL or SIGHUP</p>
-
-                                </div>
-
-                            </li>
-                        </ul>
-                </li>
-            </ul>
-        </div>
-
-
-
-</div>
-<div id="method_spawnMultiple" class="method item">
-    <h3 class="name"><code>spawnMultiple</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>commands</code>
-                </li>
-                <li class="arg">
-                        <code class="optional">[opts]</code>
-                </li>
-                <li class="arg">
-                        <code>next</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/esnext_lib_safeps.js.html#l833"><code>esnext&#x2F;lib&#x2F;safeps.js:833</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>Exec multiple processes in the one method call.
-Launches new processes with the given array of commands.
-Each item in the commands array represents a command parameter
-sent to the safeps.exec method, so each item can be a command line
-string or an array of command line inputs. It is also possible
-to pass a single command string and in this case calling
-execMultiple will be effectively the same as calling safeps.exec.</p>
-
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">commands</code>
-                        <span class="type">Array | String</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name optional">[opts]</code>
-                        <span class="type">Object</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                        <ul class="params-list">
-                            <li class="param">
-                                    <code class="param-name optional">[concurrency=1]</code>
-                                    <span class="type">Boolean</span>
-                                    <span class="flag optional" title="This parameter is optional.">optional</span>
-
-                                <div class="param-description">
-                                    <p>Whether to exec processes concurrently.</p>
-
-                                </div>
-
-                            </li>
-                            <li class="param">
-                                    <code class="param-name">cwd</code>
-                                    <span class="type">String</span>
-
-                                <div class="param-description">
-                                    <p>Current working directory of the child process.</p>
-
-                                </div>
-
-                            </li>
-                            <li class="param">
-                                    <code class="param-name">stdio</code>
-                                    <span class="type">Array | String</span>
-
-                                <div class="param-description">
-                                    <p>Child's stdio configuration.</p>
-
-                                </div>
-
-                            </li>
-                            <li class="param">
-                                    <code class="param-name">customFds</code>
-                                    <span class="type">Array</span>
-
-                                <div class="param-description">
-                                    <p>Deprecated File descriptors for the child to use for stdio.</p>
-
-                                </div>
-
-                            </li>
-                            <li class="param">
-                                    <code class="param-name">env</code>
-                                    <span class="type">Object</span>
-
-                                <div class="param-description">
-                                    <p>Environment key-value pairs.</p>
-
-                                </div>
-
-                            </li>
-                            <li class="param">
-                                    <code class="param-name">detached</code>
-                                    <span class="type">Boolean</span>
-
-                                <div class="param-description">
-                                    <p>The child will be a process group leader.</p>
-
-                                </div>
-
-                            </li>
-                            <li class="param">
-                                    <code class="param-name">uid</code>
-                                    <span class="type">Number</span>
-
-                                <div class="param-description">
-                                    <p>Sets the user identity of the process.</p>
-
-                                </div>
-
-                            </li>
-                            <li class="param">
-                                    <code class="param-name">gid</code>
-                                    <span class="type">Number</span>
-
-                                <div class="param-description">
-                                    <p>Sets the group identity of the process.</p>
-
-                                </div>
-
-                            </li>
-                        </ul>
-                </li>
-                <li class="param">
-                        <code class="param-name">next</code>
-                        <span class="type">Function</span>
-
-
-                    <div class="param-description">
-                        <p>callback</p>
-
-                    </div>
-
-                        <ul class="params-list">
-                            <li class="param">
-                                    <code class="param-name">error</code>
-                                    <span class="type">Error</span>
-
-                                <div class="param-description">
-                                    
-                                </div>
-
-                            </li>
-                            <li class="param">
-                                    <code class="param-name">results</code>
-                                    <span class="type">Array</span>
-
-                                <div class="param-description">
-                                    <p>array of exec results</p>
-
-                                </div>
-
-                            </li>
-                            <li class="param">
-                                    <code class="param-name">results[i].stdout</code>
-                                    <span class="type">Stream</span>
-
-                                <div class="param-description">
-                                    <p>out buffer</p>
-
-                                </div>
-
-                            </li>
-                            <li class="param">
-                                    <code class="param-name">results[i].stderr</code>
-                                    <span class="type">Stream</span>
-
-                                <div class="param-description">
-                                    <p>error buffer</p>
 
                                 </div>
 
