@@ -42,7 +42,9 @@ Work with processes safely and easily with Node.js
 
 ## Usage
 
-Unfortunately, the only documentation that exists currently is that in the source. Bump [this issue](https://github.com/bevry/safeps/issues/4) for better docs.
+- [Technical Documentation](http://rawgit.com/bevry/safeps/master/docs/)
+- [Source Code](https://github.com/bevry/safeps/blob/master/esnext/lib/safeps.js)
+- [Tests](https://github.com/bevry/safeps/blob/master/esnext/test/safeps-test.js)
 
 
 <!-- HISTORY/ -->
