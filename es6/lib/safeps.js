@@ -393,7 +393,7 @@ const safeps = {
 	// Spawn
 
 	/**
-	* Syncronised version of spawn. Will not return until the 
+	* Syncronised version of safeps.spawn. Will not return until the 
 	* child process has fully closed. Results can be returned
 	* from the method call or via a passed callback. Even if
 	* a callback is passed to spawnSync, the method will still
@@ -420,13 +420,14 @@ const safeps = {
 	* @method spawnSync
 	* @param {Array|String} command
 	* @param {Object} [opts]
-	* @param {String} opts.cwd Current working directory of the child process
-	* @param {Array|String} opts.stdio Child's stdio configuration.
-	* @param {Array} opts.customFds Deprecated File descriptors for the child to use for stdio.
-	* @param {Object} opts.env Environment key-value pairs.
-	* @param {Boolean} opts.detached The child will be a process group leader.
-	* @param {Number} opts.uid Sets the user identity of the process.
-	* @param {Number} opts.gid Sets the group identity of the process
+	* @param {Boolean} [opts.safe] Whether to check the executable path.
+	* @param {String} [opts.cwd] Current working directory of the child process
+	* @param {Array|String} [opts.stdio] Child's stdio configuration.
+	* @param {Array} [opts.customFds] Deprecated File descriptors for the child to use for stdio.
+	* @param {Object} [opts.env] Environment key-value pairs.
+	* @param {Boolean} [opts.detached] The child will be a process group leader.
+	* @param {Number} [opts.uid] Sets the user identity of the process.
+	* @param {Number} [opts.gid] Sets the group identity of the process
 	* @param {Function} [next] callback
 	* @param {Error} next.error
 	* @param {Stream} next.stdout out stream
@@ -501,13 +502,14 @@ const safeps = {
 	* @method spawn
 	* @param {Array|String} command
 	* @param {Object} [opts]
-	* @param {String} opts.cwd Current working directory of the child process
-	* @param {Array|String} opts.stdio Child's stdio configuration.
-	* @param {Array} opts.customFds Deprecated File descriptors for the child to use for stdio.
-	* @param {Object} opts.env Environment key-value pairs.
-	* @param {Boolean} opts.detached The child will be a process group leader.
-	* @param {Number} opts.uid Sets the user identity of the process.
-	* @param {Number} opts.gid Sets the group identity of the process.
+	* @param {Boolean} [opts.safe] Whether to check the executable path.
+	* @param {String} [opts.cwd] Current working directory of the child process
+	* @param {Array|String} [opts.stdio] Child's stdio configuration.
+	* @param {Array} [opts.customFds] Deprecated File descriptors for the child to use for stdio.
+	* @param {Object} [opts.env] Environment key-value pairs.
+	* @param {Boolean} [opts.detached] The child will be a process group leader.
+	* @param {Number} [opts.uid] Sets the user identity of the process.
+	* @param {Number} [opts.gid] Sets the group identity of the process.
 	* @param {Function} next callback
 	* @param {Error} next.error
 	* @param {Stream} next.stdout out stream
@@ -635,8 +637,33 @@ const safeps = {
 		return safeps
 	},
 
-	// Spawn Multiple
-	// next(err, results), results = [...result], result = [err,stdout,stderr,status,signal]
+	/**
+	* Spawn multiple processes in the one method call.
+ 	* Launches new processes with the given array of commands. 
+	* Each item in the commands array represents a command parameter
+	* sent to the safeps.spawn method, so each item can be a command line
+	* string or an array of command line inputs. It is also possible
+	* to pass a single command string and in this case calling
+	* spawnMultiple will be effectively the same as calling safeps.spawn.
+	* @method spawnMultiple
+	* @param {Array|String} commands
+	* @param {Object} [opts]
+	* @param {Boolean} [opts.concurrency=1] Whether to spawn processes concurrently.
+	* @param {String} opts.cwd Current working directory of the child process.
+	* @param {Array|String} opts.stdio Child's stdio configuration.
+	* @param {Array} opts.customFds Deprecated File descriptors for the child to use for stdio.
+	* @param {Object} opts.env Environment key-value pairs.
+	* @param {Boolean} opts.detached The child will be a process group leader.
+	* @param {Number} opts.uid Sets the user identity of the process.
+	* @param {Number} opts.gid Sets the group identity of the process.
+	* @param {Function} next callback
+	* @param {Error} next.error
+	* @param {Array} next.results array of spawn results
+	* @param {Stream} next.results[i].stdout out stream
+	* @param {Stream} next.results[i].stderr error stream
+	* @param {Number} next.results[i].status node.js exit code
+	* @param {String} next.results[i].signal unix style signal such as SIGKILL or SIGHUP
+	*/
 	spawnMultiple: function (commands, opts, next) {
 		// Prepare
 		[opts, next] = extractOptsAndCallback(opts, next)
@@ -677,13 +704,37 @@ const safeps = {
 	// =================================
 	// Exec
 
-	// Exec Sync
-	// return {error, stdout}
-	// next(error, stdout, stderr)
-	// @NOTE:
-	// stdout and stderr should be Buffers but they are strings unless encoding:null
-	// for now, nothing we should do, besides wait for joyent to reply
-	// https://github.com/joyent/node/issues/5833#issuecomment-82189525
+	/**
+	* Syncronised version of safeps.exec. Runs a command in a shell and 
+	* buffers the output. Will not return until the 
+	* child process has fully closed. Results can be returned
+	* from the method call or via a passed callback. Even if
+	* a callback is passed to execSync, the method will still
+	* be syncronised with the child process and the callback will
+	* only return after the child process has closed.
+	* Note:
+	* Stdout and stderr should be Buffers but they are strings unless encoding:null
+	* for now, nothing we should do, besides wait for joyent to reply
+	* https://github.com/joyent/node/issues/5833#issuecomment-82189525.
+	* @method exec
+	* @param {Object} command
+	* @param {Object} [opts]
+	* @param {Boolean} [opts.sync] true to execute sync rather than async
+	* @param {String} [opts.cwd] Current working directory of the child process
+	* @param {Object} [opts.env] Environment key-value pairs
+	* @param {String} [opts.encoding='utf8'] 
+	* @param {String} [opts.shell] Shell to execute the command with (Default: '/bin/sh' on UNIX, 'cmd.exe' on Windows, The shell should understand the -c switch on UNIX or /s /c on Windows. On Windows, command line parsing should be compatible with cmd.exe.)
+	* @param {Number} [opts.timeout=0]
+	* @param {Number} [opts.maxBuffer=200*1024] Largest amount of data (in bytes) allowed on stdout or stderr - if exceeded child process is killed.
+	* @param {String} [opts.killSignal='SIGTERM']
+	* @param {Number} [opts.uid] Sets the user identity of the process.
+	* @param {Number} [opts.gid] Sets the group identity of the process.
+	* @param {Function} next
+	* @param {Error} next.err
+	* @param {Buffer|String} next.stdout out buffer
+	* @param {Buffer|String} next.stderr error buffer
+	* @return {Object} {error, stdout, stderr}
+	*/
 	execSync: function (command, opts, next) {
 		// Prepare
 		[opts, next] = extractOptsAndCallback(opts, next)
@@ -718,13 +769,31 @@ const safeps = {
 		}
 	},
 
-	// Exec
-	// Wrapper around node's exec command for a cleaner and more powerful API
-	// next(err, stdout, stderr)
-	// @NOTE:
-	// stdout and stderr should be Buffers but they are strings unless encoding:null
-	// for now, nothing we should do, besides wait for joyent to reply
-	// https://github.com/joyent/node/issues/5833#issuecomment-82189525
+	/**
+	* Wrapper around node's exec command for a cleaner, more robust and powerful API.
+	* Runs a command in a shell and buffers the output.
+	* Note:
+	* Stdout and stderr should be Buffers but they are strings unless encoding:null
+	* for now, nothing we should do, besides wait for joyent to reply
+	* https://github.com/joyent/node/issues/5833#issuecomment-82189525.
+	* @method exec
+	* @param {Object} command
+	* @param {Object} [opts]
+	* @param {Boolean} [opts.sync] true to execute sync rather than async
+	* @param {String} [opts.cwd] Current working directory of the child process
+	* @param {Object} [opts.env] Environment key-value pairs
+	* @param {String} [opts.encoding='utf8'] 
+	* @param {String} [opts.shell] Shell to execute the command with (Default: '/bin/sh' on UNIX, 'cmd.exe' on Windows, The shell should understand the -c switch on UNIX or /s /c on Windows. On Windows, command line parsing should be compatible with cmd.exe.)
+	* @param {Number} [opts.timeout=0]
+	* @param {Number} [opts.maxBuffer=200*1024] Largest amount of data (in bytes) allowed on stdout or stderr - if exceeded child process is killed.
+	* @param {String} [opts.killSignal='SIGTERM']
+	* @param {Number} [opts.uid] Sets the user identity of the process.
+	* @param {Number} [opts.gid] Sets the group identity of the process.
+	* @param {Function} next
+	* @param {Error} next.err
+	* @param {Buffer|String} next.stdout out buffer
+	* @param {Buffer|String} next.stderr error buffer
+	*/
 	exec: function (command, opts, next) {
 		// Prepare
 		[opts, next] = extractOptsAndCallback(opts, next)
@@ -761,8 +830,31 @@ const safeps = {
 		return safeps
 	},
 
-	// Exec Multiple
-	// next(err, results), results = [result...], result = [err,stdout,stderr]
+	/**
+	* Exec multiple processes in the one method call.
+ 	* Launches new processes with the given array of commands. 
+	* Each item in the commands array represents a command parameter
+	* sent to the safeps.exec method, so each item can be a command line
+	* string or an array of command line inputs. It is also possible
+	* to pass a single command string and in this case calling
+	* execMultiple will be effectively the same as calling safeps.exec.
+	* @method spawnMultiple
+	* @param {Array|String} commands
+	* @param {Object} [opts]
+	* @param {Boolean} [opts.concurrency=1] Whether to exec processes concurrently.
+	* @param {String} opts.cwd Current working directory of the child process.
+	* @param {Array|String} opts.stdio Child's stdio configuration.
+	* @param {Array} opts.customFds Deprecated File descriptors for the child to use for stdio.
+	* @param {Object} opts.env Environment key-value pairs.
+	* @param {Boolean} opts.detached The child will be a process group leader.
+	* @param {Number} opts.uid Sets the user identity of the process.
+	* @param {Number} opts.gid Sets the group identity of the process.
+	* @param {Function} next callback
+	* @param {Error} next.error
+	* @param {Array} next.results array of exec results
+	* @param {Stream} next.results[i].stdout out buffer
+	* @param {Stream} next.results[i].stderr error buffer
+	*/
 	execMultiple: function (commands, opts, next) {
 		// Prepare
 		[opts, next] = extractOptsAndCallback(opts, next)
@@ -803,8 +895,20 @@ const safeps = {
 	// =================================
 	// Paths
 
-	// Determine an executable path
-	// next(err,execPath)
+	/**
+	* Determine an executable path from
+	* the passed array of possible file paths.
+	* Called by getExecPath to find a path for
+	* a given executable name.
+	* @private
+	* @method determineExecPath
+	* @param {Array} possibleExecPaths string array of file paths
+	* @param {Object} [opts]
+	* @param {Boolean} [opts.sync] true to execute sync rather than async
+	* @param {Function} next
+	* @param {Error} next.err
+	* @param {String} next.execPath
+	*/
 	determineExecPath: function (possibleExecPaths, opts, next) {
 		// Prepare
 		[opts, next] = extractOptsAndCallback(opts, next)
@@ -845,7 +949,11 @@ const safeps = {
 		return safeps
 	},
 
-	// Get Environment Paths
+	/**
+	* Get the system's environment paths.
+	* @method getEnvironmentPaths
+	* @return {Array} string array of file paths
+	*/
 	getEnvironmentPaths: function () {
 		// Fetch system include paths with the correct delimiter for the system
 		const environmentPaths = process.env.PATH.split(pathUtil.delimiter)
@@ -854,7 +962,18 @@ const safeps = {
 		return environmentPaths
 	},
 
-	// Get Standard Paths
+	/**
+	* Get the possible paths for
+	* the passed executable using the
+	* standard environment paths. Basically,
+	* get a list of places to look for the
+	* executable. Only safe for non-Windows
+	* systems.
+	* @private
+	* @method getStandardExecPaths
+	* @param {String} execName
+	* @return {Array} string array of file paths
+	*/
 	getStandardExecPaths: function (execName) {
 		// Fetch
 		let standardExecPaths = [process.cwd()].concat(safeps.getEnvironmentPaths())
@@ -870,7 +989,19 @@ const safeps = {
 		return standardExecPaths
 	},
 
-	// Get Possible Exec Paths
+	/**
+	* Get the possible paths for
+	* the passed executable using the
+	* standard environment paths. Basically,
+	* get a list of places to look for the
+	* executable. Makes allowances for Windows
+	* executables possibly needing an extension
+	* to ensure execution (.exe, .cmd, .bat).
+	* @private
+	* @method getStandardExecPaths
+	* @param {String} execName
+	* @return {Array} string array of file paths
+	*/
 	getPossibleExecPaths: function (execName) {
 		let possibleExecPaths
 
@@ -897,12 +1028,26 @@ const safeps = {
 		return possibleExecPaths
 	},
 
-	// Exec Path Cache
+	/**
+	* Cache of executable paths
+	* @private
+	* @property execPathCache
+	*/
 	execPathCache: {},
 
-	// Get an Exec Path
-	// We should not absolute relative paths, as relative paths should be attempt at each possible path
-	// next(err,foundPath)
+	/**
+	* Given an executable name, search and find
+	* its actual path. Will search the standard
+	* file paths defined by the environment to
+	* see if the executable is in any of those paths.
+	* @method getExecPath
+	* @param {Object} execName
+	* @param {Object} [opts]
+	* @param {Boolean} [opts.cache=true]
+	* @param {Function} next
+	* @param {Error} next.err
+	* @param {String} next.foundPath path to the executable
+	*/
 	getExecPath: function (execName, opts, next) {
 		// Prepare
 		[opts, next] = extractOptsAndCallback(opts, next)
@@ -956,9 +1101,16 @@ const safeps = {
 		return safeps
 	},
 
-	// Get Home Path
-	// Based upon home function from: https://github.com/isaacs/osenv
-	// next(err,homePath)
+	/**
+	* Get home path. Returns the user's home directory.
+	* Based upon home function from: https://github.com/isaacs/osenv
+	* @method getHomePath
+	* @param {Object} [opts]
+	* @param {Object} [opts.cache=true]
+	* @param {Function} next
+	* @param {Error} next.err
+	* @param {String} next.homePath
+	*/
 	getHomePath: function (opts, next) {
 		// Prepare
 		[opts, next] = extractOptsAndCallback(opts, next)
@@ -983,9 +1135,15 @@ const safeps = {
 		return safeps
 	},
 
-	// Get Tmp Path
-	// Based upon tmpdir function from: https://github.com/isaacs/osenv
-	// next(err,tmpPath)
+	/**
+	* Path to the evironment's temporary directory.
+	* Based upon tmpdir function from: https://github.com/isaacs/osenv
+	* @method getTmpPath
+	* @param {Object} [opts]
+	* @param {Object} [opts.cache=true]
+	* @param {Error} next.err
+	* @param {String} next.tmpPath
+	*/
 	getTmpPath: function (opts, next) {
 		// Prepare
 		[opts, next] = extractOptsAndCallback(opts, next)
@@ -1037,10 +1195,16 @@ const safeps = {
 		return safeps
 	},
 
-	// Get Git Path
-	// As `git` is not always available to use, we should check common path locations
-	// and if we find one that works, then we should use it
-	// next(err,gitPath)
+	/**
+	* Path to the evironment's GIT directory.
+	* As 'git' is not always available in the environment path, we should check 
+	* common path locations and if we find one that works, then we should use it.
+	* @method getGitPath
+	* @param {Object} [opts]
+	* @param {Object} [opts.cache=true]
+	* @param {Error} next.err
+	* @param {String} next.gitPath
+	*/
 	getGitPath: function (opts, next) {
 		// Prepare
 		[opts, next] = extractOptsAndCallback(opts, next)
@@ -1101,10 +1265,16 @@ const safeps = {
 		return safeps
 	},
 
-	// Get Node Path
-	// As `node` is not always available to use, we should check common path locations
-	// and if we find one that works, then we should use it
-	// next(err,nodePath)
+	/**
+	* Path to the evironment's Node directory.
+	* As 'node' is not always available in the environment path, we should check
+	* common path locations and if we find one that works, then we should use it
+	* @method getNodePath
+	* @param {Object} [opts]
+	* @param {Object} [opts.cache=true]
+	* @param {Error} next.err
+	* @param {String} next.nodePath
+	*/
 	getNodePath: function (opts, next) {
 		// Prepare
 		[opts, next] = extractOptsAndCallback(opts, next)
@@ -1166,11 +1336,16 @@ const safeps = {
 		return safeps
 	},
 
-
-	// Get Npm Path
-	// As `npm` is not always available to use, we should check common path locations
-	// and if we find one that works, then we should use it
-	// next(err,npmPath)
+	/**
+	* Path to the evironment's NPM directory.
+	* As 'npm' is not always available in the environment path, we should check
+	* common path locations and if we find one that works, then we should use it
+	* @method getNpmPath
+	* @param {Object} [opts]
+	* @param {Object} [opts.cache=true]
+	* @param {Error} next.err
+	* @param {String} next.npmPath
+	*/
 	getNpmPath: function (opts, next) {
 		// Prepare
 		[opts, next] = extractOptsAndCallback(opts, next)
@@ -1237,10 +1412,26 @@ const safeps = {
 	// Special Commands
 	// @TODO These should be abstracted out into their own packages
 
-	// Initialize a Git Repository
-	// Requires internet access
-	// opts = {path,remote,url,branch,log,output}
-	// next(err)
+	/**
+	* Initialize a git Repository.
+	* Requires internet access.
+	* @method initGitRepo
+	* @param {Object} opts
+	* @param {String} opts.path path to initiate local repository
+	* @param {String} [opts.remote='origin']
+	* @param {String} opts.url url to git remote repository
+	* @param {String} [opts.branch='master']
+	* @param {String} opts.log
+	* @param {String} opts.output
+	* @param {String} [opts.cwd=process.cwd()] Current working directory of the child process.
+	* @param {Function} next
+	* @param {Error} next.err
+	* @param {Array} next.results array of spawn results
+	* @param {Stream} next.results[i].stdout out stream
+	* @param {Stream} next.results[i].stderr error stream
+	* @param {Number} next.results[i].status node.js exit code
+	* @param {String} next.results[i].signal unix style signal such as SIGKILL or SIGHUP
+	*/
 	initGitRepo: function (opts, next) {
 		// Extract
 		[opts, next] = extractOptsAndCallback(opts, next)
@@ -1268,7 +1459,27 @@ const safeps = {
 		return safeps
 	},
 
-	// Initialize or Pull a Git Repo
+	/**
+	* Pull from a git repository if it already exists
+	* on the file system else initialize  new Git repository.
+	* Requires internet access.
+	* @method initOrPullGitRepo
+	* @param {Object} opts
+	* @param {String} opts.path path to local repository
+	* @param {String} [opts.remote='origin']
+	* @param {String} opts.url url to git remote repository
+	* @param {String} [opts.branch='master']
+	* @param {String} opts.log
+	* @param {String} opts.output
+	* @param {String} [opts.cwd=process.cwd()] Current working directory of the child process.
+	* @param {Function} next
+	* @param {Error} next.err
+	* @param {Array} next.results array of spawn results
+	* @param {Stream} next.results[i].stdout out stream
+	* @param {Stream} next.results[i].stderr error stream
+	* @param {Number} next.results[i].status node.js exit code
+	* @param {String} next.results[i].signal unix style signal such as SIGKILL or SIGHUP
+	*/
 	initOrPullGitRepo: function (opts, next) {
 		// Extract
 		[opts, next] = extractOptsAndCallback(opts, next)
@@ -1299,10 +1510,18 @@ const safeps = {
 		return safeps
 	},
 
-	// Init Node Modules
-	// with cross platform support
-	// supports linux, heroku, osx, windows
-	// next(err, results)
+	/**
+	* Init Node Modules with cross platform support
+	* supports linux, heroku, osx, windows
+	* @method initNodeModules
+	* @param {Object} opts
+	* @param {Function} next
+	* @param {Object} next.err
+	* @param {Stream} next.stdout out stream
+	* @param {Stream} next.stderr error stream
+	* @param {Number} next.status node.js exit code
+	* @param {String} next.signal unix style signal such as SIGKILL or SIGHUP
+	*/
 	initNodeModules: function (opts, next) {
 		// Prepare
 		[opts, next] = extractOptsAndCallback(opts, next)
@@ -1349,12 +1568,24 @@ const safeps = {
 		return safeps
 	},
 
-	// Spawn a Node Module
-	// with cross platform support
-	// supports linux, heroku, osx, windows
-	// spawnNodeModule(name:string, args:array, opts:object, next:function)
-	// Better than https://github.com/mafintosh/npm-execspawn as it uses safeps
-	// next(err, results)
+	/**
+	* Spawn Node Modules with cross platform support
+	* supports linux, heroku, osx, windows
+	* spawnNodeModule(name:string, args:array, opts:object, next:function)
+	* Better than https://github.com/mafintosh/npm-execspawn as it uses safeps
+	* @method spawnNodeModule
+	* @param {String} name
+	* @param {Array} args
+	* @param {Object} opts
+	* @param {String} opts.name name of node module
+	* @param {String} [opts.cwd=process.cwd()] Current working directory of the child process.
+	* @param {Function} next
+	* @param {Object} next.err
+	* @param {Stream} next.stdout out stream
+	* @param {Stream} next.stderr error stream
+	* @param {Number} next.status node.js exit code
+	* @param {String} next.signal unix style signal such as SIGKILL or SIGHUP
+	*/
 	spawnNodeModule: function (...args) {
 		// Prepare
 		const opts = {cwd: process.cwd()}
