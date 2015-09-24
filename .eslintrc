@@ -1,5 +1,6 @@
-// 4 September 2015
+// 20 September 2015
 // https://github.com/bevry/base
+// http://eslint.org
 {
 	"parser": "babel-eslint",
 	"ecmaFeatures": {
@@ -139,8 +140,8 @@
 		// Seems like a good idea to error about this
 		"use-isnan": 2,
 
-		// Seems like a good idea to error about this
-		"valid-jsdoc": 2,
+		// We use YUIdoc, not JSDoc
+		"valid-jsdoc": 0,
 
 		// Seems like a good idea to error about this
 		"valid-typeof": 2,
@@ -167,8 +168,8 @@
 		// Use dot notation where possible
 		"dot-notation": 2,
 
-		// Unless you are does == null, then force === to avoid truthy/falsey mistakes
-		"eqeqeq": 2,
+		// Unless you are doing == null, then force === to avoid truthy/falsey mistakes
+		"eqeqeq": [2, "allow-null"],
 
 		// Always use hasOwnProperty when doing for in
 		"guard-for-in": 2,
@@ -400,8 +401,8 @@
 		// Commas go last, we have tooling to detect if we forget a comma
 		"comma-style": [2, "last"],
 
-		// When aliasing this, call it "me"
-		"consistent-this": [2, "me"],
+		// Enabling this was incredibly annoying when doing layers of nesting
+		"consistent-this": 0,
 
 		// Enable to make UNIX people's lives easier
 		"eol-last": 2,
@@ -443,8 +444,8 @@
 		// We use multiple empty lines for styling
 		"no-multiple-empty-lines": 0,
 
-		// Nested ternaries are too complicated, use if statement instead
-		"no-nested-ternary": 2,
+		// Sometimes these are useful
+		"no-nested-ternary": 0,
 
 		// Use {} instead of new Object()
 		"no-new-object": 2,
