@@ -1,4 +1,5 @@
 /* eslint no-sync:0 */
+'use strict'
 
 // Import
 const TaskGroup = require('taskgroup')
@@ -10,6 +11,7 @@ const extractOptsAndCallback = require('extract-opts')
 
 // Prepare
 const isWindows = (process.platform || '').indexOf('win') === 0
+const DEFAULT_MAX_OPEN_PROCESSES = 100
 
 
 // =====================================
@@ -24,7 +26,7 @@ if ( global.safepsGlobal == null ) {
 // Create a pool with the concurrency of our max number of open processes
 if ( global.safepsGlobal.pool == null ) {
 	global.safepsGlobal.pool = new TaskGroup().setConfig({
-		concurrency: process.env.NODE_MAX_OPEN_PROCESSES == null ? 100 : process.env.NODE_MAX_OPEN_PROCESSES,
+		concurrency: process.env.NODE_MAX_OPEN_PROCESSES == null ? DEFAULT_MAX_OPEN_PROCESSES : process.env.NODE_MAX_OPEN_PROCESSES,
 		pauseOnError: false
 	}).run()
 }
@@ -58,7 +60,7 @@ const safeps = {
 	* @method openProcess
 	* @param {Function} fn callback
 	*/
-	openProcess: function (fn) {
+	openProcess (fn) {
 		// Add the task to the pool and execute it right away
 		global.safepsGlobal.pool.addTask(fn)
 
@@ -76,7 +78,7 @@ const safeps = {
 	* @method isWindows
 	* @return {Boolean}
 	*/
-	isWindows: function () {
+	isWindows () {
 		return isWindows
 	},
 
@@ -87,7 +89,7 @@ const safeps = {
 	* @param {String} lang
 	* @return {String}
 	*/
-	getLocaleCode: function (lang) {
+	getLocaleCode (lang) {
 		lang = lang || process.env.LANG || ''
 		const localeCode = lang.replace(/\..+/, '').replace('-', '_').toLowerCase() || null
 		return localeCode
@@ -100,7 +102,7 @@ const safeps = {
 	* @param {String} localeCode
 	* @return {String}
 	*/
-	getLanguageCode: function (localeCode) {
+	getLanguageCode (localeCode) {
 		localeCode = safeps.getLocaleCode(localeCode) || ''
 		const languageCode = localeCode.replace(/^([a-z]+)[_-]([a-z]+)$/i, '$1').toLowerCase() || null
 		return languageCode
@@ -113,7 +115,7 @@ const safeps = {
 	* @param {String} localeCode
 	* @return {String}
 	*/
-	getCountryCode: function (localeCode) {
+	getCountryCode (localeCode) {
 		localeCode = safeps.getLocaleCode(localeCode) || ''
 		const countryCode = localeCode.replace(/^([a-z]+)[_-]([a-z]+)$/i, '$2').toLowerCase() || null
 		return countryCode
@@ -130,7 +132,7 @@ const safeps = {
 	* @method hasSpawnSync
 	* @return {Boolean}
 	*/
-	hasSpawnSync: function () {
+	hasSpawnSync () {
 		return require('child_process').spawnSync != null
 	},
 
@@ -141,7 +143,7 @@ const safeps = {
 	* @method hasExecSync
 	* @return {Boolean}
 	*/
-	hasExecSync: function () {
+	hasExecSync () {
 		return require('child_process').execSync != null
 	},
 
@@ -159,7 +161,7 @@ const safeps = {
 	* @param {Boolean} next.isExecutable
 	* @return {Boolean} returned if opts.sync = true
 	*/
-	isExecutable: function (path, opts, next) {
+	isExecutable (path, opts, next) {
 		// Prepare
 		[opts, next] = extractOptsAndCallback(opts, next)
 
@@ -204,7 +206,7 @@ const safeps = {
 	* @param {Boolean} next.isExecutable
 	* @return {Boolean}
 	*/
-	isExecutableSync: function (path, opts, next) {
+	isExecutableSync (path, opts, next) {
 		// Prepare
 		let isExecutable
 
@@ -257,7 +259,7 @@ const safeps = {
 	* @param {Object} [opts.env=process.env]
 	* @return {Object} opts
 	*/
-	prepareExecutableOptions: function (opts) {
+	prepareExecutableOptions (opts) {
 		// Prepare
 		opts = opts || {}
 
@@ -277,7 +279,7 @@ const safeps = {
 		// Otherwise, set output modifiers
 		else {
 			if ( opts.read == null )          opts.read = true
-			if ( opts.output == null )        opts.output = !!opts.outputPrefix
+			if ( opts.output == null )        opts.output = Boolean(opts.outputPrefix)
 			if ( opts.outputPrefix == null )  opts.outputPrefix = null
 		}
 
@@ -311,7 +313,7 @@ const safeps = {
 	* @param {Object} [opts.outputPrefix]
 	* @return {Object} result
 	*/
-	updateExecutableResult: function (result, opts) {
+	updateExecutableResult (result, opts) {
 		// If we want to output, then output the correct streams with the correct prefixes
 		if ( opts.output ) {
 			safeps.outputData(result.stdout, 'stdout', opts.outputPrefix)
@@ -362,7 +364,7 @@ const safeps = {
 	* @param {String} [prefix = '>\t']
 	* @return {Object} data
 	*/
-	prefixData: function (data, prefix = '>\t') {
+	prefixData (data, prefix = '>\t') {
 		data = data && data.toString && data.toString() || ''
 		if ( prefix && data ) {
 			data = prefix + data.trim().replace(/\n/g, '\n' + prefix) + '\n'
@@ -378,7 +380,7 @@ const safeps = {
 	* @param {Object} [channel = 'stdout']
 	* @param {Object} prefix
 	*/
-	outputData: function (data, channel = 'stdout', prefix) {
+	outputData (data, channel = 'stdout', prefix) {
 		if ( data.toString().trim().length !== 0 ) {
 			if ( prefix ) {
 				data = safeps.prefixData(data, prefix)
@@ -436,7 +438,7 @@ const safeps = {
 	* @param {String} next.signal unix style signal such as SIGKILL or SIGHUP
 	* @return {Object} {error, pid, output, stdout, stderr, status, signal}
 	*/
-	spawnSync: function (command, opts, next) {
+	spawnSync (command, opts, next) {
 		// Prepare
 		[opts, next] = extractOptsAndCallback(opts, next)
 		opts = safeps.prepareExecutableOptions(opts)
@@ -463,7 +465,7 @@ const safeps = {
 		}
 
 		// Spawn Synchronously
-		let result = require('child_process').spawnSync(command[0], command.slice(1), opts)
+		const result = require('child_process').spawnSync(command[0], command.slice(1), opts)
 		safeps.updateExecutableResult(result, opts)
 
 		// Complete
@@ -517,7 +519,7 @@ const safeps = {
 	* @param {Number} next.status node.js exit code
 	* @param {String} next.signal unix style signal such as SIGKILL or SIGHUP
 	*/
-	spawn: function (command, opts, next) {
+	spawn (command, opts, next) {
 		// Prepare
 		[opts, next] = extractOptsAndCallback(opts, next)
 		opts = safeps.prepareExecutableOptions(opts)
@@ -664,7 +666,7 @@ const safeps = {
 	* @param {Number} next.results[i].status node.js exit code
 	* @param {String} next.results[i].signal unix style signal such as SIGKILL or SIGHUP
 	*/
-	spawnMultiple: function (commands, opts, next) {
+	spawnMultiple (commands, opts, next) {
 		// Prepare
 		[opts, next] = extractOptsAndCallback(opts, next)
 		const results = []
@@ -735,7 +737,7 @@ const safeps = {
 	* @param {Buffer|String} next.stderr error buffer
 	* @return {Object} {error, stdout, stderr}
 	*/
-	execSync: function (command, opts, next) {
+	execSync (command, opts, next) {
 		// Prepare
 		[opts, next] = extractOptsAndCallback(opts, next)
 		opts = safeps.prepareExecutableOptions(opts)
@@ -794,7 +796,7 @@ const safeps = {
 	* @param {Buffer|String} next.stdout out buffer
 	* @param {Buffer|String} next.stderr error buffer
 	*/
-	exec: function (command, opts, next) {
+	exec (command, opts, next) {
 		// Prepare
 		[opts, next] = extractOptsAndCallback(opts, next)
 		opts = safeps.prepareExecutableOptions(opts)
@@ -855,7 +857,7 @@ const safeps = {
 	* @param {Stream} next.results[i].stdout out buffer
 	* @param {Stream} next.results[i].stderr error buffer
 	*/
-	execMultiple: function (commands, opts, next) {
+	execMultiple (commands, opts, next) {
 		// Prepare
 		[opts, next] = extractOptsAndCallback(opts, next)
 		const results = []
@@ -909,7 +911,7 @@ const safeps = {
 	* @param {Error} next.err
 	* @param {String} next.execPath
 	*/
-	determineExecPath: function (possibleExecPaths, opts, next) {
+	determineExecPath (possibleExecPaths, opts, next) {
 		// Prepare
 		[opts, next] = extractOptsAndCallback(opts, next)
 		let execPath = null
@@ -954,7 +956,7 @@ const safeps = {
 	* @method getEnvironmentPaths
 	* @return {Array} string array of file paths
 	*/
-	getEnvironmentPaths: function () {
+	getEnvironmentPaths () {
 		// Fetch system include paths with the correct delimiter for the system
 		const environmentPaths = process.env.PATH.split(pathUtil.delimiter)
 
@@ -974,7 +976,7 @@ const safeps = {
 	* @param {String} execName
 	* @return {Array} string array of file paths
 	*/
-	getStandardExecPaths: function (execName) {
+	getStandardExecPaths (execName) {
 		// Fetch
 		let standardExecPaths = [process.cwd()].concat(safeps.getEnvironmentPaths())
 
@@ -1002,7 +1004,7 @@ const safeps = {
 	* @param {String} execName
 	* @return {Array} string array of file paths
 	*/
-	getPossibleExecPaths: function (execName) {
+	getPossibleExecPaths (execName) {
 		let possibleExecPaths
 
 		// Fetch available paths
@@ -1048,7 +1050,7 @@ const safeps = {
 	* @param {Error} next.err
 	* @param {String} next.foundPath path to the executable
 	*/
-	getExecPath: function (execName, opts, next) {
+	getExecPath (execName, opts, next) {
 		// Prepare
 		[opts, next] = extractOptsAndCallback(opts, next)
 
@@ -1111,7 +1113,7 @@ const safeps = {
 	* @param {Error} next.err
 	* @param {String} next.homePath
 	*/
-	getHomePath: function (opts, next) {
+	getHomePath (opts, next) {
 		// Prepare
 		[opts, next] = extractOptsAndCallback(opts, next)
 
@@ -1144,7 +1146,7 @@ const safeps = {
 	* @param {Error} next.err
 	* @param {String} next.tmpPath
 	*/
-	getTmpPath: function (opts, next) {
+	getTmpPath (opts, next) {
 		// Prepare
 		[opts, next] = extractOptsAndCallback(opts, next)
 
@@ -1205,7 +1207,7 @@ const safeps = {
 	* @param {Error} next.err
 	* @param {String} next.gitPath
 	*/
-	getGitPath: function (opts, next) {
+	getGitPath (opts, next) {
 		// Prepare
 		[opts, next] = extractOptsAndCallback(opts, next)
 
@@ -1275,7 +1277,7 @@ const safeps = {
 	* @param {Error} next.err
 	* @param {String} next.nodePath
 	*/
-	getNodePath: function (opts, next) {
+	getNodePath (opts, next) {
 		// Prepare
 		[opts, next] = extractOptsAndCallback(opts, next)
 
@@ -1346,7 +1348,7 @@ const safeps = {
 	* @param {Error} next.err
 	* @param {String} next.npmPath
 	*/
-	getNpmPath: function (opts, next) {
+	getNpmPath (opts, next) {
 		// Prepare
 		[opts, next] = extractOptsAndCallback(opts, next)
 
@@ -1432,7 +1434,7 @@ const safeps = {
 	* @param {Number} next.results[i].status node.js exit code
 	* @param {String} next.results[i].signal unix style signal such as SIGKILL or SIGHUP
 	*/
-	initGitRepo: function (opts, next) {
+	initGitRepo (opts, next) {
 		// Extract
 		[opts, next] = extractOptsAndCallback(opts, next)
 
@@ -1480,7 +1482,7 @@ const safeps = {
 	* @param {Number} next.results[i].status node.js exit code
 	* @param {String} next.results[i].signal unix style signal such as SIGKILL or SIGHUP
 	*/
-	initOrPullGitRepo: function (opts, next) {
+	initOrPullGitRepo (opts, next) {
 		// Extract
 		[opts, next] = extractOptsAndCallback(opts, next)
 
@@ -1522,7 +1524,7 @@ const safeps = {
 	* @param {Number} next.status node.js exit code
 	* @param {String} next.signal unix style signal such as SIGKILL or SIGHUP
 	*/
-	initNodeModules: function (opts, next) {
+	initNodeModules (opts, next) {
 		// Prepare
 		[opts, next] = extractOptsAndCallback(opts, next)
 
@@ -1586,7 +1588,7 @@ const safeps = {
 	* @param {Number} next.status node.js exit code
 	* @param {String} next.signal unix style signal such as SIGKILL or SIGHUP
 	*/
-	spawnNodeModule: function (...args) {
+	spawnNodeModule (...args) {
 		// Prepare
 		const opts = {cwd: process.cwd()}
 		let next
@@ -1641,4 +1643,4 @@ const safeps = {
 // =====================================
 // Export
 
-export default safeps
+module.exports = safeps

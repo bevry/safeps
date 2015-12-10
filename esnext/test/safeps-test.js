@@ -1,4 +1,5 @@
-/* eslint no-console:0, no-unused-vars:0, no-sync:0 */
+/* eslint no-console:0, no-unused-vars:0, no-sync:0, no-magic-numbers:0, max-params:0 */
+'use strict'
 
 // Import
 const assert = require('assert')
@@ -7,7 +8,7 @@ const joe = require('joe')
 const safeps = require('../../')
 
 // Local Globals
-const isTravis = !!process.env.TRAVIS_NODE_VERSION
+const isTravis = Boolean(process.env.TRAVIS_NODE_VERSION)
 if ( process.env.LANG == null ) {
 	process.env.LANG = 'en_AU.UTF-8'
 }
@@ -228,7 +229,7 @@ joe.describe('modules', function (describe, it) {
 			})
 
 			it('should work synchronously', function () {
-				let {error, stdout, stderr} = safeps.execSync('node --version')
+				const {error, stdout, stderr} = safeps.execSync('node --version')
 				errorEqual(error, null)
 				console.log('node version:', stdout.toString().trim())
 				// equal(stdout instanceof Buffer, true)

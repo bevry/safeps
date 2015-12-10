@@ -94,7 +94,7 @@ These amazing people have contributed code to this project:
 
 <ul><li><a href="http://balupton.com">Benjamin Lupton</a> — <a href="https://github.com/bevry/safeps/commits?author=balupton" title="View the GitHub contributions of Benjamin Lupton on repository bevry/safeps">view contributions</a></li>
 <li><a href="https://github.com/giodamelio">Gio d'Amelio</a> — <a href="https://github.com/bevry/safeps/commits?author=giodamelio" title="View the GitHub contributions of Gio d'Amelio on repository bevry/safeps">view contributions</a></li>
-<li><a href="www.seanfridman.com">Sean Fridman</a> — <a href="https://github.com/bevry/safeps/commits?author=sfrdmn" title="View the GitHub contributions of Sean Fridman on repository bevry/safeps">view contributions</a></li></ul>
+<li><a href="http://seanfridman.com">Sean Fridman</a> — <a href="https://github.com/bevry/safeps/commits?author=sfrdmn" title="View the GitHub contributions of Sean Fridman on repository bevry/safeps">view contributions</a></li></ul>
 
 <a href="https://github.com/bevry/safeps/blob/master/CONTRIBUTING.md#files">Discover how you can contribute by heading on over to the <code>CONTRIBUTING.md</code> file.</a>
 

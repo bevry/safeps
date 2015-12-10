@@ -22,7 +22,7 @@
             "plugin_for": [],
             "extension_for": [],
             "file": "esnext/lib/safeps.js",
-            "line": 36,
+            "line": 38,
             "description": "Contains methods to safely spawn and manage\nvarious file system processes. It differs\nfrom the standard node.js child_process\n(https://nodejs.org/docs/v0.11.13/api/child_process.html#child_process_child_process)\nmodule in that it intercepts and handles\nmany common errors that might occur when\ninvoking child processes that could cause\nan application to crash. Most commonly, errors\nsuch as ENOENT and EACCESS. This enables\nan application to be both cleaner and more robust.",
             "static": 1
         }
@@ -31,7 +31,7 @@
     "classitems": [
         {
             "file": "esnext/lib/safeps.js",
-            "line": 55,
+            "line": 57,
             "description": "Open a file.\nPass your callback to fire when it is safe to open the process",
             "itemtype": "method",
             "name": "openProcess",
@@ -46,7 +46,7 @@
         },
         {
             "file": "esnext/lib/safeps.js",
-            "line": 74,
+            "line": 76,
             "description": "Returns whether or not we are running on a windows machine",
             "itemtype": "method",
             "name": "isWindows",
@@ -58,7 +58,7 @@
         },
         {
             "file": "esnext/lib/safeps.js",
-            "line": 83,
+            "line": 85,
             "description": "Get locale code - eg: en-AU,\nfr-FR, zh-CN etc.",
             "itemtype": "method",
             "name": "getLocaleCode",
@@ -77,7 +77,7 @@
         },
         {
             "file": "esnext/lib/safeps.js",
-            "line": 96,
+            "line": 98,
             "description": "Given the localeCode, return\nthe language code.",
             "itemtype": "method",
             "name": "getLanguageCode",
@@ -96,7 +96,7 @@
         },
         {
             "file": "esnext/lib/safeps.js",
-            "line": 109,
+            "line": 111,
             "description": "Given the localeCode, return\nthe country code.",
             "itemtype": "method",
             "name": "getCountryCode",
@@ -115,7 +115,7 @@
         },
         {
             "file": "esnext/lib/safeps.js",
-            "line": 126,
+            "line": 128,
             "description": "Has spawn sync. Returns true\nif the child_process spawnSync\nmethod exists, otherwise false",
             "itemtype": "method",
             "name": "hasSpawnSync",
@@ -127,7 +127,7 @@
         },
         {
             "file": "esnext/lib/safeps.js",
-            "line": 137,
+            "line": 139,
             "description": "Has exec sync. Returns true\nif the child_process execSync\nmethod exists, otherwise false",
             "itemtype": "method",
             "name": "hasExecSync",
@@ -139,7 +139,7 @@
         },
         {
             "file": "esnext/lib/safeps.js",
-            "line": 148,
+            "line": 150,
             "description": "Is the path to a file object an executable?\nBoolean result returned as the isExecutable parameter\nof the passed callback.\nnext(err, isExecutable)",
             "itemtype": "method",
             "name": "isExecutable",
@@ -189,7 +189,7 @@
         },
         {
             "file": "esnext/lib/safeps.js",
-            "line": 196,
+            "line": 198,
             "description": "Is the path to a file object an executable?\nSynchronised version of isExecutable",
             "itemtype": "method",
             "name": "isExecutableSync",
@@ -231,7 +231,7 @@
         },
         {
             "file": "esnext/lib/safeps.js",
-            "line": 246,
+            "line": 248,
             "description": "Internal: Prepare options for an execution.\nMakes sure all options are populated or exist and\ngives the opportunity to prepopulate some of those\noptions.",
             "access": "private",
             "tagname": "",
@@ -283,7 +283,7 @@
         },
         {
             "file": "esnext/lib/safeps.js",
-            "line": 297,
+            "line": 299,
             "description": "Internal: Prepare result of an execution",
             "access": "private",
             "tagname": "",
@@ -361,7 +361,7 @@
         },
         {
             "file": "esnext/lib/safeps.js",
-            "line": 357,
+            "line": 359,
             "description": "Internal: prefix data",
             "access": "private",
             "tagname": "",
@@ -389,7 +389,7 @@
         },
         {
             "file": "esnext/lib/safeps.js",
-            "line": 373,
+            "line": 375,
             "description": "Internal: Set output data",
             "access": "private",
             "tagname": "",
@@ -418,7 +418,7 @@
         },
         {
             "file": "esnext/lib/safeps.js",
-            "line": 395,
+            "line": 397,
             "description": "Syncronised version of safeps.spawn. Will not return until the\nchild process has fully closed. Results can be returned\nfrom the method call or via a passed callback. Even if\na callback is passed to spawnSync, the method will still\nbe syncronised with the child process and the callback will\nonly return after the child process has closed.\n\nSimple usage example:\n\n\tvar safeps = require('safeps');\n\tvar command = ['npm', 'install', 'jade', '--save'];\n\n\t//a lot of the time you won't need the opts argument\n\tvar opts = {\n\t\tcwd: __dirname //this is actually pointless in a real application\n\t};\n\n\tvar result = safeps.spawnSync(command, opts);\n\n\tconsole.log(result.error);\n\tconsole.log(result.status);\n\tconsole.log(result.signal);\n\tconsole.log(\"I've finished...\");",
             "itemtype": "method",
             "name": "spawnSync",
@@ -526,7 +526,7 @@
         },
         {
             "file": "esnext/lib/safeps.js",
-            "line": 478,
+            "line": 480,
             "description": "Wrapper around node's spawn command for a cleaner, more robust and powerful API.\nLaunches a new process with the given command. Command line arguments are\npart of the command parameter (unlike the node.js spawn). Command can be\nan array of command line arguments or a command line string. Opts allows\nadditional options to be sent to the spawning action.\n\nSimple usage example:\n\n\tvar safeps = require('safeps');\n\tvar command = ['npm', 'install','jade','--save'];\n\n\t//a lot of the time you won't need the opts argument\n\tvar opts = {\n\t\tcwd: __dirname //this is actually pointless in a real application\n\t}\n\tfunction myCallback(error, stdout, stderr, status, signal){\n\t\tconsole.log(error);\n\t\tconsole.log(status);\n\t\tconsole.log(signal);\n\t\tconsole.log(\"I've finished...\");\n\t}\n\tsafeps.spawn(command, opts, myCallback);",
             "itemtype": "method",
             "name": "spawn",
@@ -629,7 +629,7 @@
         },
         {
             "file": "esnext/lib/safeps.js",
-            "line": 640,
+            "line": 642,
             "description": "Spawn multiple processes in the one method call.\nLaunches new processes with the given array of commands.\nEach item in the commands array represents a command parameter\nsent to the safeps.spawn method, so each item can be a command line\nstring or an array of command line inputs. It is also possible\nto pass a single command string and in this case calling\nspawnMultiple will be effectively the same as calling safeps.spawn.",
             "itemtype": "method",
             "name": "spawnMultiple",
@@ -731,7 +731,7 @@
         },
         {
             "file": "esnext/lib/safeps.js",
-            "line": 707,
+            "line": 709,
             "description": "Syncronised version of safeps.exec. Runs a command in a shell and\nbuffers the output. Will not return until the\nchild process has fully closed. Results can be returned\nfrom the method call or via a passed callback. Even if\na callback is passed to execSync, the method will still\nbe syncronised with the child process and the callback will\nonly return after the child process has closed.\nNote:\nStdout and stderr should be Buffers but they are strings unless encoding:null\nfor now, nothing we should do, besides wait for joyent to reply\nhttps://github.com/joyent/node/issues/5833#issuecomment-82189525.",
             "itemtype": "method",
             "name": "execSync",
@@ -844,7 +844,7 @@
         },
         {
             "file": "esnext/lib/safeps.js",
-            "line": 772,
+            "line": 774,
             "description": "Wrapper around node's exec command for a cleaner, more robust and powerful API.\nRuns a command in a shell and buffers the output.\nNote:\nStdout and stderr should be Buffers but they are strings unless encoding:null\nfor now, nothing we should do, besides wait for joyent to reply\nhttps://github.com/joyent/node/issues/5833#issuecomment-82189525.",
             "itemtype": "method",
             "name": "exec",
@@ -953,7 +953,7 @@
         },
         {
             "file": "esnext/lib/safeps.js",
-            "line": 833,
+            "line": 835,
             "description": "Exec multiple processes in the one method call.\nLaunches new processes with the given array of commands.\nEach item in the commands array represents a command parameter\nsent to the safeps.exec method, so each item can be a command line\nstring or an array of command line inputs. It is also possible\nto pass a single command string and in this case calling\nexecMultiple will be effectively the same as calling safeps.exec.",
             "itemtype": "method",
             "name": "execMultiple",
@@ -1045,7 +1045,7 @@
         },
         {
             "file": "esnext/lib/safeps.js",
-            "line": 898,
+            "line": 900,
             "description": "Determine an executable path from\nthe passed array of possible file paths.\nCalled by getExecPath to find a path for\na given executable name.",
             "access": "private",
             "tagname": "",
@@ -1093,7 +1093,7 @@
         },
         {
             "file": "esnext/lib/safeps.js",
-            "line": 952,
+            "line": 954,
             "description": "Get the system's environment paths.",
             "itemtype": "method",
             "name": "getEnvironmentPaths",
@@ -1105,7 +1105,7 @@
         },
         {
             "file": "esnext/lib/safeps.js",
-            "line": 965,
+            "line": 967,
             "description": "Get the possible paths for\nthe passed executable using the\nstandard environment paths. Basically,\nget a list of places to look for the\nexecutable. Only safe for non-Windows\nsystems.",
             "access": "private",
             "tagname": "",
@@ -1126,7 +1126,7 @@
         },
         {
             "file": "esnext/lib/safeps.js",
-            "line": 992,
+            "line": 994,
             "description": "Get the possible paths for\nthe passed executable using the\nstandard environment paths. Basically,\nget a list of places to look for the\nexecutable. Makes allowances for Windows\nexecutables possibly needing an extension\nto ensure execution (.exe, .cmd, .bat).",
             "access": "private",
             "tagname": "",
@@ -1147,7 +1147,7 @@
         },
         {
             "file": "esnext/lib/safeps.js",
-            "line": 1031,
+            "line": 1033,
             "description": "Cache of executable paths",
             "access": "private",
             "tagname": "",
@@ -1157,7 +1157,7 @@
         },
         {
             "file": "esnext/lib/safeps.js",
-            "line": 1038,
+            "line": 1040,
             "description": "Given an executable name, search and find\nits actual path. Will search the standard\nfile paths defined by the environment to\nsee if the executable is in any of those paths.",
             "itemtype": "method",
             "name": "getExecPath",
@@ -1204,7 +1204,7 @@
         },
         {
             "file": "esnext/lib/safeps.js",
-            "line": 1104,
+            "line": 1106,
             "description": "Get home path. Returns the user's home directory.\nBased upon home function from: https://github.com/isaacs/osenv",
             "itemtype": "method",
             "name": "getHomePath",
@@ -1246,7 +1246,7 @@
         },
         {
             "file": "esnext/lib/safeps.js",
-            "line": 1138,
+            "line": 1140,
             "description": "Path to the evironment's temporary directory.\nBased upon tmpdir function from: https://github.com/isaacs/osenv",
             "itemtype": "method",
             "name": "getTmpPath",
@@ -1281,7 +1281,7 @@
         },
         {
             "file": "esnext/lib/safeps.js",
-            "line": 1198,
+            "line": 1200,
             "description": "Path to the evironment's GIT directory.\nAs 'git' is not always available in the environment path, we should check\ncommon path locations and if we find one that works, then we should use it.",
             "itemtype": "method",
             "name": "getGitPath",
@@ -1316,7 +1316,7 @@
         },
         {
             "file": "esnext/lib/safeps.js",
-            "line": 1268,
+            "line": 1270,
             "description": "Path to the evironment's Node directory.\nAs 'node' is not always available in the environment path, we should check\ncommon path locations and if we find one that works, then we should use it",
             "itemtype": "method",
             "name": "getNodePath",
@@ -1351,7 +1351,7 @@
         },
         {
             "file": "esnext/lib/safeps.js",
-            "line": 1339,
+            "line": 1341,
             "description": "Path to the evironment's NPM directory.\nAs 'npm' is not always available in the environment path, we should check\ncommon path locations and if we find one that works, then we should use it",
             "itemtype": "method",
             "name": "getNpmPath",
@@ -1386,7 +1386,7 @@
         },
         {
             "file": "esnext/lib/safeps.js",
-            "line": 1415,
+            "line": 1417,
             "description": "Initialize a git Repository.\nRequires internet access.",
             "itemtype": "method",
             "name": "initGitRepo",
@@ -1481,7 +1481,7 @@
         },
         {
             "file": "esnext/lib/safeps.js",
-            "line": 1462,
+            "line": 1464,
             "description": "Pull from a git repository if it already exists\non the file system else initialize  new Git repository.\nRequires internet access.",
             "itemtype": "method",
             "name": "initOrPullGitRepo",
@@ -1576,7 +1576,7 @@
         },
         {
             "file": "esnext/lib/safeps.js",
-            "line": 1513,
+            "line": 1515,
             "description": "Init Node Modules with cross platform support\nsupports linux, heroku, osx, windows",
             "itemtype": "method",
             "name": "initNodeModules",
@@ -1623,7 +1623,7 @@
         },
         {
             "file": "esnext/lib/safeps.js",
-            "line": 1571,
+            "line": 1573,
             "description": "Spawn Node Modules with cross platform support\nsupports linux, heroku, osx, windows\nspawnNodeModule(name:string, args:array, opts:object, next:function)\nBetter than https://github.com/mafintosh/npm-execspawn as it uses safeps",
             "itemtype": "method",
             "name": "spawnNodeModule",
