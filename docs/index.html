@@ -1,115 +1,3936 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html>
 <head>
-    <meta charset="utf-8">
-    <title></title>
-    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
-    <link rel="stylesheet" href="./assets/vendor/prettify/prettify-min.css">
-    <link rel="stylesheet" href="./assets/css/main.css" id="site_styles">
-    <link rel="icon" href="./assets/favicon.ico">
-    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+  <meta charset='utf-8' />
+  <title>  | Documentation</title>
+  <meta name='viewport' content='width=device-width,initial-scale=1'>
+  <link href='assets/bass.css' type='text/css' rel='stylesheet' />
+  <link href='assets/style.css' type='text/css' rel='stylesheet' />
+  <link href='assets/github.css' type='text/css' rel='stylesheet' />
 </head>
-<body class="yui3-skin-sam">
-
-<div id="doc">
-    <div id="hd" class="yui3-g header">
-        <div class="yui3-u-3-4">
-                <h1><img src="./assets/css/logo.png" title="" width="117" height="52"></h1>
-        </div>
-        <div class="yui3-u-1-4 version">
-            <em>API Docs for: </em>
-        </div>
-    </div>
-    <div id="bd" class="yui3-g">
-
-        <div class="yui3-u-1-4">
-            <div id="docs-sidebar" class="sidebar apidocs">
-                <div id="api-list">
-                    <h2 class="off-left">APIs</h2>
-                    <div id="api-tabview" class="tabview">
-                        <ul class="tabs">
-                            <li><a href="#api-classes">Classes</a></li>
-                            <li><a href="#api-modules">Modules</a></li>
-                        </ul>
+<body class='documentation'>
+  <div class='max-width-4 mx-auto'>
+    <div class='clearfix md-mxn2'>
+      <div class='fixed xs-hide fix-3 overflow-auto max-height-100'>
+        <div class='py1 px2'>
+          <h3 class='mb0 no-anchor'></h3>
+          <div class='mb1'><code></code></div>
+          <input
+            placeholder='Filter'
+            id='filter-input'
+            class='col12 block input'
+            type='text' />
+          <div id='toc'>
+            <ul class='list-reset h5 py1-ul'>
+              
                 
-                        <div id="api-tabview-filter">
-                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
-                        </div>
+                <li><a
+                  href='#.safeps'
+                  class="">
+                  safeps
+                  
+                </a>
                 
-                        <div id="api-tabview-panel">
-                            <ul id="api-classes" class="apis classes">
-                                <li><a href="./classes/safeps.html">safeps</a></li>
-                            </ul>
+                </li>
+              
                 
+                <li><a
+                  href='#openProcess'
+                  class="">
+                  openProcess
+                  
+                </a>
                 
-                            <ul id="api-modules" class="apis modules">
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="yui3-u-3-4">
-                <div id="api-options">
-                    Show:
-                    <label for="api-show-inherited">
-                        <input type="checkbox" id="api-show-inherited" checked>
-                        Inherited
-                    </label>
-            
-                    <label for="api-show-protected">
-                        <input type="checkbox" id="api-show-protected">
-                        Protected
-                    </label>
-            
-                    <label for="api-show-private">
-                        <input type="checkbox" id="api-show-private">
-                        Private
-                    </label>
-                    <label for="api-show-deprecated">
-                        <input type="checkbox" id="api-show-deprecated">
-                        Deprecated
-                    </label>
-            
-                </div>
-            
-            <div class="apidocs">
-                <div id="docs-main">
-                    <div class="content">
-    <div class="apidocs">
-        <div id="docs-main" class="content">
-            <p>
-            Browse to a module or class using the sidebar to view its API documentation.
-            </p>
-
-            <h2>Keyboard Shortcuts</h2>
-
-            <ul>
-                <li><p>Press <kbd>s</kbd> to focus the API search box.</p></li>
-
-                <li><p>Use <kbd>Up</kbd> and <kbd>Down</kbd> to select classes, modules, and search results.</p></li>
-
-                <li class="mac-only"><p>With the API search box or sidebar focused, use <kbd><span class="cmd">&#x2318;</span>-Left</kbd> or <kbd><span class="cmd">&#x2318;</span>-Right</kbd> to switch sidebar tabs.</p></li>
-
-                <li class="pc-only"><p>With the API search box or sidebar focused, use <kbd>Ctrl+Left</kbd> and <kbd>Ctrl+Right</kbd> to switch sidebar tabs.</p></li>
+                </li>
+              
+                
+                <li><a
+                  href='#isWindows'
+                  class="">
+                  isWindows
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#getLocaleCode'
+                  class="">
+                  getLocaleCode
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#getLanguageCode'
+                  class="">
+                  getLanguageCode
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#getCountryCode'
+                  class="">
+                  getCountryCode
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#hasSpawnSync'
+                  class="">
+                  hasSpawnSync
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#hasExecSync'
+                  class="">
+                  hasExecSync
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#isExecutable'
+                  class="">
+                  isExecutable
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#isExecutableSync'
+                  class="">
+                  isExecutableSync
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#spawnSync'
+                  class="">
+                  spawnSync
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#spawn'
+                  class="">
+                  spawn
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#spawnMultiple'
+                  class="">
+                  spawnMultiple
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#execSync'
+                  class="">
+                  execSync
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#exec'
+                  class="">
+                  exec
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#execMultiple'
+                  class="">
+                  execMultiple
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#getEnvironmentPaths'
+                  class="">
+                  getEnvironmentPaths
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#getExecPath'
+                  class="">
+                  getExecPath
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#getHomePath'
+                  class="">
+                  getHomePath
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#getTmpPath'
+                  class="">
+                  getTmpPath
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#getGitPath'
+                  class="">
+                  getGitPath
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#getNodePath'
+                  class="">
+                  getNodePath
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#getNpmPath'
+                  class="">
+                  getNpmPath
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#initGitRepo'
+                  class="">
+                  initGitRepo
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#initOrPullGitRepo'
+                  class="">
+                  initOrPullGitRepo
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#initNodeModules'
+                  class="">
+                  initNodeModules
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#spawnNodeModule'
+                  class="">
+                  spawnNodeModule
+                  
+                </a>
+                
+                </li>
+              
             </ul>
+          </div>
+          <div class='mt1 h6 quiet'>
+            <a href='http://documentation.js.org/reading-documentation.html'>Need help reading this?</a>
+          </div>
         </div>
-    </div>
+      </div>
+      <div class='fix-margin-3'>
+        <div class='px2'>
+          
+            
+              <section class='py2 clearfix'>
+
+  
+  <div class='clearfix'>
+    <h2 class='fl' id='.safeps'>
+      safeps
+    </h2>
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/bevry/safeps/blob/d1c664e20525c463a8c30907f7f113706c1f79e1/./source/index.js#L51-L1678'>
+      <span>./source/index.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Contains methods to safely spawn and manage
+various file system processes. It differs
+from the standard node.js child_process
+(<a href="https://nodejs.org/docs/v0.11.13/api/child_process.html#child_process_child_process">https://nodejs.org/docs/v0.11.13/api/child_process.html#child_process_child_process</a>)
+module in that it intercepts and handles
+many common errors that might occur when
+invoking child processes that could cause
+an application to crash. Most commonly, errors
+such as ENOENT and EACCESS. This enables
+an application to be both cleaner and more robust.</p>
 
 
-                    </div>
-                </div>
-            </div>
+  <div class='pre p1 fill-light'>safeps()</div>
+
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+            
+          
+            
+              <section class='py2 clearfix'>
+
+  
+  <div class='clearfix'>
+    <h2 class='fl' id='openProcess'>
+      openProcess
+    </h2>
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/bevry/safeps/blob/d1c664e20525c463a8c30907f7f113706c1f79e1/./source/index.js#L64-L70'>
+      <span>./source/index.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Open a file.
+Pass your callback to fire when it is safe to open the process</p>
+
+
+  <div class='pre p1 fill-light'>openProcess(fn: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">Function</a>): this</div>
+
+  
+
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>fn</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">Function</a>)</code> callback
+
+          </div>
+          
         </div>
+      
     </div>
-</div>
-<script src="./assets/vendor/prettify/prettify-min.js"></script>
-<script>prettyPrint();</script>
-<script src="./assets/js/yui-prettify.js"></script>
-<script src="./assets/../api.js"></script>
-<script src="./assets/js/api-filter.js"></script>
-<script src="./assets/js/api-list.js"></script>
-<script src="./assets/js/api-search.js"></script>
-<script src="./assets/js/apidocs.js"></script>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>this</code>:
+        
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+            
+          
+            
+              <section class='py2 clearfix'>
+
+  
+  <div class='clearfix'>
+    <h2 class='fl' id='isWindows'>
+      isWindows
+    </h2>
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/bevry/safeps/blob/d1c664e20525c463a8c30907f7f113706c1f79e1/./source/index.js#L82-L84'>
+      <span>./source/index.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Returns whether or not we are running on a windows machine</p>
+
+
+  <div class='pre p1 fill-light'>isWindows(): <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></div>
+
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></code>:
+        
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+            
+          
+            
+              <section class='py2 clearfix'>
+
+  
+  <div class='clearfix'>
+    <h2 class='fl' id='getLocaleCode'>
+      getLocaleCode
+    </h2>
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/bevry/safeps/blob/d1c664e20525c463a8c30907f7f113706c1f79e1/./source/index.js#L93-L97'>
+      <span>./source/index.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Get locale code - eg: en-AU,
+fr-FR, zh-CN etc.</p>
+
+
+  <div class='pre p1 fill-light'>getLocaleCode(lang: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>): <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></div>
+
+  
+
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>lang</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>)</code> 
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></code>:
+        
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+            
+          
+            
+              <section class='py2 clearfix'>
+
+  
+  <div class='clearfix'>
+    <h2 class='fl' id='getLanguageCode'>
+      getLanguageCode
+    </h2>
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/bevry/safeps/blob/d1c664e20525c463a8c30907f7f113706c1f79e1/./source/index.js#L106-L110'>
+      <span>./source/index.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Given the localeCode, return
+the language code.</p>
+
+
+  <div class='pre p1 fill-light'>getLanguageCode(localeCode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>): <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></div>
+
+  
+
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>localeCode</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>)</code> 
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></code>:
+        
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+            
+          
+            
+              <section class='py2 clearfix'>
+
+  
+  <div class='clearfix'>
+    <h2 class='fl' id='getCountryCode'>
+      getCountryCode
+    </h2>
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/bevry/safeps/blob/d1c664e20525c463a8c30907f7f113706c1f79e1/./source/index.js#L119-L123'>
+      <span>./source/index.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Given the localeCode, return
+the country code.</p>
+
+
+  <div class='pre p1 fill-light'>getCountryCode(localeCode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>): <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></div>
+
+  
+
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>localeCode</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>)</code> 
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></code>:
+        
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+            
+          
+            
+              <section class='py2 clearfix'>
+
+  
+  <div class='clearfix'>
+    <h2 class='fl' id='hasSpawnSync'>
+      hasSpawnSync
+    </h2>
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/bevry/safeps/blob/d1c664e20525c463a8c30907f7f113706c1f79e1/./source/index.js#L136-L138'>
+      <span>./source/index.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Has spawn sync. Returns true
+if the child_process spawnSync
+method exists, otherwise false</p>
+
+
+  <div class='pre p1 fill-light'>hasSpawnSync(): <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></div>
+
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></code>:
+        
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+            
+          
+            
+              <section class='py2 clearfix'>
+
+  
+  <div class='clearfix'>
+    <h2 class='fl' id='hasExecSync'>
+      hasExecSync
+    </h2>
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/bevry/safeps/blob/d1c664e20525c463a8c30907f7f113706c1f79e1/./source/index.js#L147-L149'>
+      <span>./source/index.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Has exec sync. Returns true
+if the child_process execSync
+method exists, otherwise false</p>
+
+
+  <div class='pre p1 fill-light'>hasExecSync(): <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></div>
+
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></code>:
+        
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+            
+          
+            
+              <section class='py2 clearfix'>
+
+  
+  <div class='clearfix'>
+    <h2 class='fl' id='isExecutable'>
+      isExecutable
+    </h2>
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/bevry/safeps/blob/d1c664e20525c463a8c30907f7f113706c1f79e1/./source/index.js#L165-L197'>
+      <span>./source/index.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Is the path to a file object an executable?
+Boolean result returned as the isExecutable parameter
+of the passed callback.
+next(err, isExecutable)</p>
+
+
+  <div class='pre p1 fill-light'>isExecutable(path: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>, opts: [<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>], next: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">Function</a>): <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></div>
+
+  
+
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>path</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>)</code> path to test
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>opts</span> <code class='quiet'>([<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>])</code> 
+          </div>
+          
+          <table class='mt1 mb2 fixed-table h5'>
+            <colgroup>
+              <col width='30%' />
+              <col width='70%' />
+            </colgroup>
+            <thead>
+              <tr class='bold fill-light'>
+                <td>Name</td>
+                <td>Description</td>
+              </tr>
+            </thead>
+            <tbody class='mt1'>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>opts.sync</span> <code class='quiet'>[<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a>]</code>
+                  </td>
+                  <td class='break-word'><span>true to test sync rather than async
+</span></td>
+                </tr>
+              
+            </tbody>
+          </table>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>next</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">Function</a>)</code> callback
+
+          </div>
+          
+          <table class='mt1 mb2 fixed-table h5'>
+            <colgroup>
+              <col width='30%' />
+              <col width='70%' />
+            </colgroup>
+            <thead>
+              <tr class='bold fill-light'>
+                <td>Name</td>
+                <td>Description</td>
+              </tr>
+            </thead>
+            <tbody class='mt1'>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>next.err</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error">Error</a></code>
+                  </td>
+                  <td class='break-word'><span></span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>next.isExecutable</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></code>
+                  </td>
+                  <td class='break-word'><span></span></td>
+                </tr>
+              
+            </tbody>
+          </table>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></code>:
+        returned if opts.sync = true
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+            
+          
+            
+              <section class='py2 clearfix'>
+
+  
+  <div class='clearfix'>
+    <h2 class='fl' id='isExecutableSync'>
+      isExecutableSync
+    </h2>
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/bevry/safeps/blob/d1c664e20525c463a8c30907f7f113706c1f79e1/./source/index.js#L210-L247'>
+      <span>./source/index.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Is the path to a file object an executable?
+Synchronised version of isExecutable</p>
+
+
+  <div class='pre p1 fill-light'>isExecutableSync(path: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>, opts: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>, next: [<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">Function</a>]): <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></div>
+
+  
+
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>path</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>)</code> path to test
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>opts</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>)</code> 
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>next</span> <code class='quiet'>([<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">Function</a>])</code> 
+          </div>
+          
+          <table class='mt1 mb2 fixed-table h5'>
+            <colgroup>
+              <col width='30%' />
+              <col width='70%' />
+            </colgroup>
+            <thead>
+              <tr class='bold fill-light'>
+                <td>Name</td>
+                <td>Description</td>
+              </tr>
+            </thead>
+            <tbody class='mt1'>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>next.err</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error">Error</a></code>
+                  </td>
+                  <td class='break-word'><span></span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>next.isExecutable</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></code>
+                  </td>
+                  <td class='break-word'><span></span></td>
+                </tr>
+              
+            </tbody>
+          </table>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></code>:
+        
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+            
+          
+            
+              <section class='py2 clearfix'>
+
+  
+  <div class='clearfix'>
+    <h2 class='fl' id='spawnSync'>
+      spawnSync
+    </h2>
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/bevry/safeps/blob/d1c664e20525c463a8c30907f7f113706c1f79e1/./source/index.js#L444-L481'>
+      <span>./source/index.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Syncronised version of safeps.spawn. Will not return until the
+child process has fully closed. Results can be returned
+from the method call or via a passed callback. Even if
+a callback is passed to spawnSync, the method will still
+be syncronised with the child process and the callback will
+only return after the child process has closed.</p>
+<p>Simple usage example:</p>
+<p>var safeps = require(&#x27;safeps&#x27;);
+var command = [&#x27;npm&#x27;, &#x27;install&#x27;, &#x27;jade&#x27;, &#x27;--save&#x27;];</p>
+<p>//a lot of the time you won&#x27;t need the opts argument
+var opts = {
+&#x9;cwd: __dirname //this is actually pointless in a real application
+};</p>
+<p>var result = safeps.spawnSync(command, opts);</p>
+<p>console.log(result.error);
+console.log(result.status);
+console.log(result.signal);
+console.log(&quot;I&#x27;ve finished...&quot;);</p>
+
+
+  <div class='pre p1 fill-light'>spawnSync(command: (<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>), next.signal: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>, opts.safe: [<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a>], opts.cwd: [<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>], opts.stdio: [(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>)], opts.customFds: [<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>], opts.env: [<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>], opts.detached: [<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a>], opts: [<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>], next: [<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">Function</a>]): <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></div>
+
+  
+
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>command</span> <code class='quiet'>((<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>))</code> 
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>next.signal</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>)</code> unix style signal such as SIGKILL or SIGHUP
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>opts.safe</span> <code class='quiet'>([<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a>])</code> Whether to check the executable path.
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>opts.cwd</span> <code class='quiet'>([<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>])</code> Current working directory of the child process
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>opts.stdio</span> <code class='quiet'>([(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>)])</code> Child&#x27;s stdio configuration.
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>opts.customFds</span> <code class='quiet'>([<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>])</code> Deprecated File descriptors for the child to use for stdio.
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>opts.env</span> <code class='quiet'>([<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>])</code> Environment key-value pairs.
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>opts.detached</span> <code class='quiet'>([<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a>])</code> The child will be a process group leader.
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>opts</span> <code class='quiet'>([<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>])</code> 
+          </div>
+          
+          <table class='mt1 mb2 fixed-table h5'>
+            <colgroup>
+              <col width='30%' />
+              <col width='70%' />
+            </colgroup>
+            <thead>
+              <tr class='bold fill-light'>
+                <td>Name</td>
+                <td>Description</td>
+              </tr>
+            </thead>
+            <tbody class='mt1'>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>opts.gid</span> <code class='quiet'>[<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a>]</code>
+                  </td>
+                  <td class='break-word'><span>Sets the group identity of the process
+</span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>opts.uid</span> <code class='quiet'>[<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a>]</code>
+                  </td>
+                  <td class='break-word'><span>Sets the user identity of the process.
+</span></td>
+                </tr>
+              
+            </tbody>
+          </table>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>next</span> <code class='quiet'>([<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">Function</a>])</code> callback
+
+          </div>
+          
+          <table class='mt1 mb2 fixed-table h5'>
+            <colgroup>
+              <col width='30%' />
+              <col width='70%' />
+            </colgroup>
+            <thead>
+              <tr class='bold fill-light'>
+                <td>Name</td>
+                <td>Description</td>
+              </tr>
+            </thead>
+            <tbody class='mt1'>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>next.error</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error">Error</a></code>
+                  </td>
+                  <td class='break-word'><span></span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>next.stdout</span> <code class='quiet'><a href="https://nodejs.org/api/stream.html">Stream</a></code>
+                  </td>
+                  <td class='break-word'><span>out stream
+</span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>next.stderr</span> <code class='quiet'><a href="https://nodejs.org/api/stream.html">Stream</a></code>
+                  </td>
+                  <td class='break-word'><span>error stream
+</span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>next.status</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></code>
+                  </td>
+                  <td class='break-word'><span>node.js exit code
+</span></td>
+                </tr>
+              
+            </tbody>
+          </table>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></code>:
+        {error, pid, output, stdout, stderr, status, signal}
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+            
+          
+            
+              <section class='py2 clearfix'>
+
+  
+  <div class='clearfix'>
+    <h2 class='fl' id='spawn'>
+      spawn
+    </h2>
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/bevry/safeps/blob/d1c664e20525c463a8c30907f7f113706c1f79e1/./source/index.js#L527-L645'>
+      <span>./source/index.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Wrapper around node&#x27;s spawn command for a cleaner, more robust and powerful API.
+Launches a new process with the given command. Command line arguments are
+part of the command parameter (unlike the node.js spawn). Command can be
+an array of command line arguments or a command line string. Opts allows
+additional options to be sent to the spawning action.</p>
+<p>Simple usage example:</p>
+<pre><code>var safeps = require(&#x27;safeps&#x27;);
+</code></pre>
+<p>var command = [&#x27;npm&#x27;, &#x27;install&#x27;,&#x27;jade&#x27;,&#x27;--save&#x27;];</p>
+<p>//a lot of the time you won&#x27;t need the opts argument
+var opts = {
+&#x9;cwd: __dirname //this is actually pointless in a real application
+}
+function myCallback(error, stdout, stderr, status, signal){
+&#x9;console.log(error);
+&#x9;console.log(status);
+&#x9;console.log(signal);
+&#x9;console.log(&quot;I&#x27;ve finished...&quot;);
+}
+safeps.spawn(command, opts, myCallback);</p>
+
+
+  <div class='pre p1 fill-light'>spawn(command: (<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>), next.signal: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>, opts.safe: [<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a>], opts.cwd: [<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>], opts.stdio: [(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>)], opts.customFds: [<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>], opts.env: [<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>], opts.detached: [<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a>], opts: [<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>], next: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">Function</a>): this</div>
+
+  
+
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>command</span> <code class='quiet'>((<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>))</code> 
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>next.signal</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>)</code> unix style signal such as SIGKILL or SIGHUP
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>opts.safe</span> <code class='quiet'>([<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a>])</code> Whether to check the executable path.
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>opts.cwd</span> <code class='quiet'>([<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>])</code> Current working directory of the child process
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>opts.stdio</span> <code class='quiet'>([(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>)])</code> Child&#x27;s stdio configuration.
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>opts.customFds</span> <code class='quiet'>([<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>])</code> Deprecated File descriptors for the child to use for stdio.
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>opts.env</span> <code class='quiet'>([<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>])</code> Environment key-value pairs.
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>opts.detached</span> <code class='quiet'>([<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a>])</code> The child will be a process group leader.
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>opts</span> <code class='quiet'>([<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>])</code> 
+          </div>
+          
+          <table class='mt1 mb2 fixed-table h5'>
+            <colgroup>
+              <col width='30%' />
+              <col width='70%' />
+            </colgroup>
+            <thead>
+              <tr class='bold fill-light'>
+                <td>Name</td>
+                <td>Description</td>
+              </tr>
+            </thead>
+            <tbody class='mt1'>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>opts.gid</span> <code class='quiet'>[<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a>]</code>
+                  </td>
+                  <td class='break-word'><span>Sets the group identity of the process.
+</span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>opts.uid</span> <code class='quiet'>[<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a>]</code>
+                  </td>
+                  <td class='break-word'><span>Sets the user identity of the process.
+</span></td>
+                </tr>
+              
+            </tbody>
+          </table>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>next</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">Function</a>)</code> callback
+
+          </div>
+          
+          <table class='mt1 mb2 fixed-table h5'>
+            <colgroup>
+              <col width='30%' />
+              <col width='70%' />
+            </colgroup>
+            <thead>
+              <tr class='bold fill-light'>
+                <td>Name</td>
+                <td>Description</td>
+              </tr>
+            </thead>
+            <tbody class='mt1'>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>next.error</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error">Error</a></code>
+                  </td>
+                  <td class='break-word'><span></span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>next.stdout</span> <code class='quiet'><a href="https://nodejs.org/api/stream.html">Stream</a></code>
+                  </td>
+                  <td class='break-word'><span>out stream
+</span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>next.stderr</span> <code class='quiet'><a href="https://nodejs.org/api/stream.html">Stream</a></code>
+                  </td>
+                  <td class='break-word'><span>error stream
+</span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>next.status</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></code>
+                  </td>
+                  <td class='break-word'><span>node.js exit code
+</span></td>
+                </tr>
+              
+            </tbody>
+          </table>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>this</code>:
+        
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+            
+          
+            
+              <section class='py2 clearfix'>
+
+  
+  <div class='clearfix'>
+    <h2 class='fl' id='spawnMultiple'>
+      spawnMultiple
+    </h2>
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/bevry/safeps/blob/d1c664e20525c463a8c30907f7f113706c1f79e1/./source/index.js#L676-L710'>
+      <span>./source/index.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Spawn multiple processes in the one method call.
+Launches new processes with the given array of commands.
+Each item in the commands array represents a command parameter
+sent to the safeps.spawn method, so each item can be a command line
+string or an array of command line inputs. It is also possible
+to pass a single command string and in this case calling
+spawnMultiple will be effectively the same as calling safeps.spawn.</p>
+
+
+  <div class='pre p1 fill-light'>spawnMultiple(commands: (<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>), next.results: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>, opts.concurrency: [<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a>], opts.cwd: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>, opts.stdio: (<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>), opts.customFds: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>, opts.env: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>, opts.detached: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a>, opts: [<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>], next: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">Function</a>): this</div>
+
+  
+
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>commands</span> <code class='quiet'>((<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>))</code> 
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>next.results</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>)</code> [i]
+.signal unix style signal such as SIGKILL or SIGHUP
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>opts.concurrency</span> <code class='quiet'>([<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a>]
+            (default <code>1</code>)
+            )</code> Whether to spawn processes concurrently.
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>opts.cwd</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>)</code> Current working directory of the child process.
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>opts.stdio</span> <code class='quiet'>((<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>))</code> Child&#x27;s stdio configuration.
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>opts.customFds</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>)</code> Deprecated File descriptors for the child to use for stdio.
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>opts.env</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>)</code> Environment key-value pairs.
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>opts.detached</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a>)</code> The child will be a process group leader.
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>opts</span> <code class='quiet'>([<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>])</code> 
+          </div>
+          
+          <table class='mt1 mb2 fixed-table h5'>
+            <colgroup>
+              <col width='30%' />
+              <col width='70%' />
+            </colgroup>
+            <thead>
+              <tr class='bold fill-light'>
+                <td>Name</td>
+                <td>Description</td>
+              </tr>
+            </thead>
+            <tbody class='mt1'>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>opts.gid</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></code>
+                  </td>
+                  <td class='break-word'><span>Sets the group identity of the process.
+</span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>opts.uid</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></code>
+                  </td>
+                  <td class='break-word'><span>Sets the user identity of the process.
+</span></td>
+                </tr>
+              
+            </tbody>
+          </table>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>next</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">Function</a>)</code> callback
+
+          </div>
+          
+          <table class='mt1 mb2 fixed-table h5'>
+            <colgroup>
+              <col width='30%' />
+              <col width='70%' />
+            </colgroup>
+            <thead>
+              <tr class='bold fill-light'>
+                <td>Name</td>
+                <td>Description</td>
+              </tr>
+            </thead>
+            <tbody class='mt1'>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>next.error</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error">Error</a></code>
+                  </td>
+                  <td class='break-word'><span></span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>next.results</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></code>
+                  </td>
+                  <td class='break-word'><span>array of spawn results
+</span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>next.results</span> <code class='quiet'><a href="https://nodejs.org/api/stream.html">Stream</a></code>
+                  </td>
+                  <td class='break-word'><span>[i]
+.stdout out stream
+</span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>next.results</span> <code class='quiet'><a href="https://nodejs.org/api/stream.html">Stream</a></code>
+                  </td>
+                  <td class='break-word'><span>[i]
+.stderr error stream
+</span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>next.results</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></code>
+                  </td>
+                  <td class='break-word'><span>[i]
+.status node.js exit code
+</span></td>
+                </tr>
+              
+            </tbody>
+          </table>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>this</code>:
+        
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+            
+          
+            
+              <section class='py2 clearfix'>
+
+  
+  <div class='clearfix'>
+    <h2 class='fl' id='execSync'>
+      execSync
+    </h2>
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/bevry/safeps/blob/d1c664e20525c463a8c30907f7f113706c1f79e1/./source/index.js#L747-L779'>
+      <span>./source/index.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Syncronised version of safeps.exec. Runs a command in a shell and
+buffers the output. Will not return until the
+child process has fully closed. Results can be returned
+from the method call or via a passed callback. Even if
+a callback is passed to execSync, the method will still
+be syncronised with the child process and the callback will
+only return after the child process has closed.
+Note:
+Stdout and stderr should be Buffers but they are strings unless encoding:null
+for now, nothing we should do, besides wait for joyent to reply
+<a href="https://github.com/joyent/node/issues/5833#issuecomment-82189525">https://github.com/joyent/node/issues/5833#issuecomment-82189525</a>.</p>
+
+
+  <div class='pre p1 fill-light'>execSync(command: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>, next.stderr: (<a href="https://nodejs.org/api/buffer.html">Buffer</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>), opts.sync: [<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a>], opts.cwd: [<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>], opts.env: [<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>], opts.encoding: [<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>], opts.shell: [<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>], opts.timeout: [<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a>], opts: [<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>], next: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">Function</a>): <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></div>
+
+  
+
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>command</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>)</code> 
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>next.stderr</span> <code class='quiet'>((<a href="https://nodejs.org/api/buffer.html">Buffer</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>))</code> error buffer
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>opts.sync</span> <code class='quiet'>([<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a>])</code> true to execute sync rather than async
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>opts.cwd</span> <code class='quiet'>([<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>])</code> Current working directory of the child process
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>opts.env</span> <code class='quiet'>([<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>])</code> Environment key-value pairs
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>opts.encoding</span> <code class='quiet'>([<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>]
+            (default <code>&#39;utf8&#39;</code>)
+            )</code> 
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>opts.shell</span> <code class='quiet'>([<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>])</code> Shell to execute the command with (Default: &#x27;/bin/sh&#x27; on UNIX, &#x27;cmd.exe&#x27; on Windows, The shell should understand the -c switch on UNIX or /s /c on Windows. On Windows, command line parsing should be compatible with cmd.exe.)
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>opts.timeout</span> <code class='quiet'>([<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a>]
+            (default <code>0</code>)
+            )</code> 
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>opts</span> <code class='quiet'>([<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>])</code> 
+          </div>
+          
+          <table class='mt1 mb2 fixed-table h5'>
+            <colgroup>
+              <col width='30%' />
+              <col width='70%' />
+            </colgroup>
+            <thead>
+              <tr class='bold fill-light'>
+                <td>Name</td>
+                <td>Description</td>
+              </tr>
+            </thead>
+            <tbody class='mt1'>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>opts.killSignal</span> <code class='quiet'>[<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>]</code>
+                  
+                    (default <code>&#39;SIGTERM&#39;</code>)
+                  </td>
+                  <td class='break-word'><span></span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>opts.uid</span> <code class='quiet'>[<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a>]</code>
+                  </td>
+                  <td class='break-word'><span>Sets the user identity of the process.
+</span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>opts.gid</span> <code class='quiet'>[<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a>]</code>
+                  </td>
+                  <td class='break-word'><span>Sets the group identity of the process.
+</span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>opts.maxBuffer</span> <code class='quiet'>[<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a>]</code>
+                  
+                    (default <code>200*1024</code>)
+                  </td>
+                  <td class='break-word'><span>Largest amount of data (in bytes) allowed on stdout or stderr - if exceeded child process is killed.
+</span></td>
+                </tr>
+              
+            </tbody>
+          </table>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>next</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">Function</a>)</code> 
+          </div>
+          
+          <table class='mt1 mb2 fixed-table h5'>
+            <colgroup>
+              <col width='30%' />
+              <col width='70%' />
+            </colgroup>
+            <thead>
+              <tr class='bold fill-light'>
+                <td>Name</td>
+                <td>Description</td>
+              </tr>
+            </thead>
+            <tbody class='mt1'>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>next.err</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error">Error</a></code>
+                  </td>
+                  <td class='break-word'><span></span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>next.stdout</span> <code class='quiet'>(<a href="https://nodejs.org/api/buffer.html">Buffer</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>)</code>
+                  </td>
+                  <td class='break-word'><span>out buffer
+</span></td>
+                </tr>
+              
+            </tbody>
+          </table>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></code>:
+        {error, stdout, stderr}
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+            
+          
+            
+              <section class='py2 clearfix'>
+
+  
+  <div class='clearfix'>
+    <h2 class='fl' id='exec'>
+      exec
+    </h2>
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/bevry/safeps/blob/d1c664e20525c463a8c30907f7f113706c1f79e1/./source/index.js#L808-L842'>
+      <span>./source/index.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Wrapper around node&#x27;s exec command for a cleaner, more robust and powerful API.
+Runs a command in a shell and buffers the output.
+Note:
+Stdout and stderr should be Buffers but they are strings unless encoding:null
+for now, nothing we should do, besides wait for joyent to reply
+<a href="https://github.com/joyent/node/issues/5833#issuecomment-82189525">https://github.com/joyent/node/issues/5833#issuecomment-82189525</a>.</p>
+
+
+  <div class='pre p1 fill-light'>exec(command: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>, next.stderr: (<a href="https://nodejs.org/api/buffer.html">Buffer</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>), opts.sync: [<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a>], opts.cwd: [<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>], opts.env: [<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>], opts.encoding: [<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>], opts.shell: [<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>], opts.timeout: [<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a>], opts: [<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>], next: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">Function</a>): this</div>
+
+  
+
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>command</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>)</code> 
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>next.stderr</span> <code class='quiet'>((<a href="https://nodejs.org/api/buffer.html">Buffer</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>))</code> error buffer
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>opts.sync</span> <code class='quiet'>([<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a>])</code> true to execute sync rather than async
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>opts.cwd</span> <code class='quiet'>([<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>])</code> Current working directory of the child process
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>opts.env</span> <code class='quiet'>([<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>])</code> Environment key-value pairs
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>opts.encoding</span> <code class='quiet'>([<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>]
+            (default <code>&#39;utf8&#39;</code>)
+            )</code> 
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>opts.shell</span> <code class='quiet'>([<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>])</code> Shell to execute the command with (Default: &#x27;/bin/sh&#x27; on UNIX, &#x27;cmd.exe&#x27; on Windows, The shell should understand the -c switch on UNIX or /s /c on Windows. On Windows, command line parsing should be compatible with cmd.exe.)
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>opts.timeout</span> <code class='quiet'>([<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a>]
+            (default <code>0</code>)
+            )</code> 
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>opts</span> <code class='quiet'>([<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>])</code> 
+          </div>
+          
+          <table class='mt1 mb2 fixed-table h5'>
+            <colgroup>
+              <col width='30%' />
+              <col width='70%' />
+            </colgroup>
+            <thead>
+              <tr class='bold fill-light'>
+                <td>Name</td>
+                <td>Description</td>
+              </tr>
+            </thead>
+            <tbody class='mt1'>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>opts.killSignal</span> <code class='quiet'>[<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>]</code>
+                  
+                    (default <code>&#39;SIGTERM&#39;</code>)
+                  </td>
+                  <td class='break-word'><span></span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>opts.uid</span> <code class='quiet'>[<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a>]</code>
+                  </td>
+                  <td class='break-word'><span>Sets the user identity of the process.
+</span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>opts.gid</span> <code class='quiet'>[<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a>]</code>
+                  </td>
+                  <td class='break-word'><span>Sets the group identity of the process.
+</span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>opts.maxBuffer</span> <code class='quiet'>[<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a>]</code>
+                  
+                    (default <code>200*1024</code>)
+                  </td>
+                  <td class='break-word'><span>Largest amount of data (in bytes) allowed on stdout or stderr - if exceeded child process is killed.
+</span></td>
+                </tr>
+              
+            </tbody>
+          </table>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>next</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">Function</a>)</code> 
+          </div>
+          
+          <table class='mt1 mb2 fixed-table h5'>
+            <colgroup>
+              <col width='30%' />
+              <col width='70%' />
+            </colgroup>
+            <thead>
+              <tr class='bold fill-light'>
+                <td>Name</td>
+                <td>Description</td>
+              </tr>
+            </thead>
+            <tbody class='mt1'>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>next.err</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error">Error</a></code>
+                  </td>
+                  <td class='break-word'><span></span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>next.stdout</span> <code class='quiet'>(<a href="https://nodejs.org/api/buffer.html">Buffer</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>)</code>
+                  </td>
+                  <td class='break-word'><span>out buffer
+</span></td>
+                </tr>
+              
+            </tbody>
+          </table>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>this</code>:
+        
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+            
+          
+            
+              <section class='py2 clearfix'>
+
+  
+  <div class='clearfix'>
+    <h2 class='fl' id='execMultiple'>
+      execMultiple
+    </h2>
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/bevry/safeps/blob/d1c664e20525c463a8c30907f7f113706c1f79e1/./source/index.js#L871-L905'>
+      <span>./source/index.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Exec multiple processes in the one method call.
+Launches new processes with the given array of commands.
+Each item in the commands array represents a command parameter
+sent to the safeps.exec method, so each item can be a command line
+string or an array of command line inputs. It is also possible
+to pass a single command string and in this case calling
+execMultiple will be effectively the same as calling safeps.exec.</p>
+
+
+  <div class='pre p1 fill-light'>execMultiple(commands: (<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>), next.results: <a href="https://nodejs.org/api/stream.html">Stream</a>, opts.concurrency: [<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a>], opts.cwd: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>, opts.stdio: (<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>), opts.customFds: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>, opts.env: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>, opts: [<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>], next: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">Function</a>): this</div>
+
+  
+
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>commands</span> <code class='quiet'>((<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>))</code> 
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>next.results</span> <code class='quiet'>(<a href="https://nodejs.org/api/stream.html">Stream</a>)</code> [i]
+.stderr error buffer
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>opts.concurrency</span> <code class='quiet'>([<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a>]
+            (default <code>1</code>)
+            )</code> Whether to exec processes concurrently.
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>opts.cwd</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>)</code> Current working directory of the child process.
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>opts.stdio</span> <code class='quiet'>((<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>))</code> Child&#x27;s stdio configuration.
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>opts.customFds</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>)</code> Deprecated File descriptors for the child to use for stdio.
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>opts.env</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>)</code> Environment key-value pairs.
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>opts</span> <code class='quiet'>([<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>])</code> 
+          </div>
+          
+          <table class='mt1 mb2 fixed-table h5'>
+            <colgroup>
+              <col width='30%' />
+              <col width='70%' />
+            </colgroup>
+            <thead>
+              <tr class='bold fill-light'>
+                <td>Name</td>
+                <td>Description</td>
+              </tr>
+            </thead>
+            <tbody class='mt1'>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>opts.uid</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></code>
+                  </td>
+                  <td class='break-word'><span>Sets the user identity of the process.
+</span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>opts.gid</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></code>
+                  </td>
+                  <td class='break-word'><span>Sets the group identity of the process.
+</span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>opts.detached</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></code>
+                  </td>
+                  <td class='break-word'><span>The child will be a process group leader.
+</span></td>
+                </tr>
+              
+            </tbody>
+          </table>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>next</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">Function</a>)</code> callback
+
+          </div>
+          
+          <table class='mt1 mb2 fixed-table h5'>
+            <colgroup>
+              <col width='30%' />
+              <col width='70%' />
+            </colgroup>
+            <thead>
+              <tr class='bold fill-light'>
+                <td>Name</td>
+                <td>Description</td>
+              </tr>
+            </thead>
+            <tbody class='mt1'>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>next.error</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error">Error</a></code>
+                  </td>
+                  <td class='break-word'><span></span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>next.results</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></code>
+                  </td>
+                  <td class='break-word'><span>array of exec results
+</span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>next.results</span> <code class='quiet'><a href="https://nodejs.org/api/stream.html">Stream</a></code>
+                  </td>
+                  <td class='break-word'><span>[i]
+.stdout out buffer
+</span></td>
+                </tr>
+              
+            </tbody>
+          </table>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>this</code>:
+        
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+            
+          
+            
+              <section class='py2 clearfix'>
+
+  
+  <div class='clearfix'>
+    <h2 class='fl' id='getEnvironmentPaths'>
+      getEnvironmentPaths
+    </h2>
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/bevry/safeps/blob/d1c664e20525c463a8c30907f7f113706c1f79e1/./source/index.js#L972-L978'>
+      <span>./source/index.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Get the system&#x27;s environment paths.</p>
+
+
+  <div class='pre p1 fill-light'>getEnvironmentPaths(): <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></div>
+
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></code>:
+        string array of file paths
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+            
+          
+            
+              <section class='py2 clearfix'>
+
+  
+  <div class='clearfix'>
+    <h2 class='fl' id='getExecPath'>
+      getExecPath
+    </h2>
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/bevry/safeps/blob/d1c664e20525c463a8c30907f7f113706c1f79e1/./source/index.js#L1068-L1119'>
+      <span>./source/index.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Given an executable name, search and find
+its actual path. Will search the standard
+file paths defined by the environment to
+see if the executable is in any of those paths.</p>
+
+
+  <div class='pre p1 fill-light'>getExecPath(execName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>, opts: [<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>], next: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">Function</a>): this</div>
+
+  
+
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>execName</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>)</code> 
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>opts</span> <code class='quiet'>([<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>])</code> 
+          </div>
+          
+          <table class='mt1 mb2 fixed-table h5'>
+            <colgroup>
+              <col width='30%' />
+              <col width='70%' />
+            </colgroup>
+            <thead>
+              <tr class='bold fill-light'>
+                <td>Name</td>
+                <td>Description</td>
+              </tr>
+            </thead>
+            <tbody class='mt1'>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>opts.cache</span> <code class='quiet'>[<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a>]</code>
+                  
+                    (default <code>true</code>)
+                  </td>
+                  <td class='break-word'><span></span></td>
+                </tr>
+              
+            </tbody>
+          </table>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>next</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">Function</a>)</code> 
+          </div>
+          
+          <table class='mt1 mb2 fixed-table h5'>
+            <colgroup>
+              <col width='30%' />
+              <col width='70%' />
+            </colgroup>
+            <thead>
+              <tr class='bold fill-light'>
+                <td>Name</td>
+                <td>Description</td>
+              </tr>
+            </thead>
+            <tbody class='mt1'>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>next.err</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error">Error</a></code>
+                  </td>
+                  <td class='break-word'><span></span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>next.foundPath</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></code>
+                  </td>
+                  <td class='break-word'><span>path to the executable
+</span></td>
+                </tr>
+              
+            </tbody>
+          </table>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>this</code>:
+        
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+            
+          
+            
+              <section class='py2 clearfix'>
+
+  
+  <div class='clearfix'>
+    <h2 class='fl' id='getHomePath'>
+      getHomePath
+    </h2>
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/bevry/safeps/blob/d1c664e20525c463a8c30907f7f113706c1f79e1/./source/index.js#L1133-L1155'>
+      <span>./source/index.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Get home path. Returns the user&#x27;s home directory.
+Based upon home function from: <a href="https://github.com/isaacs/osenv">https://github.com/isaacs/osenv</a></p>
+
+
+  <div class='pre p1 fill-light'>getHomePath(opts: [<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>], next: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">Function</a>): this</div>
+
+  
+
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>opts</span> <code class='quiet'>([<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>])</code> 
+          </div>
+          
+          <table class='mt1 mb2 fixed-table h5'>
+            <colgroup>
+              <col width='30%' />
+              <col width='70%' />
+            </colgroup>
+            <thead>
+              <tr class='bold fill-light'>
+                <td>Name</td>
+                <td>Description</td>
+              </tr>
+            </thead>
+            <tbody class='mt1'>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>opts.cache</span> <code class='quiet'>[<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>]</code>
+                  
+                    (default <code>true</code>)
+                  </td>
+                  <td class='break-word'><span></span></td>
+                </tr>
+              
+            </tbody>
+          </table>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>next</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">Function</a>)</code> 
+          </div>
+          
+          <table class='mt1 mb2 fixed-table h5'>
+            <colgroup>
+              <col width='30%' />
+              <col width='70%' />
+            </colgroup>
+            <thead>
+              <tr class='bold fill-light'>
+                <td>Name</td>
+                <td>Description</td>
+              </tr>
+            </thead>
+            <tbody class='mt1'>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>next.err</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error">Error</a></code>
+                  </td>
+                  <td class='break-word'><span></span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>next.homePath</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></code>
+                  </td>
+                  <td class='break-word'><span></span></td>
+                </tr>
+              
+            </tbody>
+          </table>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>this</code>:
+        
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+            
+          
+            
+              <section class='py2 clearfix'>
+
+  
+  <div class='clearfix'>
+    <h2 class='fl' id='getTmpPath'>
+      getTmpPath
+    </h2>
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/bevry/safeps/blob/d1c664e20525c463a8c30907f7f113706c1f79e1/./source/index.js#L1169-L1218'>
+      <span>./source/index.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Path to the evironment&#x27;s temporary directory.
+Based upon tmpdir function from: <a href="https://github.com/isaacs/osenv">https://github.com/isaacs/osenv</a></p>
+
+
+  <div class='pre p1 fill-light'>getTmpPath(opts: [<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>], next: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">Function</a>): this</div>
+
+  
+
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>opts</span> <code class='quiet'>([<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>])</code> 
+          </div>
+          
+          <table class='mt1 mb2 fixed-table h5'>
+            <colgroup>
+              <col width='30%' />
+              <col width='70%' />
+            </colgroup>
+            <thead>
+              <tr class='bold fill-light'>
+                <td>Name</td>
+                <td>Description</td>
+              </tr>
+            </thead>
+            <tbody class='mt1'>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>opts.cache</span> <code class='quiet'>[<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>]</code>
+                  
+                    (default <code>true</code>)
+                  </td>
+                  <td class='break-word'><span></span></td>
+                </tr>
+              
+            </tbody>
+          </table>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>next</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">Function</a>)</code> 
+          </div>
+          
+          <table class='mt1 mb2 fixed-table h5'>
+            <colgroup>
+              <col width='30%' />
+              <col width='70%' />
+            </colgroup>
+            <thead>
+              <tr class='bold fill-light'>
+                <td>Name</td>
+                <td>Description</td>
+              </tr>
+            </thead>
+            <tbody class='mt1'>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>next.err</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error">Error</a></code>
+                  </td>
+                  <td class='break-word'><span></span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>next.tmpPath</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></code>
+                  </td>
+                  <td class='break-word'><span></span></td>
+                </tr>
+              
+            </tbody>
+          </table>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>this</code>:
+        
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+            
+          
+            
+              <section class='py2 clearfix'>
+
+  
+  <div class='clearfix'>
+    <h2 class='fl' id='getGitPath'>
+      getGitPath
+    </h2>
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/bevry/safeps/blob/d1c664e20525c463a8c30907f7f113706c1f79e1/./source/index.js#L1233-L1291'>
+      <span>./source/index.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Path to the evironment&#x27;s GIT directory.
+As &#x27;git&#x27; is not always available in the environment path, we should check
+common path locations and if we find one that works, then we should use it.</p>
+
+
+  <div class='pre p1 fill-light'>getGitPath(opts: [<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>], next: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">Function</a>): this</div>
+
+  
+
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>opts</span> <code class='quiet'>([<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>])</code> 
+          </div>
+          
+          <table class='mt1 mb2 fixed-table h5'>
+            <colgroup>
+              <col width='30%' />
+              <col width='70%' />
+            </colgroup>
+            <thead>
+              <tr class='bold fill-light'>
+                <td>Name</td>
+                <td>Description</td>
+              </tr>
+            </thead>
+            <tbody class='mt1'>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>opts.cache</span> <code class='quiet'>[<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>]</code>
+                  
+                    (default <code>true</code>)
+                  </td>
+                  <td class='break-word'><span></span></td>
+                </tr>
+              
+            </tbody>
+          </table>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>next</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">Function</a>)</code> 
+          </div>
+          
+          <table class='mt1 mb2 fixed-table h5'>
+            <colgroup>
+              <col width='30%' />
+              <col width='70%' />
+            </colgroup>
+            <thead>
+              <tr class='bold fill-light'>
+                <td>Name</td>
+                <td>Description</td>
+              </tr>
+            </thead>
+            <tbody class='mt1'>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>next.err</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error">Error</a></code>
+                  </td>
+                  <td class='break-word'><span></span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>next.gitPath</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></code>
+                  </td>
+                  <td class='break-word'><span></span></td>
+                </tr>
+              
+            </tbody>
+          </table>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>this</code>:
+        
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+            
+          
+            
+              <section class='py2 clearfix'>
+
+  
+  <div class='clearfix'>
+    <h2 class='fl' id='getNodePath'>
+      getNodePath
+    </h2>
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/bevry/safeps/blob/d1c664e20525c463a8c30907f7f113706c1f79e1/./source/index.js#L1306-L1365'>
+      <span>./source/index.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Path to the evironment&#x27;s Node directory.
+As &#x27;node&#x27; is not always available in the environment path, we should check
+common path locations and if we find one that works, then we should use it</p>
+
+
+  <div class='pre p1 fill-light'>getNodePath(opts: [<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>], next: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">Function</a>): this</div>
+
+  
+
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>opts</span> <code class='quiet'>([<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>])</code> 
+          </div>
+          
+          <table class='mt1 mb2 fixed-table h5'>
+            <colgroup>
+              <col width='30%' />
+              <col width='70%' />
+            </colgroup>
+            <thead>
+              <tr class='bold fill-light'>
+                <td>Name</td>
+                <td>Description</td>
+              </tr>
+            </thead>
+            <tbody class='mt1'>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>opts.cache</span> <code class='quiet'>[<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>]</code>
+                  
+                    (default <code>true</code>)
+                  </td>
+                  <td class='break-word'><span></span></td>
+                </tr>
+              
+            </tbody>
+          </table>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>next</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">Function</a>)</code> 
+          </div>
+          
+          <table class='mt1 mb2 fixed-table h5'>
+            <colgroup>
+              <col width='30%' />
+              <col width='70%' />
+            </colgroup>
+            <thead>
+              <tr class='bold fill-light'>
+                <td>Name</td>
+                <td>Description</td>
+              </tr>
+            </thead>
+            <tbody class='mt1'>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>next.err</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error">Error</a></code>
+                  </td>
+                  <td class='break-word'><span></span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>next.nodePath</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></code>
+                  </td>
+                  <td class='break-word'><span></span></td>
+                </tr>
+              
+            </tbody>
+          </table>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>this</code>:
+        
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+            
+          
+            
+              <section class='py2 clearfix'>
+
+  
+  <div class='clearfix'>
+    <h2 class='fl' id='getNpmPath'>
+      getNpmPath
+    </h2>
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/bevry/safeps/blob/d1c664e20525c463a8c30907f7f113706c1f79e1/./source/index.js#L1380-L1439'>
+      <span>./source/index.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Path to the evironment&#x27;s NPM directory.
+As &#x27;npm&#x27; is not always available in the environment path, we should check
+common path locations and if we find one that works, then we should use it</p>
+
+
+  <div class='pre p1 fill-light'>getNpmPath(opts: [<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>], next: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">Function</a>): this</div>
+
+  
+
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>opts</span> <code class='quiet'>([<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>])</code> 
+          </div>
+          
+          <table class='mt1 mb2 fixed-table h5'>
+            <colgroup>
+              <col width='30%' />
+              <col width='70%' />
+            </colgroup>
+            <thead>
+              <tr class='bold fill-light'>
+                <td>Name</td>
+                <td>Description</td>
+              </tr>
+            </thead>
+            <tbody class='mt1'>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>opts.cache</span> <code class='quiet'>[<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>]</code>
+                  
+                    (default <code>true</code>)
+                  </td>
+                  <td class='break-word'><span></span></td>
+                </tr>
+              
+            </tbody>
+          </table>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>next</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">Function</a>)</code> 
+          </div>
+          
+          <table class='mt1 mb2 fixed-table h5'>
+            <colgroup>
+              <col width='30%' />
+              <col width='70%' />
+            </colgroup>
+            <thead>
+              <tr class='bold fill-light'>
+                <td>Name</td>
+                <td>Description</td>
+              </tr>
+            </thead>
+            <tbody class='mt1'>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>next.err</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error">Error</a></code>
+                  </td>
+                  <td class='break-word'><span></span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>next.npmPath</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></code>
+                  </td>
+                  <td class='break-word'><span></span></td>
+                </tr>
+              
+            </tbody>
+          </table>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>this</code>:
+        
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+            
+          
+            
+              <section class='py2 clearfix'>
+
+  
+  <div class='clearfix'>
+    <h2 class='fl' id='initGitRepo'>
+      initGitRepo
+    </h2>
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/bevry/safeps/blob/d1c664e20525c463a8c30907f7f113706c1f79e1/./source/index.js#L1468-L1493'>
+      <span>./source/index.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Initialize a git Repository.
+Requires internet access.</p>
+
+
+  <div class='pre p1 fill-light'>initGitRepo(opts: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>, next.results: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>, next: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">Function</a>): this</div>
+
+  
+
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>opts</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>)</code> 
+          </div>
+          
+          <table class='mt1 mb2 fixed-table h5'>
+            <colgroup>
+              <col width='30%' />
+              <col width='70%' />
+            </colgroup>
+            <thead>
+              <tr class='bold fill-light'>
+                <td>Name</td>
+                <td>Description</td>
+              </tr>
+            </thead>
+            <tbody class='mt1'>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>opts.remote</span> <code class='quiet'>[<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>]</code>
+                  
+                    (default <code>&#39;origin&#39;</code>)
+                  </td>
+                  <td class='break-word'><span></span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>opts.url</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></code>
+                  </td>
+                  <td class='break-word'><span>url to git remote repository
+</span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>opts.branch</span> <code class='quiet'>[<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>]</code>
+                  
+                    (default <code>&#39;master&#39;</code>)
+                  </td>
+                  <td class='break-word'><span></span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>opts.log</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></code>
+                  </td>
+                  <td class='break-word'><span></span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>opts.output</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></code>
+                  </td>
+                  <td class='break-word'><span></span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>opts.path</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></code>
+                  </td>
+                  <td class='break-word'><span>path to initiate local repository
+</span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>opts.cwd</span> <code class='quiet'>[<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>]</code>
+                  
+                    (default <code>process.cwd()</code>)
+                  </td>
+                  <td class='break-word'><span>Current working directory of the child process.
+</span></td>
+                </tr>
+              
+            </tbody>
+          </table>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>next.results</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>)</code> [i]
+.signal unix style signal such as SIGKILL or SIGHUP
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>next</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">Function</a>)</code> 
+          </div>
+          
+          <table class='mt1 mb2 fixed-table h5'>
+            <colgroup>
+              <col width='30%' />
+              <col width='70%' />
+            </colgroup>
+            <thead>
+              <tr class='bold fill-light'>
+                <td>Name</td>
+                <td>Description</td>
+              </tr>
+            </thead>
+            <tbody class='mt1'>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>next.err</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error">Error</a></code>
+                  </td>
+                  <td class='break-word'><span></span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>next.results</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></code>
+                  </td>
+                  <td class='break-word'><span>array of spawn results
+</span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>next.results</span> <code class='quiet'><a href="https://nodejs.org/api/stream.html">Stream</a></code>
+                  </td>
+                  <td class='break-word'><span>[i]
+.stdout out stream
+</span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>next.results</span> <code class='quiet'><a href="https://nodejs.org/api/stream.html">Stream</a></code>
+                  </td>
+                  <td class='break-word'><span>[i]
+.stderr error stream
+</span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>next.results</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></code>
+                  </td>
+                  <td class='break-word'><span>[i]
+.status node.js exit code
+</span></td>
+                </tr>
+              
+            </tbody>
+          </table>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>this</code>:
+        
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+            
+          
+            
+              <section class='py2 clearfix'>
+
+  
+  <div class='clearfix'>
+    <h2 class='fl' id='initOrPullGitRepo'>
+      initOrPullGitRepo
+    </h2>
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/bevry/safeps/blob/d1c664e20525c463a8c30907f7f113706c1f79e1/./source/index.js#L1518-L1546'>
+      <span>./source/index.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Pull from a git repository if it already exists
+on the file system else initialize  new Git repository.
+Requires internet access.</p>
+
+
+  <div class='pre p1 fill-light'>initOrPullGitRepo(opts: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>, next.results: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>, next: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">Function</a>): this</div>
+
+  
+
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>opts</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>)</code> 
+          </div>
+          
+          <table class='mt1 mb2 fixed-table h5'>
+            <colgroup>
+              <col width='30%' />
+              <col width='70%' />
+            </colgroup>
+            <thead>
+              <tr class='bold fill-light'>
+                <td>Name</td>
+                <td>Description</td>
+              </tr>
+            </thead>
+            <tbody class='mt1'>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>opts.remote</span> <code class='quiet'>[<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>]</code>
+                  
+                    (default <code>&#39;origin&#39;</code>)
+                  </td>
+                  <td class='break-word'><span></span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>opts.url</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></code>
+                  </td>
+                  <td class='break-word'><span>url to git remote repository
+</span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>opts.branch</span> <code class='quiet'>[<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>]</code>
+                  
+                    (default <code>&#39;master&#39;</code>)
+                  </td>
+                  <td class='break-word'><span></span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>opts.log</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></code>
+                  </td>
+                  <td class='break-word'><span></span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>opts.output</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></code>
+                  </td>
+                  <td class='break-word'><span></span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>opts.path</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></code>
+                  </td>
+                  <td class='break-word'><span>path to local repository
+</span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>opts.cwd</span> <code class='quiet'>[<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>]</code>
+                  
+                    (default <code>process.cwd()</code>)
+                  </td>
+                  <td class='break-word'><span>Current working directory of the child process.
+</span></td>
+                </tr>
+              
+            </tbody>
+          </table>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>next.results</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>)</code> [i]
+.signal unix style signal such as SIGKILL or SIGHUP
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>next</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">Function</a>)</code> 
+          </div>
+          
+          <table class='mt1 mb2 fixed-table h5'>
+            <colgroup>
+              <col width='30%' />
+              <col width='70%' />
+            </colgroup>
+            <thead>
+              <tr class='bold fill-light'>
+                <td>Name</td>
+                <td>Description</td>
+              </tr>
+            </thead>
+            <tbody class='mt1'>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>next.err</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error">Error</a></code>
+                  </td>
+                  <td class='break-word'><span></span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>next.results</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></code>
+                  </td>
+                  <td class='break-word'><span>array of spawn results
+</span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>next.results</span> <code class='quiet'><a href="https://nodejs.org/api/stream.html">Stream</a></code>
+                  </td>
+                  <td class='break-word'><span>[i]
+.stdout out stream
+</span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>next.results</span> <code class='quiet'><a href="https://nodejs.org/api/stream.html">Stream</a></code>
+                  </td>
+                  <td class='break-word'><span>[i]
+.stderr error stream
+</span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>next.results</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></code>
+                  </td>
+                  <td class='break-word'><span>[i]
+.status node.js exit code
+</span></td>
+                </tr>
+              
+            </tbody>
+          </table>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>this</code>:
+        
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+            
+          
+            
+              <section class='py2 clearfix'>
+
+  
+  <div class='clearfix'>
+    <h2 class='fl' id='initNodeModules'>
+      initNodeModules
+    </h2>
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/bevry/safeps/blob/d1c664e20525c463a8c30907f7f113706c1f79e1/./source/index.js#L1562-L1606'>
+      <span>./source/index.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Init Node Modules with cross platform support
+supports linux, heroku, osx, windows</p>
+
+
+  <div class='pre p1 fill-light'>initNodeModules(opts: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>, next: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">Function</a>): this</div>
+
+  
+
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>opts</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>)</code> 
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>next</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">Function</a>)</code> 
+          </div>
+          
+          <table class='mt1 mb2 fixed-table h5'>
+            <colgroup>
+              <col width='30%' />
+              <col width='70%' />
+            </colgroup>
+            <thead>
+              <tr class='bold fill-light'>
+                <td>Name</td>
+                <td>Description</td>
+              </tr>
+            </thead>
+            <tbody class='mt1'>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>next.err</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></code>
+                  </td>
+                  <td class='break-word'><span></span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>next.stdout</span> <code class='quiet'><a href="https://nodejs.org/api/stream.html">Stream</a></code>
+                  </td>
+                  <td class='break-word'><span>out stream
+</span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>next.stderr</span> <code class='quiet'><a href="https://nodejs.org/api/stream.html">Stream</a></code>
+                  </td>
+                  <td class='break-word'><span>error stream
+</span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>next.status</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></code>
+                  </td>
+                  <td class='break-word'><span>node.js exit code
+</span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>next.signal</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></code>
+                  </td>
+                  <td class='break-word'><span>unix style signal such as SIGKILL or SIGHUP
+</span></td>
+                </tr>
+              
+            </tbody>
+          </table>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>this</code>:
+        
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+            
+          
+            
+              <section class='py2 clearfix'>
+
+  
+  <div class='clearfix'>
+    <h2 class='fl' id='spawnNodeModule'>
+      spawnNodeModule
+    </h2>
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/bevry/safeps/blob/d1c664e20525c463a8c30907f7f113706c1f79e1/./source/index.js#L1628-L1677'>
+      <span>./source/index.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Spawn Node Modules with cross platform support
+supports linux, heroku, osx, windows
+spawnNodeModule(name:string, args:array, opts:object, next:function)
+Better than <a href="https://github.com/mafintosh/npm-execspawn">https://github.com/mafintosh/npm-execspawn</a> as it uses safeps</p>
+
+
+  <div class='pre p1 fill-light'>spawnNodeModule(name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>, next.signal: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>, opts: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>, args: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>, next.err: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>, next.stdout: <a href="https://nodejs.org/api/stream.html">Stream</a>, next.stderr: <a href="https://nodejs.org/api/stream.html">Stream</a>, next.status: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a>, next: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">Function</a>): this</div>
+
+  
+
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>name</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>)</code> 
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>next.signal</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>)</code> unix style signal such as SIGKILL or SIGHUP
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>opts</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>)</code> 
+          </div>
+          
+          <table class='mt1 mb2 fixed-table h5'>
+            <colgroup>
+              <col width='30%' />
+              <col width='70%' />
+            </colgroup>
+            <thead>
+              <tr class='bold fill-light'>
+                <td>Name</td>
+                <td>Description</td>
+              </tr>
+            </thead>
+            <tbody class='mt1'>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>opts.name</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></code>
+                  </td>
+                  <td class='break-word'><span>name of node module
+</span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>opts.cwd</span> <code class='quiet'>[<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>]</code>
+                  
+                    (default <code>process.cwd()</code>)
+                  </td>
+                  <td class='break-word'><span>Current working directory of the child process.
+</span></td>
+                </tr>
+              
+            </tbody>
+          </table>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>args</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>)</code> 
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>next.err</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>)</code> 
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>next.stdout</span> <code class='quiet'>(<a href="https://nodejs.org/api/stream.html">Stream</a>)</code> out stream
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>next.stderr</span> <code class='quiet'>(<a href="https://nodejs.org/api/stream.html">Stream</a>)</code> error stream
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>next.status</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a>)</code> node.js exit code
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>next</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">Function</a>)</code> 
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>this</code>:
+        
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+            
+          
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src='assets/anchor.js'></script>
+  <script src='assets/site.js'></script>
 </body>
 </html>

@@ -1,5 +1,9 @@
 # History
 
+## v6.1.0 2016 May 27
+- Updated internal conventions
+  - Moved from [ESNextGuardian](https://github.com/bevry/esnextguardian) to [Editions](https://github.com/bevry/editions)
+
 ## v6.0.2 2015 December 10
 - Updated internal conventions
 
