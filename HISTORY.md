@@ -1,5 +1,9 @@
 # History
 
+## v6.2.0 2016 June 4
+- Introduced `determineExecPathSync` which is now used of `opts.sync` is `true` in `determineExecPath`
+  - Removes the need for `sync` option in TaskGroup, which has caused too much complexity over the years
+
 ## v6.1.0 2016 May 28
 - Updated internal conventions
   - Moved from [ESNextGuardian](https://github.com/bevry/esnextguardian) to [Editions](https://github.com/bevry/editions)

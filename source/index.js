@@ -56,7 +56,6 @@ const safeps = {
 	/**
 	* Open a file.
 	* Pass your callback to fire when it is safe to open the process
-	* @method openProcess
 	* @param {Function} fn callback
 	* @chainable
 	* @return {this}
@@ -76,7 +75,6 @@ const safeps = {
 
 	/**
 	* Returns whether or not we are running on a windows machine
-	* @method isWindows
 	* @return {Boolean}
 	*/
 	isWindows () {
@@ -86,7 +84,6 @@ const safeps = {
 	/**
 	* Get locale code - eg: en-AU,
 	* fr-FR, zh-CN etc.
-	* @method getLocaleCode
 	* @param {String} lang
 	* @return {String}
 	*/
@@ -99,7 +96,6 @@ const safeps = {
 	/**
 	* Given the localeCode, return
 	* the language code.
-	* @method getLanguageCode
 	* @param {String} localeCode
 	* @return {String}
 	*/
@@ -112,7 +108,6 @@ const safeps = {
 	/**
 	* Given the localeCode, return
 	* the country code.
-	* @method getCountryCode
 	* @param {String} localeCode
 	* @return {String}
 	*/
@@ -130,7 +125,6 @@ const safeps = {
 	* Has spawn sync. Returns true
 	* if the child_process spawnSync
 	* method exists, otherwise false
-	* @method hasSpawnSync
 	* @return {Boolean}
 	*/
 	hasSpawnSync () {
@@ -141,7 +135,6 @@ const safeps = {
 	* Has exec sync. Returns true
 	* if the child_process execSync
 	* method exists, otherwise false
-	* @method hasExecSync
 	* @return {Boolean}
 	*/
 	hasExecSync () {
@@ -150,56 +143,7 @@ const safeps = {
 
 	/**
 	* Is the path to a file object an executable?
-	* Boolean result returned as the isExecutable parameter
-	* of the passed callback.
-	* next(err, isExecutable)
-	* @method isExecutable
-	* @param {String} path path to test
-	* @param {Object} [opts]
-	* @param {Boolean} [opts.sync] true to test sync rather than async
-	* @param {Function} next callback
-	* @param {Error} next.err
-	* @param {Boolean} next.isExecutable
-	* @return {Boolean} returned if opts.sync = true
-	*/
-	isExecutable (path, opts, next) {
-		// Prepare
-		[opts, next] = extractOptsAndCallback(opts, next)
-
-		// Sync?
-		if ( opts.sync ) {
-			return safeps.isExecutableSync(path, opts, next)
-		}
-
-		// Access (Node 0.12+)
-		if ( fsUtil.access ) {
-			fsUtil.access(path, fsUtil.X_OK, function (err) {
-				const isExecutable = !err
-				return next(null, isExecutable)
-			})
-		}
-
-		// Shim
-		else {
-			require('child_process').exec(path + ' --version', function (err) {
-				// If there was no error, then execution worked fine, so we are executable
-				if ( !err )  return next(null, true)
-				// If there was an error
-				// determine if it was an error with trying to run it (not executable)
-				// or an error from running it (executable)
-				const isExecutable = err.code !== 127 && (/EACCESS|Permission denied/).test(err.message) === false
-				return next(null, isExecutable)
-			})
-		}
-
-		// Chain
-		return safeps
-	},
-
-	/**
-	* Is the path to a file object an executable?
 	* Synchronised version of isExecutable
-	* @method isExecutableSync
 	* @param {String} path path to test
 	* @param {Object} opts
 	* @param {Function} [next]
@@ -247,12 +191,57 @@ const safeps = {
 	},
 
 	/**
+	* Is the path to a file object an executable?
+	* Boolean result returned as the isExecutable parameter
+	* of the passed callback.
+	* @param {String} path path to test
+	* @param {Object} [opts]
+	* @param {Boolean} [opts.sync] true to test sync rather than async
+	* @param {Function} next callback
+	* @param {Error} next.err
+	* @param {Boolean} next.isExecutable
+	* @return {Boolean} returned if opts.sync = true
+	*/
+	isExecutable (path, opts, next) {
+		// Prepare
+		[opts, next] = extractOptsAndCallback(opts, next)
+
+		// Sync?
+		if ( opts.sync ) {
+			return safeps.isExecutableSync(path, opts, next)
+		}
+
+		// Access (Node 0.12+)
+		if ( fsUtil.access ) {
+			fsUtil.access(path, fsUtil.X_OK, function (err) {
+				const isExecutable = !err
+				return next(null, isExecutable)
+			})
+		}
+
+		// Shim
+		else {
+			require('child_process').exec(path + ' --version', function (err) {
+				// If there was no error, then execution worked fine, so we are executable
+				if ( !err )  return next(null, true)
+				// If there was an error
+				// determine if it was an error with trying to run it (not executable)
+				// or an error from running it (executable)
+				const isExecutable = err.code !== 127 && (/EACCESS|Permission denied/).test(err.message) === false
+				return next(null, isExecutable)
+			})
+		}
+
+		// Chain
+		return safeps
+	},
+
+	/**
 	* Internal: Prepare options for an execution.
 	* Makes sure all options are populated or exist and
 	* gives the opportunity to prepopulate some of those
 	* options.
-	* @private
-	* @method prepareExecutableOptions
+	* @access private
 	* @param {Object} [opts]
 	* @param {Stream} [opts.stdin=null] in stream
 	* @param {Array} [opts.stdio=null] Child's stdio configuration
@@ -299,8 +288,7 @@ const safeps = {
 
 	/**
 	* Internal: Prepare result of an execution
-	* @private
-	* @method updateExecutableResult
+	* @access private
 	* @param {Object} result
 	* @param {Object} result.pid  Number Pid of the child process
 	* @param {Object} result.output output Array Array of results from stdio output
@@ -359,8 +347,7 @@ const safeps = {
 
 	/**
 	* Internal: prefix data
-	* @private
-	* @method prefixData
+	* @access private
 	* @param {Object} data
 	* @param {String} [prefix = '>\t']
 	* @return {Object} data
@@ -375,8 +362,7 @@ const safeps = {
 
 	/**
 	* Internal: Set output data
-	* @private
-	* @method outputData
+	* @access private
 	* @param {Object} data
 	* @param {Object} [channel = 'stdout']
 	* @param {Object} prefix
@@ -422,7 +408,6 @@ const safeps = {
 	*	console.log(result.signal);
 	*	console.log("I've finished...");
 	*
-	* @method spawnSync
 	* @param {Array|String} command
 	* @param {Object} [opts]
 	* @param {Boolean} [opts.safe] Whether to check the executable path.
@@ -504,7 +489,6 @@ const safeps = {
 	*	}
 	*	safeps.spawn(command, opts, myCallback);
 	*
-	* @method spawn
 	* @param {Array|String} command
 	* @param {Object} [opts]
 	* @param {Boolean} [opts.safe] Whether to check the executable path.
@@ -652,7 +636,6 @@ const safeps = {
 	* string or an array of command line inputs. It is also possible
 	* to pass a single command string and in this case calling
 	* spawnMultiple will be effectively the same as calling safeps.spawn.
-	* @method spawnMultiple
 	* @param {Array|String} commands
 	* @param {Object} [opts]
 	* @param {Boolean} [opts.concurrency=1] Whether to spawn processes concurrently.
@@ -725,7 +708,6 @@ const safeps = {
 	* Stdout and stderr should be Buffers but they are strings unless encoding:null
 	* for now, nothing we should do, besides wait for joyent to reply
 	* https://github.com/joyent/node/issues/5833#issuecomment-82189525.
-	* @method execSync
 	* @param {Object} command
 	* @param {Object} [opts]
 	* @param {Boolean} [opts.sync] true to execute sync rather than async
@@ -785,7 +767,6 @@ const safeps = {
 	* Stdout and stderr should be Buffers but they are strings unless encoding:null
 	* for now, nothing we should do, besides wait for joyent to reply
 	* https://github.com/joyent/node/issues/5833#issuecomment-82189525.
-	* @method exec
 	* @param {Object} command
 	* @param {Object} [opts]
 	* @param {Boolean} [opts.sync] true to execute sync rather than async
@@ -849,7 +830,6 @@ const safeps = {
 	* string or an array of command line inputs. It is also possible
 	* to pass a single command string and in this case calling
 	* execMultiple will be effectively the same as calling safeps.exec.
-	* @method execMultiple
 	* @param {Array|String} commands
 	* @param {Object} [opts]
 	* @param {Boolean} [opts.concurrency=1] Whether to exec processes concurrently.
@@ -909,12 +889,54 @@ const safeps = {
 	// Paths
 
 	/**
+	* Determine an executable path from the passed array of possible file paths.
+	* Called by getExecPath to find a path for a given executable name.
+	* @access private
+	* @param {Array} possibleExecPaths string array of file paths
+	* @param {Object} [opts]
+	* @param {Boolean} [opts.sync] true to execute sync rather than async
+	* @param {Function} [next]
+	* @param {Error} next.err
+	* @param {String} next.execPath
+	* @chainable
+	* @return {this}
+	*/
+	determineExecPathSync (possibleExecPaths, opts, next) {
+		// Prepare
+		[opts, next] = extractOptsAndCallback(opts, next)
+		let execPath = null
+
+		// Handle
+		possibleExecPaths.forEach(function (possibleExecPath) {
+			// Check if we have found the valid exec path earlier, if so, skip
+			// Check if the path is invalid, if it is, skip it
+			if ( execPath || !possibleExecPath )  return
+
+			// Resolve the path as it may be a virtual or relative path
+			possibleExecPath = pathUtil.resolve(possibleExecPath)
+
+			// Check if the executeable exists
+			safeps.isExecutableSync(possibleExecPath, opts, function (err, isExecutable) {
+				if ( !err && isExecutable )  execPath = possibleExecPath
+			})
+		})
+
+		// Return
+		if ( next ) {
+			next(null, execPath)
+			return safeps
+		}
+		else {
+			return execPath
+		}
+	},
+
+	/**
 	* Determine an executable path from
 	* the passed array of possible file paths.
 	* Called by getExecPath to find a path for
 	* a given executable name.
-	* @private
-	* @method determineExecPath
+	* @access private
 	* @param {Array} possibleExecPaths string array of file paths
 	* @param {Object} [opts]
 	* @param {Boolean} [opts.sync] true to execute sync rather than async
@@ -929,11 +951,13 @@ const safeps = {
 		[opts, next] = extractOptsAndCallback(opts, next)
 		let execPath = null
 
-		// By default don't be sync
-		if ( opts.sync == null )  opts.sync = false
+		// Sync?
+		if ( opts.sync ) {
+			return safeps.determineExecPathSync(possibleExecPaths, opts, next)
+		}
 
 		// Group
-		const tasks = new TaskGroup({sync: opts.sync}).done(function (err) {
+		const tasks = new TaskGroup().done(function (err) {
 			return next(err, execPath)
 		})
 
@@ -950,8 +974,7 @@ const safeps = {
 
 				// Check if the executeable exists
 				safeps.isExecutable(possibleExecPath, opts, function (err, isExecutable) {
-					if ( err || !isExecutable )  return complete()
-					execPath = possibleExecPath
+					if ( !err && isExecutable )  execPath = possibleExecPath
 					return complete()
 				})
 			})
@@ -966,7 +989,6 @@ const safeps = {
 
 	/**
 	* Get the system's environment paths.
-	* @method getEnvironmentPaths
 	* @return {Array} string array of file paths
 	*/
 	getEnvironmentPaths () {
@@ -984,8 +1006,7 @@ const safeps = {
 	* get a list of places to look for the
 	* executable. Only safe for non-Windows
 	* systems.
-	* @private
-	* @method getStandardExecPaths
+	* @access private
 	* @param {String} execName
 	* @return {Array} string array of file paths
 	*/
@@ -1012,8 +1033,7 @@ const safeps = {
 	* executable. Makes allowances for Windows
 	* executables possibly needing an extension
 	* to ensure execution (.exe, .cmd, .bat).
-	* @private
-	* @method getStandardExecPaths
+	* @access private
 	* @param {String} execName
 	* @return {Array} string array of file paths
 	*/
@@ -1045,7 +1065,7 @@ const safeps = {
 
 	/**
 	* Cache of executable paths
-	* @private
+	* @access private
 	* @property execPathCache
 	*/
 	execPathCache: {},
@@ -1055,7 +1075,6 @@ const safeps = {
 	* its actual path. Will search the standard
 	* file paths defined by the environment to
 	* see if the executable is in any of those paths.
-	* @method getExecPath
 	* @param {Object} execName
 	* @param {Object} [opts]
 	* @param {Boolean} [opts.cache=true]
@@ -1121,7 +1140,6 @@ const safeps = {
 	/**
 	* Get home path. Returns the user's home directory.
 	* Based upon home function from: https://github.com/isaacs/osenv
-	* @method getHomePath
 	* @param {Object} [opts]
 	* @param {Object} [opts.cache=true]
 	* @param {Function} next
@@ -1157,7 +1175,6 @@ const safeps = {
 	/**
 	* Path to the evironment's temporary directory.
 	* Based upon tmpdir function from: https://github.com/isaacs/osenv
-	* @method getTmpPath
 	* @param {Object} [opts]
 	* @param {Object} [opts.cache=true]
 	* @param {Function} next
@@ -1221,7 +1238,6 @@ const safeps = {
 	* Path to the evironment's GIT directory.
 	* As 'git' is not always available in the environment path, we should check
 	* common path locations and if we find one that works, then we should use it.
-	* @method getGitPath
 	* @param {Object} [opts]
 	* @param {Object} [opts.cache=true]
 	* @param {Function} next
@@ -1294,7 +1310,6 @@ const safeps = {
 	* Path to the evironment's Node directory.
 	* As 'node' is not always available in the environment path, we should check
 	* common path locations and if we find one that works, then we should use it
-	* @method getNodePath
 	* @param {Object} [opts]
 	* @param {Object} [opts.cache=true]
 	* @param {Function} next
@@ -1368,7 +1383,6 @@ const safeps = {
 	* Path to the evironment's NPM directory.
 	* As 'npm' is not always available in the environment path, we should check
 	* common path locations and if we find one that works, then we should use it
-	* @method getNpmPath
 	* @param {Object} [opts]
 	* @param {Object} [opts.cache=true]
 	* @param {Function} next
@@ -1446,7 +1460,6 @@ const safeps = {
 	/**
 	* Initialize a git Repository.
 	* Requires internet access.
-	* @method initGitRepo
 	* @param {Object} opts
 	* @param {String} opts.path path to initiate local repository
 	* @param {String} [opts.remote='origin']
@@ -1496,7 +1509,6 @@ const safeps = {
 	* Pull from a git repository if it already exists
 	* on the file system else initialize  new Git repository.
 	* Requires internet access.
-	* @method initOrPullGitRepo
 	* @param {Object} opts
 	* @param {String} opts.path path to local repository
 	* @param {String} [opts.remote='origin']
@@ -1548,7 +1560,6 @@ const safeps = {
 	/**
 	* Init Node Modules with cross platform support
 	* supports linux, heroku, osx, windows
-	* @method initNodeModules
 	* @param {Object} opts
 	* @param {Function} next
 	* @param {Object} next.err
@@ -1610,7 +1621,6 @@ const safeps = {
 	* supports linux, heroku, osx, windows
 	* spawnNodeModule(name:string, args:array, opts:object, next:function)
 	* Better than https://github.com/mafintosh/npm-execspawn as it uses safeps
-	* @method spawnNodeModule
 	* @param {String} name
 	* @param {Array} args
 	* @param {Object} opts
