@@ -26,7 +26,7 @@ script: "npm test"
 # Custom notifications
 notifications:
   slack:
-    secure: aaDRLedS7dyB443/USonJfneITUUnoWUfZL7zg/HEqdnX6Tgcv6S6+ZDlGUdkBHM8PrK/50MG4c09N+B7Ww4DSneQmhQsQmzX3pHVwTi2q5vN2zSAGIBvhL8SlkcVbObf986mMePizDWA9lBKXCVIYFq6PvUF+Y1D119mKyVfLw=
+    secure: KAMLtxgAk30z7smwcSG9kMRjMlLZfU8Qer7dQl1wG1BOTXv/We4H6UTOcfIPmq9XZJgbbWZ6g3djsjqAzLpvhuso0DngreGabbuM1i1wKfL8IMM2KjCl1piNUUTE/9vVEFRQg4YFO5lGRyd2IUpXkcZhg0MuPAoaEyS27KkZzLk=
   email:
     recipients:
-      secure: GZi126EpEgDh1VtYJiZYAUjIJJjrhNt8k+fcp2zMKVI7TDNqh0n2LOe0g278Jn+yyqpC2/DI7oQjUdHX35CDVUllSLf39oQPNSgh4EA+C+9MN5lN7LM1kPpowIyR0cA0t/KLaSH15KbZXndsL7jKXwMRh0PLKlYuUoYmGwmMRag=
+      secure: h189nN6UfExBuBChEpjz+K1PUCSGVw+wB4dKyb/Yo0/lL1MfucY301r2K6junlBTbVHL67BJ4Nq/Mszp/9S+RhS3+FlV6O+7GhaLbFZub4usTUjEThAoDqxuQDTReC8Rtv9e9cwcnqGcJCPUH6jSV5WW8jIpNVPUAnIXJqo17sw=

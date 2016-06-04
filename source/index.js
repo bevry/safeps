@@ -1,7 +1,7 @@
 /* eslint no-sync:0 */
 
 // Import
-const TaskGroup = require('taskgroup')
+const {TaskGroup} = require('taskgroup')
 const typeChecker = require('typechecker')
 const safefs = require('safefs')
 const fsUtil = require('fs')
@@ -24,9 +24,10 @@ if ( global.safepsGlobal == null ) {
 // Define Global Pool
 // Create a pool with the concurrency of our max number of open processes
 if ( global.safepsGlobal.pool == null ) {
-	global.safepsGlobal.pool = new TaskGroup().setConfig({
+	global.safepsGlobal.pool = new TaskGroup({
 		concurrency: process.env.NODE_MAX_OPEN_PROCESSES == null ? DEFAULT_MAX_OPEN_PROCESSES : process.env.NODE_MAX_OPEN_PROCESSES,
-		pauseOnError: false
+		abortOnError: false,
+		destroyOnceDone: false
 	}).run()
 }
 
@@ -665,7 +666,7 @@ const safeps = {
 		if ( opts.concurrency == null )  opts.concurrency = 1
 
 		// Make sure we send back the arguments
-		const tasks = new TaskGroup().setConfig({concurrency: opts.concurrency}).done(function (err) {
+		const tasks = new TaskGroup({concurrency: opts.concurrency}).done(function (err) {
 			next(err, results)
 		})
 
@@ -857,7 +858,7 @@ const safeps = {
 		if ( opts.concurrency == null )  opts.concurrency = 1
 
 		// Make sure we send back the arguments
-		const tasks = new TaskGroup().setConfig({concurrency: opts.concurrency}).done(function (err) {
+		const tasks = new TaskGroup({concurrency: opts.concurrency}).done(function (err) {
 			next(err, results)
 		})
 

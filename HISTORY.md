@@ -1,5 +1,8 @@
 # History
 
+## v6.3.0 2016 June 4
+- Updated dependencies
+
 ## v6.2.0 2016 June 4
 - Introduced `determineExecPathSync` which is now used of `opts.sync` is `true` in `determineExecPath`
   - Removes the need for `sync` option in TaskGroup, which has caused too much complexity over the years
