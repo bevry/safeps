@@ -1047,7 +1047,8 @@ const safeps = {
 			// we are for windows add the paths for .exe as well
 			const standardExecPaths = safeps.getStandardExecPaths(execName)
 			possibleExecPaths = []
-			for ( const standardExecPath of standardExecPaths ) {
+			for ( let i = 0; i < standardExecPaths.length; ++i ) {
+				const standardExecPath = standardExecPaths[i]
 				possibleExecPaths.push(
 					standardExecPath,
 					standardExecPath + '.exe',
@@ -1643,7 +1644,8 @@ const safeps = {
 		let next
 
 		// Extract options
-		for ( const arg of args ) {
+		for (let i = 0; i < args.length; ++i) {
+			const arg = args[i]
 			const type = typeof arg
 			if ( Array.isArray(arg) ) {
 				opts.args = arg
@@ -1653,7 +1655,9 @@ const safeps = {
 					next = arg.next
 					arg.next = null
 				}
-				for ( const key of Object.keys(arg) ) {
+				const keys = Object.keys(arg)
+				for (let ii = 0; ii < keys.length; ++ii) {
+					const key = keys[ii]
 					opts[key] = arg[key]
 				}
 			}
