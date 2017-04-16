@@ -1,5 +1,9 @@
 # History
 
+## v6.4.0 2017 April 16
+- Updated base files
+- Fix node <0.12 support
+
 ## v6.3.0 2016 June 4
 - Updated dependencies
 
