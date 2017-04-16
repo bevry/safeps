@@ -1460,23 +1460,13 @@ const safeps = {
 	// @TODO These should be abstracted out into their own packages
 
 	/**
-	* Initialize a git Repository.
-	* Requires internet access.
-	* @param {Object} opts
-	* @param {String} opts.path path to initiate local repository
-	* @param {String} [opts.remote='origin']
-	* @param {String} opts.url url to git remote repository
-	* @param {String} [opts.branch='master']
-	* @param {String} opts.log
-	* @param {String} opts.output
-	* @param {String} [opts.cwd=process.cwd()] Current working directory of the child process.
-	* @param {Function} next
-	* @param {Error} next.err
-	* @param {Array} next.results array of spawn results
-	* @param {Stream} next.results[i].stdout out stream
-	* @param {Stream} next.results[i].stderr error stream
-	* @param {Number} next.results[i].status node.js exit code
-	* @param {String} next.results[i].signal unix style signal such as SIGKILL or SIGHUP
+	* Initialize a git repository, including submodules, and will prepare the given options if they are provided.
+	* @param {Object} opts also forwarded to {@link spawnMultiple}
+	* @param {String} [opts.cwd=process.cwd()] path to initiate the repository, can also be `opts.path`
+	* @param {String} [opts.url] the remote url, e.g. `https://github.com/bevry/safeps.git`
+	* @param {String} [opts.remote] the remote name, e.g. `origin`
+	* @param {String} [opts.branch] the branch to use, e.g. `master`
+	* @param {Function} next {@link spawnMultiple} completion callback
 	* @chainable
 	* @return {this}
 	*/
@@ -1485,74 +1475,41 @@ const safeps = {
 		[opts, next] = extractOptsAndCallback(opts, next)
 
 		// Defaults
-		if ( !opts.cwd )     opts.cwd = process.cwd()
-		if ( !opts.remote )  opts.remote = 'origin'
-		if ( !opts.branch )  opts.branch = 'master'
-
-		// Prepare commands
-		const commands = []
-		commands.push(['git', 'init'])
-		if ( opts.url ) {
-			commands.push(['git', 'remote', 'add', opts.remote, opts.url])
+		if (opts.path) {
+			opts.cwd = opts.path
+			delete opts.path
 		}
-		commands.push(['git', 'fetch', opts.remote])
-		commands.push(['git', 'pull', opts.remote, opts.branch])
-		commands.push(['git', 'submodule', 'init'])
-		commands.push(['git', 'submodule', 'update', '--recursive'])
-
-		// Perform commands
-		safeps.spawnMultiple(commands, opts, next)
-
-		// Chain
-		return safeps
-	},
-
-	/**
-	* Pull from a git repository if it already exists
-	* on the file system else initialize  new Git repository.
-	* Requires internet access.
-	* @param {Object} opts
-	* @param {String} opts.path path to local repository
-	* @param {String} [opts.remote='origin']
-	* @param {String} opts.url url to git remote repository
-	* @param {String} [opts.branch='master']
-	* @param {String} opts.log
-	* @param {String} opts.output
-	* @param {String} [opts.cwd=process.cwd()] Current working directory of the child process.
-	* @param {Function} next
-	* @param {Error} next.err
-	* @param {Array} next.results array of spawn results
-	* @param {Stream} next.results[i].stdout out stream
-	* @param {Stream} next.results[i].stderr error stream
-	* @param {Number} next.results[i].status node.js exit code
-	* @param {String} next.results[i].signal unix style signal such as SIGKILL or SIGHUP
-	* @chainable
-	* @return {this}
-	*/
-	initOrPullGitRepo (opts, next) {
-		// Extract
-		[opts, next] = extractOptsAndCallback(opts, next)
-
-		// Defaults
-		if ( !opts.cwd )     opts.cwd = process.cwd()
-		if ( !opts.remote )  opts.remote = 'origin'
-		if ( !opts.branch )  opts.branch = 'master'
+		if (!opts.cwd) {
+			opts.cwd = process.cwd()
+		}
 
 		// Check if it exists
-		safefs.ensurePath(opts.cwd, function (err, exists) {
-			if ( err ) {
-				next(err)
+		safefs.ensurePath(opts.cwd, function (err) {
+			if (err) return next(err)
+
+			// Prepare commands
+			const commands = []
+			commands.push(['git', 'init'])
+			if (opts.url && opts.remote) {
+				commands.push(['git', 'remote', 'add', opts.remote, opts.url])
 			}
-			else if ( exists ) {
-				safeps.spawn(['git', 'pull', opts.remote, opts.branch], opts, function (err, ...result) {
-					next(err, 'pull', result)
-				})
+			if (opts.remote) {
+				commands.push(['git', 'fetch', opts.remote])
 			}
-			else {
-				safeps.initGitRepo(opts, function (err, result) {
-					next(err, 'init', result)
-				})
+			if (opts.branch) {
+				commands.push(['git', 'checkout', opts.branch])
+				if (opts.remote) {
+					commands.push(['git', 'pull', opts.remote, opts.branch])
+				}
 			}
+			else if (opts.remote) {
+				commands.push(['git', 'pull', opts.remote])
+			}
+			commands.push(['git', 'submodule', 'init'])
+			commands.push(['git', 'submodule', 'update', '--recursive'])
+
+			// Perform commands
+			safeps.spawnMultiple(commands, opts, next)
 		})
 
 		// Chain
@@ -1562,13 +1519,8 @@ const safeps = {
 	/**
 	* Init Node Modules with cross platform support
 	* supports linux, heroku, osx, windows
-	* @param {Object} opts
-	* @param {Function} next
-	* @param {Object} next.err
-	* @param {Stream} next.stdout out stream
-	* @param {Stream} next.stderr error stream
-	* @param {Number} next.status node.js exit code
-	* @param {String} next.signal unix style signal such as SIGKILL or SIGHUP
+	* @param {Object} opts also forwarded to {@link spawn}
+	* @param {Function} next {@link spawn} completion callback
 	* @chainable
 	* @return {this}
 	*/
@@ -1625,15 +1577,10 @@ const safeps = {
 	* Better than https://github.com/mafintosh/npm-execspawn as it uses safeps
 	* @param {String} name
 	* @param {Array} args
-	* @param {Object} opts
+	* @param {Object} opts also forwarded to {@link spawn}
 	* @param {String} opts.name name of node module
 	* @param {String} [opts.cwd=process.cwd()] Current working directory of the child process.
-	* @param {Function} next
-	* @param {Object} next.err
-	* @param {Stream} next.stdout out stream
-	* @param {Stream} next.stderr error stream
-	* @param {Number} next.status node.js exit code
-	* @param {String} next.signal unix style signal such as SIGKILL or SIGHUP
+	* @param {Function} next {@link spawn} completion callback
 	* @chainable
 	* @return {this}
 	*/

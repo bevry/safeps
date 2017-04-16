@@ -1,5 +1,9 @@
 # History
 
+## v7.0.0. 2017 April 16
+- Removed `initOrPullGitRepo` and put its functionality into `initGitRepo` if the appropriate args are provided, also checkout the branch (if provided) before pulling it
+  - Thanks to [Nathan Friedly](https://github.com/nfriedly) for his help on [issue #7](https://github.com/bevry/safeps/issues/7) and [pull request #8](https://github.com/bevry/safeps/pull/8)
+
 ## v6.4.0 2017 April 16
 - Updated base files
 - Fix node <0.12 support
