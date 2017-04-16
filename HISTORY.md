@@ -1,6 +1,9 @@
 # History
 
-## v7.0.0. 2017 April 16
+## v7.0.1 2017 April 16
+- Fixed `fatal: remote origin already exists` on `initGitRepo` when remote already existed, it will now overwrite the remote
+
+## v7.0.0 2017 April 16
 - Removed `initOrPullGitRepo` and put its functionality into `initGitRepo` if the appropriate args are provided, also checkout the branch (if provided) before pulling it
   - Thanks to [Nathan Friedly](https://github.com/nfriedly) for his help on [issue #7](https://github.com/bevry/safeps/issues/7) and [pull request #8](https://github.com/bevry/safeps/pull/8)
 

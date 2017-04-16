@@ -1466,7 +1466,8 @@ const safeps = {
 	* @param {String} [opts.url] the remote url, e.g. `https://github.com/bevry/safeps.git`
 	* @param {String} [opts.remote] the remote name, e.g. `origin`
 	* @param {String} [opts.branch] the branch to use, e.g. `master`
-	* @param {Function} next {@link spawnMultiple} completion callback
+	* @param {Function} next
+	* @param {Error} next.err
 	* @chainable
 	* @return {this}
 	*/
@@ -1483,16 +1484,10 @@ const safeps = {
 			opts.cwd = process.cwd()
 		}
 
-		// Check if it exists
-		safefs.ensurePath(opts.cwd, function (err) {
+		// Prepare
+		function partTwo (err) {
 			if (err) return next(err)
-
-			// Prepare commands
 			const commands = []
-			commands.push(['git', 'init'])
-			if (opts.url && opts.remote) {
-				commands.push(['git', 'remote', 'add', opts.remote, opts.url])
-			}
 			if (opts.remote) {
 				commands.push(['git', 'fetch', opts.remote])
 			}
@@ -1510,6 +1505,41 @@ const safeps = {
 
 			// Perform commands
 			safeps.spawnMultiple(commands, opts, next)
+		}
+
+		// Check if it exists
+		safefs.ensurePath(opts.cwd, function (err) {
+			if (err) return next(err)
+
+			// Initialise git repo
+			safeps.spawn(['git', 'init'], opts, function (err) {
+				if (err) return next(err)
+
+				// If we want to set a remote, then do so
+				if (opts.url && opts.remote) {
+					// Check what remotes we have
+					safeps.spawn(['git', 'remote', 'show'], opts, function (err, stdout) {
+						if (err) return next(err)
+						// stdout will be null if there are no remotes
+						// and will be buffer if there are remotes
+						if (stdout && stdout.toString().split('\n').indexOf(opts.remote) !== -1) {
+							// Overwrite it if it does exist
+							// @todo we could probably do a check here to see if it is different
+							// but no need right now
+							const command = ['git', 'remote', 'set-url', opts.remote, opts.url]
+							safeps.spawn(command, opts, partTwo)
+						}
+						else {
+							// Add it if it doesn't exist
+							const command = ['git', 'remote', 'add', opts.remote, opts.url]
+							safeps.spawn(command, opts, partTwo)
+						}
+					})
+				}
+				else {
+					return partTwo()
+				}
+			})
 		})
 
 		// Chain
