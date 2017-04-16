@@ -1,4 +1,5 @@
 /* eslint no-sync:0 */
+'use strict'
 
 // Import
 const {TaskGroup} = require('taskgroup')
@@ -354,7 +355,7 @@ const safeps = {
 	* @return {Object} data
 	*/
 	prefixData (data, prefix = '>\t') {
-		data = data && data.toString && data.toString() || ''
+		data = (data && data.toString && data.toString()) || ''
 		if ( prefix && data ) {
 			data = prefix + data.trim().replace(/\n/g, '\n' + prefix) + '\n'
 		}
