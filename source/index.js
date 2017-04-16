@@ -40,7 +40,6 @@ if ( global.safepsGlobal.pool == null ) {
 * Contains methods to safely spawn and manage
 * various file system processes. It differs
 * from the standard node.js child_process
-* (https://nodejs.org/docs/v0.11.13/api/child_process.html#child_process_child_process)
 * module in that it intercepts and handles
 * many common errors that might occur when
 * invoking child processes that could cause
