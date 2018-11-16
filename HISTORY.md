@@ -1,5 +1,9 @@
 # History
 
+## v8.0.0 2018 November 16
+- Rewritten with TypeScript and Promises, so check the New API Documentation
+- Fixed `isExecutable` using `requrie('fs').X_OK` instead of `require('fs').constants.X_OK`
+
 ## v7.0.1 2017 April 16
 - Fixed `fatal: remote origin already exists` on `initGitRepo` when remote already existed, it will now overwrite the remote
 
