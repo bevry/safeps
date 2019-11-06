@@ -103,7 +103,7 @@
     "babel-cli": "^6.24.1",
     "babel-preset-es2015": "^6.24.1",
     "documentation": "^4.0.0-beta.19",
-    "eslint": "^3.19.0",
+    "eslint": "^6.6.0",
     "joe": "^2.0.2",
     "joe-reporter-console": "^2.0.1",
     "projectz": "^1.4.0",
