@@ -118,7 +118,8 @@ These amazing people have contributed code to this project:
 <ul><li><a href="http://balupton.com">Benjamin Lupton</a> — <a href="https://github.com/bevry/safeps/commits?author=balupton" title="View the GitHub contributions of Benjamin Lupton on repository bevry/safeps">view contributions</a></li>
 <li><a href="https://github.com/giodamelio">Gio d'Amelio</a> — <a href="https://github.com/bevry/safeps/commits?author=giodamelio" title="View the GitHub contributions of Gio d'Amelio on repository bevry/safeps">view contributions</a></li>
 <li><a href="http://seanfridman.com">Sean Fridman</a> — <a href="https://github.com/bevry/safeps/commits?author=sfrdmn" title="View the GitHub contributions of Sean Fridman on repository bevry/safeps">view contributions</a></li>
-<li><a href="http://www.stevemcarthur.co.uk">Steve Mc</a> — <a href="https://github.com/bevry/safeps/commits?author=SteveMcArthur" title="View the GitHub contributions of Steve Mc on repository bevry/safeps">view contributions</a></li></ul>
+<li><a href="http://www.stevemcarthur.co.uk">Steve Mc</a> — <a href="https://github.com/bevry/safeps/commits?author=SteveMcArthur" title="View the GitHub contributions of Steve Mc on repository bevry/safeps">view contributions</a></li>
+<li><a href="http://github.com/apps/dependabot-preview">dependabot-preview[bot]</a> — <a href="https://github.com/bevry/safeps/commits?author=dependabot-preview[bot]" title="View the GitHub contributions of dependabot-preview[bot] on repository bevry/safeps">view contributions</a></li></ul>
 
 <a href="https://github.com/bevry/safeps/blob/master/CONTRIBUTING.md#files">Discover how you can contribute by heading on over to the <code>CONTRIBUTING.md</code> file.</a>
 
