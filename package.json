@@ -99,7 +99,7 @@
     "editions": "^2.2.0",
     "extract-opts": "^3.3.1",
     "safefs": "4.2.0",
-    "taskgroup": "5.5.0",
+    "taskgroup": "6.0.0",
     "typechecker": "^4.8.0"
   },
   "devDependencies": {
