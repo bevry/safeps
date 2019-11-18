@@ -84,7 +84,7 @@ const safeps = {
 	/**
 	 * Get locale code - eg: en-AU,
 	 * fr-FR, zh-CN etc.
-	 * @param {String} lang
+	 * @param {String} [lang]
 	 * @return {String}
 	 */
 	getLocaleCode(lang) {
@@ -100,7 +100,7 @@ const safeps = {
 	/**
 	 * Given the localeCode, return
 	 * the language code.
-	 * @param {String} localeCode
+	 * @param {String} [localeCode]
 	 * @return {String}
 	 */
 	getLanguageCode(localeCode) {
@@ -113,7 +113,7 @@ const safeps = {
 	/**
 	 * Given the localeCode, return
 	 * the country code.
-	 * @param {String} localeCode
+	 * @param {String} [localeCode]
 	 * @return {String}
 	 */
 	getCountryCode(localeCode) {
