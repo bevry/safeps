@@ -84,7 +84,7 @@
   "dependencies": {
     "extract-opts": "^4.0.0",
     "safefs": "5.2.0",
-    "taskgroup": "6.1.0",
+    "taskgroup": "6.2.0",
     "typechecker": "^4.11.0"
   },
   "devDependencies": {
