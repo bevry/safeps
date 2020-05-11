@@ -33,6 +33,10 @@ Work with processes safely and easily with Node.js
 <!-- /DESCRIPTION -->
 
 
+## Usage
+
+[Complete API Documentation.](http://master.safeps.bevry.surge.sh/docs/index.html)
+
 <!-- INSTALL/ -->
 
 <h2>Install</h2>
@@ -40,7 +44,8 @@ Work with processes safely and easily with Node.js
 <a href="https://npmjs.com" title="npm is a package manager for javascript"><h3>npm</h3></a>
 <ul>
 <li>Install: <code>npm install --save safeps</code></li>
-<li>Require: <code>require('safeps')</code></li>
+<li>Import: <code>import * as pkg from ('safeps')</code></li>
+<li>Require: <code>const pkg = require('safeps')</code></li>
 </ul>
 
 <h3><a href="https://editions.bevry.me" title="Editions are the best way to produce and consume packages you care about.">Editions</a></h3>
@@ -48,9 +53,7 @@ Work with processes safely and easily with Node.js
 <p>This package is published with the following editions:</p>
 
 <ul><li><code>safeps</code> aliases <code>safeps/source/index.js</code></li>
-<li><code>safeps/source/index.js</code> is esnext source code with require for modules</li></ul>
-
-<p>Environments older than Node.js v8 may need <a href="https://babeljs.io/docs/usage/polyfill/" title="A polyfill that emulates missing ECMAScript environment features">Babel's Polyfill</a> or something similar.</p>
+<li><code>safeps/source/index.js</code> is <a href="https://en.wikipedia.org/wiki/ECMAScript#ES.Next" title="ECMAScript Next">ESNext</a> source code for <a href="https://nodejs.org" title="Node.js is a JavaScript runtime built on Chrome's V8 JavaScript engine">Node.js</a> with <a href="https://nodejs.org/dist/latest-v5.x/docs/api/modules.html" title="Node/CJS Modules">Require</a> for modules</li></ul>
 
 <h3><a href="https://www.typescriptlang.org/" title="TypeScript is a typed superset of JavaScript that compiles to plain JavaScript. ">TypeScript</a></h3>
 
@@ -65,11 +68,6 @@ This project provides its type information via inline <a href="http://usejsdoc.o
 ```
 
 <!-- /INSTALL -->
-
-
-## Usage
-
-[Documentation](http://master.safeps.bevry.surge.sh/docs/)
 
 
 <!-- HISTORY/ -->
@@ -98,7 +96,7 @@ This project provides its type information via inline <a href="http://usejsdoc.o
 
 These amazing people are maintaining this project:
 
-<ul><li><a href="http://balupton.com">Benjamin Lupton</a> — <a href="https://github.com/bevry/safeps/commits?author=balupton" title="View the GitHub contributions of Benjamin Lupton on repository bevry/safeps">view contributions</a></li></ul>
+<ul><li><a href="https://balupton.com">Benjamin Lupton</a> — <a href="https://github.com/bevry/safeps/commits?author=balupton" title="View the GitHub contributions of Benjamin Lupton on repository bevry/safeps">view contributions</a></li></ul>
 
 <h3>Sponsors</h3>
 
@@ -118,11 +116,10 @@ No sponsors yet! Will you be the first?
 
 These amazing people have contributed code to this project:
 
-<ul><li><a href="http://balupton.com">Benjamin Lupton</a> — <a href="https://github.com/bevry/safeps/commits?author=balupton" title="View the GitHub contributions of Benjamin Lupton on repository bevry/safeps">view contributions</a></li>
+<ul><li><a href="https://balupton.com">Benjamin Lupton</a> — <a href="https://github.com/bevry/safeps/commits?author=balupton" title="View the GitHub contributions of Benjamin Lupton on repository bevry/safeps">view contributions</a></li>
 <li><a href="https://github.com/giodamelio">Gio d'Amelio</a> — <a href="https://github.com/bevry/safeps/commits?author=giodamelio" title="View the GitHub contributions of Gio d'Amelio on repository bevry/safeps">view contributions</a></li>
-<li><a href="http://seanfridman.com">Sean Fridman</a> — <a href="https://github.com/bevry/safeps/commits?author=sfrdmn" title="View the GitHub contributions of Sean Fridman on repository bevry/safeps">view contributions</a></li>
-<li><a href="http://www.stevemcarthur.co.uk">Steve Mc</a> — <a href="https://github.com/bevry/safeps/commits?author=SteveMcArthur" title="View the GitHub contributions of Steve Mc on repository bevry/safeps">view contributions</a></li>
-<li><a href="http://github.com/apps/dependabot-preview">dependabot-preview[bot]</a> — <a href="https://github.com/bevry/safeps/commits?author=dependabot-preview[bot]" title="View the GitHub contributions of dependabot-preview[bot] on repository bevry/safeps">view contributions</a></li></ul>
+<li><a href="https://github.com/sfrdmn">Sean Fridman</a> — <a href="https://github.com/bevry/safeps/commits?author=sfrdmn" title="View the GitHub contributions of Sean Fridman on repository bevry/safeps">view contributions</a></li>
+<li><a href="https://github.com/SteveMcArthur">Steve Mc</a> — <a href="https://github.com/bevry/safeps/commits?author=SteveMcArthur" title="View the GitHub contributions of Steve Mc on repository bevry/safeps">view contributions</a></li></ul>
 
 <a href="https://github.com/bevry/safeps/blob/master/CONTRIBUTING.md#files">Discover how you can contribute by heading on over to the <code>CONTRIBUTING.md</code> file.</a>
 
@@ -136,7 +133,7 @@ These amazing people have contributed code to this project:
 Unless stated otherwise all works are:
 
 <ul><li>Copyright &copy; 2013+ <a href="http://bevry.me">Bevry Pty Ltd</a></li>
-<li>Copyright &copy; 2011-2012 <a href="http://balupton.com">Benjamin Lupton</a></li></ul>
+<li>Copyright &copy; 2011-2012 <a href="https://balupton.com">Benjamin Lupton</a></li></ul>
 
 and licensed under:
 

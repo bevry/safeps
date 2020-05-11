@@ -30,7 +30,7 @@ if (global.safepsGlobal.pool == null) {
 				? DEFAULT_MAX_OPEN_PROCESSES
 				: process.env.NODE_MAX_OPEN_PROCESSES,
 		abortOnError: false,
-		destroyOnceDone: false
+		destroyOnceDone: false,
 	}).run()
 }
 
@@ -90,10 +90,7 @@ const safeps = {
 	getLocaleCode(lang) {
 		lang = lang || process.env.LANG || ''
 		const localeCode =
-			lang
-				.replace(/\..+/, '')
-				.replace('-', '_')
-				.toLowerCase() || null
+			lang.replace(/\..+/, '').replace('-', '_').toLowerCase() || null
 		return localeCode
 	},
 
@@ -217,7 +214,7 @@ const safeps = {
 
 		// Access (Node 0.12+)
 		if (fsUtil.access) {
-			fsUtil.access(path, fsUtil.X_OK, function(err) {
+			fsUtil.access(path, fsUtil.X_OK, function (err) {
 				const isExecutable = !err
 				return next(null, isExecutable)
 			})
@@ -225,7 +222,7 @@ const safeps = {
 
 		// Shim
 		else {
-			require('child_process').exec(path + ' --version', function(err) {
+			require('child_process').exec(path + ' --version', function (err) {
 				// If there was no error, then execution worked fine, so we are executable
 				if (!err) return next(null, true)
 				// If there was an error
@@ -446,7 +443,7 @@ const safeps = {
 		// Otherwise, don't worry about it and output a warning to stderr
 		if (opts.safe) {
 			let wasSync = 0
-			safeps.getExecPath(command[0], opts, function(err, execPath) {
+			safeps.getExecPath(command[0], opts, function (err, execPath) {
 				if (err) return
 				command[0] = execPath
 				wasSync = 1
@@ -534,7 +531,7 @@ const safeps = {
 		}
 
 		// Patience
-		safeps.openProcess(function(closeProcess) {
+		safeps.openProcess(function (closeProcess) {
 			// If the command is a string, then convert it into an array
 			if (typeChecker.isString(command)) {
 				command = command.split(' ')
@@ -548,12 +545,12 @@ const safeps = {
 				output: null,
 				error: null,
 				status: null,
-				signal: null
+				signal: null,
 			}
 			let exited = false
 
 			// Tasks
-			const tasks = new TaskGroup().done(function(err) {
+			const tasks = new TaskGroup().done(function (err) {
 				exited = true
 				closeProcess()
 				next(
@@ -567,8 +564,8 @@ const safeps = {
 
 			// Get correct executable path
 			if (opts.safe) {
-				tasks.addTask(function(complete) {
-					safeps.getExecPath(command[0], opts, function(err, execPath) {
+				tasks.addTask(function (complete) {
+					safeps.getExecPath(command[0], opts, function (err, execPath) {
 						if (err) return complete(err)
 						command[0] = execPath
 						complete()
@@ -577,7 +574,7 @@ const safeps = {
 			}
 
 			// Spawn
-			tasks.addTask(function(complete) {
+			tasks.addTask(function (complete) {
 				// Spawn
 				result.pid = require('child_process').spawn(
 					command[0],
@@ -596,7 +593,7 @@ const safeps = {
 				if (opts.read) {
 					// result.pid.stdout may be null of stdio is 'inherit'
 					if (result.pid.stdout) {
-						result.pid.stdout.on('data', function(data) {
+						result.pid.stdout.on('data', function (data) {
 							if (opts.output) {
 								safeps.outputData(data, 'stdout', opts.outputPrefix)
 							}
@@ -610,7 +607,7 @@ const safeps = {
 
 					// result.pid.stderr may be null of stdio is 'inherit'
 					if (result.pid.stderr) {
-						result.pid.stderr.on('data', function(data) {
+						result.pid.stderr.on('data', function (data) {
 							if (opts.output) {
 								safeps.outputData(data, 'stderr', opts.outputPrefix)
 							}
@@ -624,7 +621,7 @@ const safeps = {
 				}
 
 				// Wait
-				result.pid.on('close', function(status, signal) {
+				result.pid.on('close', function (status, signal) {
 					// Apply to local global
 					result.status = status
 					result.signal = signal
@@ -689,7 +686,7 @@ const safeps = {
 
 		// Make sure we send back the arguments
 		const tasks = new TaskGroup({ concurrency: opts.concurrency }).done(
-			function(err) {
+			function (err) {
 				next(err, results)
 			}
 		)
@@ -700,9 +697,9 @@ const safeps = {
 		}
 
 		// Add tasks
-		commands.forEach(function(command) {
-			tasks.addTask(function(complete) {
-				safeps.spawn(command, opts, function(...args) {
+		commands.forEach(function (command) {
+			tasks.addTask(function (complete) {
+				safeps.spawn(command, opts, function (...args) {
 					const err = args[0] || null
 					results.push(args)
 					complete(err)
@@ -819,7 +816,7 @@ const safeps = {
 		}
 
 		// Patience
-		safeps.openProcess(function(closeProcess) {
+		safeps.openProcess(function (closeProcess) {
 			// Output
 			if (opts.output === true && !opts.outputPrefix) {
 				opts.stdio = 'inherit'
@@ -827,7 +824,7 @@ const safeps = {
 			}
 
 			// Execute command
-			require('child_process').exec(command, opts, function(
+			require('child_process').exec(command, opts, function (
 				error,
 				stdout,
 				stderr
@@ -884,7 +881,7 @@ const safeps = {
 
 		// Make sure we send back the arguments
 		const tasks = new TaskGroup({ concurrency: opts.concurrency }).done(
-			function(err) {
+			function (err) {
 				next(err, results)
 			}
 		)
@@ -895,9 +892,9 @@ const safeps = {
 		}
 
 		// Add tasks
-		commands.forEach(function(command) {
-			tasks.addTask(function(complete) {
-				safeps.exec(command, opts, function(...args) {
+		commands.forEach(function (command) {
+			tasks.addTask(function (complete) {
+				safeps.exec(command, opts, function (...args) {
 					const err = args[0] || null
 					results.push(args)
 					complete(err)
@@ -934,7 +931,7 @@ const safeps = {
 		let execPath = null
 
 		// Handle
-		possibleExecPaths.forEach(function(possibleExecPath) {
+		possibleExecPaths.forEach(function (possibleExecPath) {
 			// Check if we have found the valid exec path earlier, if so, skip
 			// Check if the path is invalid, if it is, skip it
 			if (execPath || !possibleExecPath) return
@@ -943,7 +940,7 @@ const safeps = {
 			possibleExecPath = pathUtil.resolve(possibleExecPath)
 
 			// Check if the executeable exists
-			safeps.isExecutableSync(possibleExecPath, opts, function(
+			safeps.isExecutableSync(possibleExecPath, opts, function (
 				err,
 				isExecutable
 			) {
@@ -986,15 +983,15 @@ const safeps = {
 		}
 
 		// Group
-		const tasks = new TaskGroup().done(function(err) {
+		const tasks = new TaskGroup().done(function (err) {
 			return next(err, execPath)
 		})
 
 		// Handle
-		possibleExecPaths.forEach(function(possibleExecPath) {
+		possibleExecPaths.forEach(function (possibleExecPath) {
 			// Check if the path is invalid, if it is, skip it
 			if (!possibleExecPath) return
-			tasks.addTask(function(complete) {
+			tasks.addTask(function (complete) {
 				// Check if we have found the valid exec path earlier, if so, skip
 				if (execPath) return complete()
 
@@ -1002,7 +999,7 @@ const safeps = {
 				possibleExecPath = pathUtil.resolve(possibleExecPath)
 
 				// Check if the executeable exists
-				safeps.isExecutable(possibleExecPath, opts, function(
+				safeps.isExecutable(possibleExecPath, opts, function (
 					err,
 					isExecutable
 				) {
@@ -1048,7 +1045,7 @@ const safeps = {
 
 		// Get the possible exec paths
 		if (execName) {
-			standardExecPaths = standardExecPaths.map(function(path) {
+			standardExecPaths = standardExecPaths.map(function (path) {
 				return pathUtil.join(path, execName)
 			})
 		}
@@ -1148,7 +1145,7 @@ const safeps = {
 
 			// Forward onto determineExecPath
 			// Which will determine which path it is out of the possible paths
-			safeps.determineExecPath(possibleExecPaths, opts, function(
+			safeps.determineExecPath(possibleExecPaths, opts, function (
 				err,
 				execPath
 			) {
@@ -1238,7 +1235,7 @@ const safeps = {
 		// Fallback
 		if (!tmpPath) {
 			// Try the user directory temp path
-			safeps.getHomePath(opts, function(err, homePath) {
+			safeps.getHomePath(opts, function (err, homePath) {
 				if (err) return next(err)
 				tmpPath = pathUtil.resolve(homePath, tmpDirName)
 
@@ -1319,7 +1316,7 @@ const safeps = {
 		}
 
 		// Determine the right path
-		safeps.determineExecPath(possibleExecPaths, opts, function(err, execPath) {
+		safeps.determineExecPath(possibleExecPaths, opts, function (err, execPath) {
 			if (err) {
 				next(err)
 			} else if (!execPath) {
@@ -1390,7 +1387,7 @@ const safeps = {
 		}
 
 		// Determine the right path
-		safeps.determineExecPath(possibleExecPaths, opts, function(err, execPath) {
+		safeps.determineExecPath(possibleExecPaths, opts, function (err, execPath) {
 			if (err) {
 				next(err)
 			} else if (!execPath) {
@@ -1461,7 +1458,7 @@ const safeps = {
 		}
 
 		// Determine the right path
-		safeps.determineExecPath(possibleExecPaths, opts, function(err, execPath) {
+		safeps.determineExecPath(possibleExecPaths, opts, function (err, execPath) {
 			if (err) {
 				next(err)
 			} else if (!execPath) {
@@ -1530,26 +1527,23 @@ const safeps = {
 		}
 
 		// Check if it exists
-		safefs.ensurePath(opts.cwd, function(err) {
+		safefs.ensurePath(opts.cwd, function (err) {
 			if (err) return next(err)
 
 			// Initialise git repo
-			safeps.spawn(['git', 'init'], opts, function(err) {
+			safeps.spawn(['git', 'init'], opts, function (err) {
 				if (err) return next(err)
 
 				// If we want to set a remote, then do so
 				if (opts.url && opts.remote) {
 					// Check what remotes we have
-					safeps.spawn(['git', 'remote', 'show'], opts, function(err, stdout) {
+					safeps.spawn(['git', 'remote', 'show'], opts, function (err, stdout) {
 						if (err) return next(err)
 						// stdout will be null if there are no remotes
 						// and will be buffer if there are remotes
 						if (
 							stdout &&
-							stdout
-								.toString()
-								.split('\n')
-								.indexOf(opts.remote) !== -1
+							stdout.toString().split('\n').indexOf(opts.remote) !== -1
 						) {
 							// Overwrite it if it does exist
 							// @todo we could probably do a check here to see if it is different
@@ -1559,7 +1553,7 @@ const safeps = {
 								'remote',
 								'set-url',
 								opts.remote,
-								opts.url
+								opts.url,
 							]
 							safeps.spawn(command, opts, partTwo)
 						} else {
@@ -1602,7 +1596,7 @@ const safeps = {
 		// Split this commands into parts
 		function partTwo() {
 			// If there is no package.json file, then we can't do anything
-			safefs.exists(packageJsonPath, function(exists) {
+			safefs.exists(packageJsonPath, function (exists) {
 				if (!exists) return next()
 
 				// Prepare command
@@ -1615,7 +1609,7 @@ const safeps = {
 		function partOne() {
 			// If we are not forcing, then skip if node_modules already exists
 			if (!opts.force) {
-				safefs.exists(nodeModulesPath, function(exists) {
+				safefs.exists(nodeModulesPath, function (exists) {
 					if (exists) return next()
 					partTwo()
 				})
@@ -1693,7 +1687,7 @@ const safeps = {
 
 		// Chain
 		return safeps
-	}
+	},
 }
 
 // =====================================

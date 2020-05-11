@@ -16,16 +16,16 @@ if (process.env.LANG == null) {
 // =====================================
 // Tests
 
-kava.suite('modules', function(suite, test) {
-	suite('locale', function(suite, test) {
-		suite('getLocaleCode', function(suite, test) {
-			test('should fetch something from the environment', function() {
+kava.suite('modules', function (suite, test) {
+	suite('locale', function (suite, test) {
+		suite('getLocaleCode', function (suite, test) {
+			test('should fetch something from the environment', function () {
 				const localeCode = safeps.getLocaleCode()
 				console.log('localeCode:', localeCode)
 				assert.ok(localeCode)
 			})
 
-			test('should fetch something when passed something', function() {
+			test('should fetch something when passed something', function () {
 				let localeCode = safeps.getLocaleCode('fr-CH')
 				equal(localeCode, 'fr_ch')
 				localeCode = safeps.getLocaleCode('fr_CH')
@@ -33,36 +33,36 @@ kava.suite('modules', function(suite, test) {
 			})
 		})
 
-		suite('getCountryCode', function(suite, test) {
-			test('should fetch something', function() {
+		suite('getCountryCode', function (suite, test) {
+			test('should fetch something', function () {
 				const countryCode = safeps.getCountryCode()
 				console.log('countryCode:', countryCode)
 				assert.ok(countryCode)
 			})
 
-			test('should fetch something when passed something', function() {
+			test('should fetch something when passed something', function () {
 				const countryCode = safeps.getCountryCode('fr-CH')
 				equal(countryCode, 'ch')
 			})
 		})
 
-		suite('getLanguageCode', function(suite, test) {
-			test('should fetch something', function() {
+		suite('getLanguageCode', function (suite, test) {
+			test('should fetch something', function () {
 				const languageCode = safeps.getLanguageCode()
 				console.log('languageCode:', languageCode)
 				assert.ok(languageCode)
 			})
 
-			test('should fetch something when passed something', function() {
+			test('should fetch something when passed something', function () {
 				const languageCode = safeps.getLanguageCode('fr-CH')
 				equal(languageCode, 'fr')
 			})
 		})
 	})
 
-	suite('getHomePath', function(suite, test) {
-		test('should fetch home', function(done) {
-			safeps.getHomePath(function(err, path) {
+	suite('getHomePath', function (suite, test) {
+		test('should fetch home', function (done) {
+			safeps.getHomePath(function (err, path) {
 				nullish(err, 'no error')
 				console.log('home:', path)
 				assert.ok(path)
@@ -71,9 +71,9 @@ kava.suite('modules', function(suite, test) {
 		})
 	})
 
-	suite('getTmpPath', function(suite, test) {
-		test('should fetch tmp', function(done) {
-			safeps.getTmpPath(function(err, path) {
+	suite('getTmpPath', function (suite, test) {
+		test('should fetch tmp', function (done) {
+			safeps.getTmpPath(function (err, path) {
 				nullish(err, 'no error')
 				console.log('tmp:', path)
 				assert.ok(path)
@@ -83,10 +83,10 @@ kava.suite('modules', function(suite, test) {
 	})
 
 	if (!isTravis) {
-		suite('getExecPath', function(suite, test) {
-			test('should fetch ruby', function(done) {
+		suite('getExecPath', function (suite, test) {
+			test('should fetch ruby', function (done) {
 				let wasSync = 0
-				safeps.getExecPath('ruby', function(err, path) {
+				safeps.getExecPath('ruby', function (err, path) {
 					wasSync = 1
 					nullish(err, 'no error')
 					console.log('ruby:', path)
@@ -98,9 +98,9 @@ kava.suite('modules', function(suite, test) {
 		})
 	}
 
-	suite('getGitPath', function(suite, test) {
-		test('should fetch git', function(done) {
-			safeps.getExecPath('git', function(err, path) {
+	suite('getGitPath', function (suite, test) {
+		test('should fetch git', function (done) {
+			safeps.getExecPath('git', function (err, path) {
 				nullish(err, 'no error')
 				console.log('git:', path)
 				assert.ok(path)
@@ -109,9 +109,9 @@ kava.suite('modules', function(suite, test) {
 		})
 	})
 
-	suite('getNodePath', function(suite, test) {
-		test('should fetch node', function(done) {
-			safeps.getExecPath('node', function(err, path) {
+	suite('getNodePath', function (suite, test) {
+		test('should fetch node', function (done) {
+			safeps.getExecPath('node', function (err, path) {
 				nullish(err, 'no error')
 				console.log('node:', path)
 				assert.ok(path)
@@ -119,9 +119,9 @@ kava.suite('modules', function(suite, test) {
 			})
 		})
 
-		test('should fetch node from cache', function(done) {
+		test('should fetch node from cache', function (done) {
 			let wasSync = 0
-			safeps.getExecPath('node', function(err, path) {
+			safeps.getExecPath('node', function (err, path) {
 				wasSync = 1
 				nullish(err, 'no error')
 				console.log('node:', path)
@@ -131,9 +131,9 @@ kava.suite('modules', function(suite, test) {
 			done()
 		})
 
-		test('should fetch node without cache synchronously', function(done) {
+		test('should fetch node without cache synchronously', function (done) {
 			let wasSync = 0
-			safeps.getExecPath('node', { sync: true, cache: false }, function(
+			safeps.getExecPath('node', { sync: true, cache: false }, function (
 				err,
 				path
 			) {
@@ -147,9 +147,9 @@ kava.suite('modules', function(suite, test) {
 		})
 	})
 
-	suite('getNpmPath', function(suite, test) {
-		test('should fetch npm', function(done) {
-			safeps.getExecPath('npm', function(err, path) {
+	suite('getNpmPath', function (suite, test) {
+		test('should fetch npm', function (done) {
+			safeps.getExecPath('npm', function (err, path) {
 				nullish(err, 'no error')
 				console.log('npm:', path)
 				assert.ok(path)
@@ -158,9 +158,9 @@ kava.suite('modules', function(suite, test) {
 		})
 	})
 
-	suite('spawn node', function(suite, test) {
-		test('should work asynchronously', function(done) {
-			safeps.spawn('node --version', function(
+	suite('spawn node', function (suite, test) {
+		test('should work asynchronously', function (done) {
+			safeps.spawn('node --version', function (
 				err,
 				stdout,
 				stderr,
@@ -176,9 +176,9 @@ kava.suite('modules', function(suite, test) {
 		})
 
 		if (safeps.hasSpawnSync()) {
-			test('should work synchronously with callback', function(done) {
+			test('should work synchronously with callback', function (done) {
 				let wasSync = 0
-				safeps.spawnSync('node --version', function(
+				safeps.spawnSync('node --version', function (
 					err,
 					stdout,
 					stderr,
@@ -195,7 +195,7 @@ kava.suite('modules', function(suite, test) {
 				done()
 			})
 
-			test('should work synchronously', function() {
+			test('should work synchronously', function () {
 				const { error, stdout, stderr, status, signal } = safeps.spawnSync(
 					'node --version'
 				)
@@ -206,8 +206,8 @@ kava.suite('modules', function(suite, test) {
 			})
 		}
 
-		test("can't read if stdio is set", function(done) {
-			safeps.spawn('node --version', { stdio: 'inherit' }, function(
+		test("can't read if stdio is set", function (done) {
+			safeps.spawn('node --version', { stdio: 'inherit' }, function (
 				err,
 				stdout,
 				stderr,
@@ -222,9 +222,9 @@ kava.suite('modules', function(suite, test) {
 		})
 	})
 
-	suite('exec node', function(suite, test) {
-		test('should work asynchronously', function(done) {
-			safeps.exec('node --version', function(err, stdout, stderr) {
+	suite('exec node', function (suite, test) {
+		test('should work asynchronously', function (done) {
+			safeps.exec('node --version', function (err, stdout, stderr) {
 				nullish(err, 'no error')
 				console.log('node version:', stdout.toString().trim())
 				// equal(stdout instanceof Buffer, true)
@@ -235,9 +235,9 @@ kava.suite('modules', function(suite, test) {
 		})
 
 		if (safeps.hasExecSync()) {
-			test('should work synchronously with callback', function(done) {
+			test('should work synchronously with callback', function (done) {
 				let wasSync = 0
-				safeps.execSync('node --version', function(
+				safeps.execSync('node --version', function (
 					err,
 					stdout,
 					stderr,
@@ -255,7 +255,7 @@ kava.suite('modules', function(suite, test) {
 				done()
 			})
 
-			test('should work synchronously', function() {
+			test('should work synchronously', function () {
 				const { error, stdout, stderr } = safeps.execSync('node --version')
 				nullish(error, 'no error')
 				console.log('node version:', stdout.toString().trim())
@@ -266,10 +266,10 @@ kava.suite('modules', function(suite, test) {
 		}
 	})
 
-	suite('spawn node module', function(suite, test) {
-		test('should work', function(done) {
+	suite('spawn node module', function (suite, test) {
+		test('should work', function (done) {
 			const random = Math.random()
-			safeps.spawnNodeModule('bevry-echo', [random], function(
+			safeps.spawnNodeModule('bevry-echo', [random], function (
 				err,
 				stdout,
 				stderr,
