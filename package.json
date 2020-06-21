@@ -1,7 +1,7 @@
 {
   "title": "Safe PS",
   "name": "safeps",
-  "version": "10.8.0",
+  "version": "10.9.0",
   "description": "Work with processes safely and easily with Node.js",
   "homepage": "https://github.com/bevry/safeps",
   "license": "MIT",
@@ -98,7 +98,7 @@
     "typechecker": "7.5.0"
   },
   "devDependencies": {
-    "@bevry/update-contributors": "1.9.0",
+    "@bevry/update-contributors": "^1.9.0",
     "assert-helpers": "^6.8.0",
     "bevry-echo": "^1.1.0",
     "eslint": "^7.3.0",
@@ -108,9 +108,9 @@
     "jsdoc": "^3.6.4",
     "kava": "^5.7.0",
     "prettier": "^2.0.5",
-    "projectz": "2.5.0",
+    "projectz": "^2.9.0",
     "surge": "^0.21.3",
-    "valid-directory": "2.2.0"
+    "valid-directory": "^2.5.0"
   },
   "scripts": {
     "our:clean": "rm -Rf ./docs ./edition* ./es2015 ./es5 ./out ./.next",
