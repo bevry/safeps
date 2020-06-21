@@ -94,7 +94,7 @@
   "dependencies": {
     "editions": "3.5.0",
     "extract-opts": "^4.3.0",
-    "safefs": "6.4.0",
+    "safefs": "6.6.0",
     "taskgroup": "7.7.0",
     "typechecker": "7.5.0"
   },
