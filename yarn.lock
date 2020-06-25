@@ -1713,10 +1713,10 @@ safe-buffer@^5.0.1, safe-buffer@^5.1.2:
   resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.2.1.tgz#1eaf9fa9bdb1fdd4ec75f58f9cdb4e6b7827eec6"
   integrity sha512-rp3So07KcdmmKbGvgaNxQSJr7bGVSVk5S9Eq1F+ppbRo70+YeaDxkw5Dd8NPN+GD6bjnYm2VuPuCXmpuYvmCXQ==
 
-safefs@6.8.0:
-  version "6.8.0"
-  resolved "https://registry.yarnpkg.com/safefs/-/safefs-6.8.0.tgz#e05063f799ef5d9debef3f1f682e2ec569f4d712"
-  integrity sha512-bfoay4QKqKu3alh9zlx0UFtwVkE/8/hb3Et8ChgbBmxHhA1e9OysOx7XTqM1mQmUrMMvLlL5GYWWmD38kXRU9g==
+safefs@6.9.0:
+  version "6.9.0"
+  resolved "https://registry.yarnpkg.com/safefs/-/safefs-6.9.0.tgz#9c3d0797055ac7c2f4a28bfdd9634058a2b90593"
+  integrity sha512-pTxUYAiIZTgRy4BxtTC7jn8ODBKsKFYuT9RV1p7UCEfwd6ddWnhcmBCeiaePrFErjCaygrTZOq24+UaAXgO2uw==
   dependencies:
     graceful-fs "^4.2.4"
 
