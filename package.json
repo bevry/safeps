@@ -95,7 +95,7 @@
     "extract-opts": "^4.3.0",
     "safefs": "6.8.0",
     "taskgroup": "7.11.0",
-    "typechecker": "7.10.0"
+    "typechecker": "7.11.0"
   },
   "devDependencies": {
     "@bevry/update-contributors": "^1.12.0",
