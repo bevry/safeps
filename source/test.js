@@ -5,7 +5,7 @@
 const assert = require('assert')
 const { equal, errorEqual, contains, nullish } = require('assert-helpers')
 const kava = require('kava')
-const safeps = require('./')
+const safeps = require('./index.js')
 
 // Local Globals
 const isTravis = Boolean(process.env.TRAVIS_NODE_VERSION)
