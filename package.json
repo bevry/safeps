@@ -104,7 +104,7 @@
     "bevry-echo": "^1.1.0",
     "eslint": "^7.12.1",
     "eslint-config-bevry": "^3.23.0",
-    "eslint-config-prettier": "^6.15.0",
+    "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^3.1.4",
     "jsdoc": "^3.6.6",
     "kava": "^5.13.0",
