@@ -133,15 +133,16 @@ kava.suite('modules', function (suite, test) {
 
 		test('should fetch node without cache synchronously', function (done) {
 			let wasSync = 0
-			safeps.getExecPath('node', { sync: true, cache: false }, function (
-				err,
-				path
-			) {
-				wasSync = 1
-				nullish(err, 'no error')
-				console.log('node:', path)
-				assert.ok(path)
-			})
+			safeps.getExecPath(
+				'node',
+				{ sync: true, cache: false },
+				function (err, path) {
+					wasSync = 1
+					nullish(err, 'no error')
+					console.log('node:', path)
+					assert.ok(path)
+				}
+			)
 			equal(wasSync, 1)
 			done()
 		})
@@ -160,45 +161,38 @@ kava.suite('modules', function (suite, test) {
 
 	suite('spawn node', function (suite, test) {
 		test('should work asynchronously', function (done) {
-			safeps.spawn('node --version', function (
-				err,
-				stdout,
-				stderr,
-				status,
-				signal
-			) {
-				nullish(err, 'no error')
-				console.log('node version:', stdout.toString().trim())
-				equal(stdout instanceof Buffer, true)
-				assert.ok(stdout)
-				done()
-			})
+			safeps.spawn(
+				'node --version',
+				function (err, stdout, stderr, status, signal) {
+					nullish(err, 'no error')
+					console.log('node version:', stdout.toString().trim())
+					equal(stdout instanceof Buffer, true)
+					assert.ok(stdout)
+					done()
+				}
+			)
 		})
 
 		if (safeps.hasSpawnSync()) {
 			test('should work synchronously with callback', function (done) {
 				let wasSync = 0
-				safeps.spawnSync('node --version', function (
-					err,
-					stdout,
-					stderr,
-					status,
-					signal
-				) {
-					wasSync = 1
-					nullish(err, 'no error')
-					console.log('node version:', stdout.toString().trim())
-					equal(stdout instanceof Buffer, true)
-					assert.ok(stdout)
-				})
+				safeps.spawnSync(
+					'node --version',
+					function (err, stdout, stderr, status, signal) {
+						wasSync = 1
+						nullish(err, 'no error')
+						console.log('node version:', stdout.toString().trim())
+						equal(stdout instanceof Buffer, true)
+						assert.ok(stdout)
+					}
+				)
 				equal(wasSync, 1)
 				done()
 			})
 
 			test('should work synchronously', function () {
-				const { error, stdout, stderr, status, signal } = safeps.spawnSync(
-					'node --version'
-				)
+				const { error, stdout, stderr, status, signal } =
+					safeps.spawnSync('node --version')
 				nullish(error, 'no error')
 				console.log('node version:', stdout.toString().trim())
 				equal(stdout instanceof Buffer, true)
@@ -207,18 +201,16 @@ kava.suite('modules', function (suite, test) {
 		}
 
 		test("can't read if stdio is set", function (done) {
-			safeps.spawn('node --version', { stdio: 'inherit' }, function (
-				err,
-				stdout,
-				stderr,
-				status,
-				signal
-			) {
-				nullish(err, 'no error')
-				equal(stdout, null)
-				equal(stderr, null)
-				done()
-			})
+			safeps.spawn(
+				'node --version',
+				{ stdio: 'inherit' },
+				function (err, stdout, stderr, status, signal) {
+					nullish(err, 'no error')
+					equal(stdout, null)
+					equal(stderr, null)
+					done()
+				}
+			)
 		})
 	})
 
@@ -237,20 +229,17 @@ kava.suite('modules', function (suite, test) {
 		if (safeps.hasExecSync()) {
 			test('should work synchronously with callback', function (done) {
 				let wasSync = 0
-				safeps.execSync('node --version', function (
-					err,
-					stdout,
-					stderr,
-					status,
-					signal
-				) {
-					wasSync = 1
-					nullish(err, 'no error')
-					console.log('node version:', stdout.toString().trim())
-					// equal(stdout instanceof Buffer, true)
-					// ^ https://github.com/joyent/node/issues/5833#issuecomment-82189525
-					assert.ok(stdout)
-				})
+				safeps.execSync(
+					'node --version',
+					function (err, stdout, stderr, status, signal) {
+						wasSync = 1
+						nullish(err, 'no error')
+						console.log('node version:', stdout.toString().trim())
+						// equal(stdout instanceof Buffer, true)
+						// ^ https://github.com/joyent/node/issues/5833#issuecomment-82189525
+						assert.ok(stdout)
+					}
+				)
 				equal(wasSync, 1)
 				done()
 			})
@@ -269,17 +258,15 @@ kava.suite('modules', function (suite, test) {
 	suite('spawn node module', function (suite, test) {
 		test('should work', function (done) {
 			const random = Math.random()
-			safeps.spawnNodeModule('bevry-echo', [random], function (
-				err,
-				stdout,
-				stderr,
-				status,
-				signal
-			) {
-				nullish(err, 'no error')
-				contains(stdout.toString().trim(), random)
-				done()
-			})
+			safeps.spawnNodeModule(
+				'bevry-echo',
+				[random],
+				function (err, stdout, stderr, status, signal) {
+					nullish(err, 'no error')
+					contains(stdout.toString().trim(), random)
+					done()
+				}
+			)
 		})
 	})
 })

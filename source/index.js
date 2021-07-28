@@ -824,21 +824,21 @@ const safeps = {
 			}
 
 			// Execute command
-			require('child_process').exec(command, opts, function (
-				error,
-				stdout,
-				stderr
-			) {
-				// Complete the task
-				closeProcess()
+			require('child_process').exec(
+				command,
+				opts,
+				function (error, stdout, stderr) {
+					// Complete the task
+					closeProcess()
 
-				// Prepare result
-				const result = { error, stdout, stderr }
-				safeps.updateExecutableResult(result, opts)
+					// Prepare result
+					const result = { error, stdout, stderr }
+					safeps.updateExecutableResult(result, opts)
 
-				// Complete
-				return next(result.error, result.stdout, result.stderr)
-			})
+					// Complete
+					return next(result.error, result.stdout, result.stderr)
+				}
+			)
 		})
 
 		// Chain
@@ -940,12 +940,13 @@ const safeps = {
 			possibleExecPath = pathUtil.resolve(possibleExecPath)
 
 			// Check if the executeable exists
-			safeps.isExecutableSync(possibleExecPath, opts, function (
-				err,
-				isExecutable
-			) {
-				if (!err && isExecutable) execPath = possibleExecPath
-			})
+			safeps.isExecutableSync(
+				possibleExecPath,
+				opts,
+				function (err, isExecutable) {
+					if (!err && isExecutable) execPath = possibleExecPath
+				}
+			)
 		})
 
 		// Return
@@ -999,13 +1000,14 @@ const safeps = {
 				possibleExecPath = pathUtil.resolve(possibleExecPath)
 
 				// Check if the executeable exists
-				safeps.isExecutable(possibleExecPath, opts, function (
-					err,
-					isExecutable
-				) {
-					if (!err && isExecutable) execPath = possibleExecPath
-					return complete()
-				})
+				safeps.isExecutable(
+					possibleExecPath,
+					opts,
+					function (err, isExecutable) {
+						if (!err && isExecutable) execPath = possibleExecPath
+						return complete()
+					}
+				)
 			})
 		})
 
@@ -1145,21 +1147,22 @@ const safeps = {
 
 			// Forward onto determineExecPath
 			// Which will determine which path it is out of the possible paths
-			safeps.determineExecPath(possibleExecPaths, opts, function (
-				err,
-				execPath
-			) {
-				if (err) {
-					next(err)
-				} else if (!execPath) {
-					err = new Error(`Could not locate the ${execName} executable path`)
-					next(err)
-				} else {
-					// Success, write the result to cache and send to our callback
-					if (opts.cache) safeps.execPathCache[execName] = execPath
-					return next(null, execPath)
+			safeps.determineExecPath(
+				possibleExecPaths,
+				opts,
+				function (err, execPath) {
+					if (err) {
+						next(err)
+					} else if (!execPath) {
+						err = new Error(`Could not locate the ${execName} executable path`)
+						next(err)
+					} else {
+						// Success, write the result to cache and send to our callback
+						if (opts.cache) safeps.execPathCache[execName] = execPath
+						return next(null, execPath)
+					}
 				}
-			})
+			)
 		}
 
 		// Chain
