@@ -170,7 +170,7 @@ const safeps = {
 		// Shim
 		else {
 			try {
-				require('child_process').execSync(path + ' --version')
+				require('child_process').execFileSync(path, [' --version'])
 				isExecutable = true
 			} catch (err) {
 				// If there was an error
@@ -222,7 +222,7 @@ const safeps = {
 
 		// Shim
 		else {
-			require('child_process').exec(path + ' --version', function (err) {
+			require('child_process').execFile(path, [' --version'], function (err) {
 				// If there was no error, then execution worked fine, so we are executable
 				if (!err) return next(null, true)
 				// If there was an error
