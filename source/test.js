@@ -141,7 +141,7 @@ kava.suite('modules', function (suite, test) {
 					nullish(err, 'no error')
 					console.log('node:', path)
 					assert.ok(path)
-				}
+				},
 			)
 			equal(wasSync, 1)
 			done()
@@ -169,7 +169,7 @@ kava.suite('modules', function (suite, test) {
 					equal(stdout instanceof Buffer, true)
 					assert.ok(stdout)
 					done()
-				}
+				},
 			)
 		})
 
@@ -184,7 +184,7 @@ kava.suite('modules', function (suite, test) {
 						console.log('node version:', stdout.toString().trim())
 						equal(stdout instanceof Buffer, true)
 						assert.ok(stdout)
-					}
+					},
 				)
 				equal(wasSync, 1)
 				done()
@@ -209,7 +209,7 @@ kava.suite('modules', function (suite, test) {
 					equal(stdout, null)
 					equal(stderr, null)
 					done()
-				}
+				},
 			)
 		})
 	})
@@ -238,7 +238,7 @@ kava.suite('modules', function (suite, test) {
 						// equal(stdout instanceof Buffer, true)
 						// ^ https://github.com/joyent/node/issues/5833#issuecomment-82189525
 						assert.ok(stdout)
-					}
+					},
 				)
 				equal(wasSync, 1)
 				done()
@@ -265,7 +265,7 @@ kava.suite('modules', function (suite, test) {
 					nullish(err, 'no error')
 					contains(stdout.toString().trim(), random)
 					done()
-				}
+				},
 			)
 		})
 	})

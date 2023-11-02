@@ -450,7 +450,7 @@ const safeps = {
 			})
 			if (wasSync === 0) {
 				process.stderr.write(
-					'safeps.spawnSync: was unable to get the executable path synchronously'
+					'safeps.spawnSync: was unable to get the executable path synchronously',
 				)
 			}
 		}
@@ -459,7 +459,7 @@ const safeps = {
 		const result = require('child_process').spawnSync(
 			command[0],
 			command.slice(1),
-			opts
+			opts,
 		)
 		safeps.updateExecutableResult(result, opts)
 
@@ -470,7 +470,7 @@ const safeps = {
 				result.stdout,
 				result.stderr,
 				result.status,
-				result.signal
+				result.signal,
 			)
 		} else {
 			return result
@@ -558,7 +558,7 @@ const safeps = {
 					result.stdout,
 					result.stderr,
 					result.status,
-					result.signal
+					result.signal,
 				)
 			})
 
@@ -579,7 +579,7 @@ const safeps = {
 				result.pid = require('child_process').spawn(
 					command[0],
 					command.slice(1),
-					opts
+					opts,
 				)
 
 				// Write if we want to
@@ -688,7 +688,7 @@ const safeps = {
 		const tasks = new TaskGroup({ concurrency: opts.concurrency }).done(
 			function (err) {
 				next(err, results)
-			}
+			},
 		)
 
 		// Prepare tasks
@@ -837,7 +837,7 @@ const safeps = {
 
 					// Complete
 					return next(result.error, result.stdout, result.stderr)
-				}
+				},
 			)
 		})
 
@@ -883,7 +883,7 @@ const safeps = {
 		const tasks = new TaskGroup({ concurrency: opts.concurrency }).done(
 			function (err) {
 				next(err, results)
-			}
+			},
 		)
 
 		// Prepare tasks
@@ -945,7 +945,7 @@ const safeps = {
 				opts,
 				function (err, isExecutable) {
 					if (!err && isExecutable) execPath = possibleExecPath
-				}
+				},
 			)
 		})
 
@@ -1006,7 +1006,7 @@ const safeps = {
 					function (err, isExecutable) {
 						if (!err && isExecutable) execPath = possibleExecPath
 						return complete()
-					}
+					},
 				)
 			})
 		})
@@ -1082,7 +1082,7 @@ const safeps = {
 					standardExecPath,
 					standardExecPath + '.exe',
 					standardExecPath + '.cmd',
-					standardExecPath + '.bat'
+					standardExecPath + '.bat',
 				)
 			}
 		} else {
@@ -1161,7 +1161,7 @@ const safeps = {
 						if (opts.cache) safeps.execPathCache[execName] = execPath
 						return next(null, execPath)
 					}
-				}
+				},
 			)
 		}
 
@@ -1308,13 +1308,13 @@ const safeps = {
 			possibleExecPaths.push(
 				`/Program Files (x64)/Git/bin/${execName}`,
 				`/Program Files (x86)/Git/bin/${execName}`,
-				`/Program Files/Git/bin/${execName}`
+				`/Program Files/Git/bin/${execName}`,
 			)
 		} else {
 			possibleExecPaths.push(
 				`/usr/local/bin/${execName}`,
 				`/usr/bin/${execName}`,
-				`~/bin/${execName}`
+				`~/bin/${execName}`,
 			)
 		}
 
@@ -1379,13 +1379,13 @@ const safeps = {
 			possibleExecPaths.push(
 				`/Program Files (x64)/nodejs/${execName}`,
 				`/Program Files (x86)/nodejs/${execName}`,
-				`/Program Files/nodejs/${execName}`
+				`/Program Files/nodejs/${execName}`,
 			)
 		} else {
 			possibleExecPaths.push(
 				`/usr/local/bin/${execName}`,
 				`/usr/bin/${execName}`,
-				`~/bin/${execName}` // User and Heroku
+				`~/bin/${execName}`, // User and Heroku
 			)
 		}
 
@@ -1450,13 +1450,13 @@ const safeps = {
 			possibleExecPaths.push(
 				`/Program Files (x64)/nodejs/${execName}`,
 				`/Program Files (x86)/nodejs/${execName}`,
-				`/Program Files/nodejs/${execName}`
+				`/Program Files/nodejs/${execName}`,
 			)
 		} else {
 			possibleExecPaths.push(
 				`/usr/local/bin/${execName}`,
 				`/usr/bin/${execName}`,
-				`~/node_modules/.bin/${execName}` // User and Heroku
+				`~/node_modules/.bin/${execName}`, // User and Heroku
 			)
 		}
 
