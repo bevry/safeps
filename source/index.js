@@ -2,12 +2,13 @@
 'use strict'
 
 // Import
-const { TaskGroup } = require('taskgroup')
+const TaskGroup = require('taskgroup').TaskGroup
 const typeChecker = require('typechecker')
 const safefs = require('safefs')
 const fsUtil = require('fs')
 const pathUtil = require('path')
 const extractOptsAndCallback = require('extract-opts')
+const process = require('process')
 
 // Prepare
 const isWindows = (process.platform || '').indexOf('win') === 0

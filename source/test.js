@@ -3,14 +3,15 @@
 
 // Import
 const assert = require('assert')
-const { equal, errorEqual, contains, nullish } = require('assert-helpers')
+const assertHelpers = require('assert-helpers')
 const kava = require('kava')
+const env = require('process').env
 const safeps = require('./index.js')
 
 // Local Globals
-const isTravis = Boolean(process.env.TRAVIS_NODE_VERSION)
-if (process.env.LANG == null) {
-	process.env.LANG = 'en_AU.UTF-8'
+const isTravis = Boolean(env.TRAVIS_NODE_VERSION)
+if (env.LANG == null) {
+	env.LANG = 'en_AU.UTF-8'
 }
 
 // =====================================
@@ -27,9 +28,9 @@ kava.suite('modules', function (suite, test) {
 
 			test('should fetch something when passed something', function () {
 				let localeCode = safeps.getLocaleCode('fr-CH')
-				equal(localeCode, 'fr_ch')
+				assertHelpers.equal(localeCode, 'fr_ch')
 				localeCode = safeps.getLocaleCode('fr_CH')
-				equal(localeCode, 'fr_ch')
+				assertHelpers.equal(localeCode, 'fr_ch')
 			})
 		})
 
@@ -42,7 +43,7 @@ kava.suite('modules', function (suite, test) {
 
 			test('should fetch something when passed something', function () {
 				const countryCode = safeps.getCountryCode('fr-CH')
-				equal(countryCode, 'ch')
+				assertHelpers.equal(countryCode, 'ch')
 			})
 		})
 
@@ -55,7 +56,7 @@ kava.suite('modules', function (suite, test) {
 
 			test('should fetch something when passed something', function () {
 				const languageCode = safeps.getLanguageCode('fr-CH')
-				equal(languageCode, 'fr')
+				assertHelpers.equal(languageCode, 'fr')
 			})
 		})
 	})
@@ -63,7 +64,7 @@ kava.suite('modules', function (suite, test) {
 	suite('getHomePath', function (suite, test) {
 		test('should fetch home', function (done) {
 			safeps.getHomePath(function (err, path) {
-				nullish(err, 'no error')
+				assertHelpers.nullish(err, 'no error')
 				console.log('home:', path)
 				assert.ok(path)
 				done()
@@ -74,7 +75,7 @@ kava.suite('modules', function (suite, test) {
 	suite('getTmpPath', function (suite, test) {
 		test('should fetch tmp', function (done) {
 			safeps.getTmpPath(function (err, path) {
-				nullish(err, 'no error')
+				assertHelpers.nullish(err, 'no error')
 				console.log('tmp:', path)
 				assert.ok(path)
 				done()
@@ -88,12 +89,12 @@ kava.suite('modules', function (suite, test) {
 				let wasSync = 0
 				safeps.getExecPath('ruby', function (err, path) {
 					wasSync = 1
-					nullish(err, 'no error')
+					assertHelpers.nullish(err, 'no error')
 					console.log('ruby:', path)
 					assert.ok(path)
 					done()
 				})
-				equal(wasSync, 0)
+				assertHelpers.equal(wasSync, 0)
 			})
 		})
 	}
@@ -101,7 +102,7 @@ kava.suite('modules', function (suite, test) {
 	suite('getGitPath', function (suite, test) {
 		test('should fetch git', function (done) {
 			safeps.getExecPath('git', function (err, path) {
-				nullish(err, 'no error')
+				assertHelpers.nullish(err, 'no error')
 				console.log('git:', path)
 				assert.ok(path)
 				done()
@@ -112,7 +113,7 @@ kava.suite('modules', function (suite, test) {
 	suite('getNodePath', function (suite, test) {
 		test('should fetch node', function (done) {
 			safeps.getExecPath('node', function (err, path) {
-				nullish(err, 'no error')
+				assertHelpers.nullish(err, 'no error')
 				console.log('node:', path)
 				assert.ok(path)
 				done()
@@ -123,11 +124,11 @@ kava.suite('modules', function (suite, test) {
 			let wasSync = 0
 			safeps.getExecPath('node', function (err, path) {
 				wasSync = 1
-				nullish(err, 'no error')
+				assertHelpers.nullish(err, 'no error')
 				console.log('node:', path)
 				assert.ok(path)
 			})
-			equal(wasSync, 1)
+			assertHelpers.equal(wasSync, 1)
 			done()
 		})
 
@@ -138,12 +139,12 @@ kava.suite('modules', function (suite, test) {
 				{ sync: true, cache: false },
 				function (err, path) {
 					wasSync = 1
-					nullish(err, 'no error')
+					assertHelpers.nullish(err, 'no error')
 					console.log('node:', path)
 					assert.ok(path)
-				},
+				}
 			)
-			equal(wasSync, 1)
+			assertHelpers.equal(wasSync, 1)
 			done()
 		})
 	})
@@ -151,7 +152,7 @@ kava.suite('modules', function (suite, test) {
 	suite('getNpmPath', function (suite, test) {
 		test('should fetch npm', function (done) {
 			safeps.getExecPath('npm', function (err, path) {
-				nullish(err, 'no error')
+				assertHelpers.nullish(err, 'no error')
 				console.log('npm:', path)
 				assert.ok(path)
 				done()
@@ -164,12 +165,12 @@ kava.suite('modules', function (suite, test) {
 			safeps.spawn(
 				'node --version',
 				function (err, stdout, stderr, status, signal) {
-					nullish(err, 'no error')
+					assertHelpers.nullish(err, 'no error')
 					console.log('node version:', stdout.toString().trim())
-					equal(stdout instanceof Buffer, true)
+					assertHelpers.equal(stdout instanceof Buffer, true)
 					assert.ok(stdout)
 					done()
-				},
+				}
 			)
 		})
 
@@ -180,22 +181,22 @@ kava.suite('modules', function (suite, test) {
 					'node --version',
 					function (err, stdout, stderr, status, signal) {
 						wasSync = 1
-						nullish(err, 'no error')
+						assertHelpers.nullish(err, 'no error')
 						console.log('node version:', stdout.toString().trim())
-						equal(stdout instanceof Buffer, true)
+						assertHelpers.equal(stdout instanceof Buffer, true)
 						assert.ok(stdout)
-					},
+					}
 				)
-				equal(wasSync, 1)
+				assertHelpers.equal(wasSync, 1)
 				done()
 			})
 
 			test('should work synchronously', function () {
 				const { error, stdout, stderr, status, signal } =
 					safeps.spawnSync('node --version')
-				nullish(error, 'no error')
+				assertHelpers.nullish(error, 'no error')
 				console.log('node version:', stdout.toString().trim())
-				equal(stdout instanceof Buffer, true)
+				assertHelpers.equal(stdout instanceof Buffer, true)
 				assert.ok(stdout)
 			})
 		}
@@ -205,11 +206,11 @@ kava.suite('modules', function (suite, test) {
 				'node --version',
 				{ stdio: 'inherit' },
 				function (err, stdout, stderr, status, signal) {
-					nullish(err, 'no error')
-					equal(stdout, null)
-					equal(stderr, null)
+					assertHelpers.nullish(err, 'no error')
+					assertHelpers.equal(stdout, null)
+					assertHelpers.equal(stderr, null)
 					done()
-				},
+				}
 			)
 		})
 	})
@@ -217,7 +218,7 @@ kava.suite('modules', function (suite, test) {
 	suite('exec node', function (suite, test) {
 		test('should work asynchronously', function (done) {
 			safeps.exec('node --version', function (err, stdout, stderr) {
-				nullish(err, 'no error')
+				assertHelpers.nullish(err, 'no error')
 				console.log('node version:', stdout.toString().trim())
 				// equal(stdout instanceof Buffer, true)
 				// ^ https://github.com/joyent/node/issues/5833#issuecomment-82189525
@@ -233,20 +234,20 @@ kava.suite('modules', function (suite, test) {
 					'node --version',
 					function (err, stdout, stderr, status, signal) {
 						wasSync = 1
-						nullish(err, 'no error')
+						assertHelpers.nullish(err, 'no error')
 						console.log('node version:', stdout.toString().trim())
 						// equal(stdout instanceof Buffer, true)
 						// ^ https://github.com/joyent/node/issues/5833#issuecomment-82189525
 						assert.ok(stdout)
-					},
+					}
 				)
-				equal(wasSync, 1)
+				assertHelpers.equal(wasSync, 1)
 				done()
 			})
 
 			test('should work synchronously', function () {
 				const { error, stdout, stderr } = safeps.execSync('node --version')
-				nullish(error, 'no error')
+				assertHelpers.nullish(error, 'no error')
 				console.log('node version:', stdout.toString().trim())
 				// equal(stdout instanceof Buffer, true)
 				// ^ https://github.com/joyent/node/issues/5833#issuecomment-82189525
@@ -262,10 +263,10 @@ kava.suite('modules', function (suite, test) {
 				'bevry-echo',
 				[random],
 				function (err, stdout, stderr, status, signal) {
-					nullish(err, 'no error')
-					contains(stdout.toString().trim(), random)
+					assertHelpers.nullish(err, 'no error')
+					assertHelpers.contains(stdout.toString().trim(), random)
 					done()
-				},
+				}
 			)
 		})
 	})
@@ -274,18 +275,18 @@ kava.suite('modules', function (suite, test) {
 // suite('output prefix node', function (suite, test) {
 // 	test('should work asynchronously', function (done) {
 // 		safeps.spawn 'node --version', {outputPrefix:'> '}, (err,stdout,stderr,status,signal) {
-// 			nullish(err, 'no error')
+// 			assertHelpers.nullish(err, 'no error')
 // 			console.log('node version:', stdout.toString().trim())
-// 			equal(stdout instanceof Buffer, true)
-// 			equal(stdout.toString(), stdout.toString())
+// 			assertHelpers.equal(stdout instanceof Buffer, true)
+// 			assertHelpers.equal(stdout.toString(), stdout.toString())
 // 			done()
 
 // 	if safeps.hasSpawnSync() then \
 // 	test('should work synchronously', function () {
 // 		{error,stdout,stderr,status,signal} = safeps.spawnSync('node --version', {outputPrefix:'> '})
-// 		equal(error?.stack or null, null)
+// 		assertHelpers.equal(error?.stack or null, null)
 // 		console.log('node version:', stdout.toString().trim())
-// 		equal(stdout instanceof Buffer, true)
-// 		equal(stdout.toString(), stdout.toString())
+// 		assertHelpers.equal(stdout instanceof Buffer, true)
+// 		assertHelpers.equal(stdout.toString(), stdout.toString())
 
 // ^ Would need to pass them a stream to write in, which we can read what was written
