@@ -1,7 +1,7 @@
 {
   "title": "Safe PS",
   "name": "safeps",
-  "version": "11.0.0",
+  "version": "11.1.0",
   "description": "Work with processes safely and easily with Node.js",
   "homepage": "https://github.com/bevry/safeps",
   "license": "Artistic-2.0",
@@ -76,7 +76,7 @@
   },
   "editions": [
     {
-      "description": "ESNext source code for Node.js 8 || 10 || 12 || 14 || 16 || 18 || 20 || 21 with Require for modules",
+      "description": "ESNext source code for Node.js 6 || 8 || 10 || 12 || 14 || 16 || 18 || 20 || 21 with Require for modules",
       "directory": "source",
       "entry": "index.js",
       "tags": [
@@ -86,21 +86,7 @@
         "require"
       ],
       "engines": {
-        "node": "8 || 10 || 12 || 14 || 16 || 18 || 20 || 21"
-      }
-    },
-    {
-      "description": "ESNext compiled for Node.js 21 with Require for modules",
-      "directory": "edition-node-21",
-      "entry": "index.js",
-      "tags": [
-        "compiled",
-        "javascript",
-        "require"
-      ],
-      "engines": {
-        "node": "6 || 8 || 10 || 12 || 14 || 16 || 18 || 20 || 21",
-        "browsers": false
+        "node": "6 || 8 || 10 || 12 || 14 || 16 || 18 || 20 || 21"
       }
     },
     {
@@ -121,11 +107,11 @@
   "type": "commonjs",
   "main": "index.cjs",
   "dependencies": {
-    "editions": "^6.10.0",
-    "extract-opts": "^5.0.0",
-    "safefs": "^8.1.0",
-    "taskgroup": "^9.0.0",
-    "typechecker": "^8.0.0"
+    "editions": "^6.11.0",
+    "extract-opts": "^5.1.0",
+    "safefs": "^8.2.0",
+    "taskgroup": "^9.1.0",
+    "typechecker": "^8.1.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.23.0",
@@ -133,14 +119,14 @@
     "@babel/plugin-proposal-object-rest-spread": "^7.20.7",
     "@babel/preset-env": "^7.23.3",
     "@bevry/update-contributors": "^1.23.0",
-    "assert-helpers": "^11.1.0",
+    "assert-helpers": "^11.2.0",
     "bevry-echo": "^1.1.0",
     "eslint": "^8.53.0",
     "eslint-config-bevry": "^3.29.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.1",
     "jsdoc": "^4.0.2",
-    "kava": "3.2.0",
+    "kava": "^7.0.0",
     "prettier": "^3.1.0",
     "projectz": "^2.23.0",
     "surge": "^0.23.1",
@@ -148,8 +134,7 @@
   },
   "scripts": {
     "our:clean": "rm -Rf ./docs ./edition* ./es2015 ./es5 ./out ./.next",
-    "our:compile": "npm run our:compile:edition-node-21 && npm run our:compile:edition-node-4",
-    "our:compile:edition-node-21": "env BABEL_ENV=edition-node-21 babel --out-dir ./edition-node-21 ./source && printf '%s' '{\"type\": \"commonjs\"}' > edition-node-21/package.json",
+    "our:compile": "npm run our:compile:edition-node-4",
     "our:compile:edition-node-4": "env BABEL_ENV=edition-node-4 babel --out-dir ./edition-node-4 ./source && printf '%s' '{\"type\": \"commonjs\"}' > edition-node-4/package.json",
     "our:deploy": "printf '%s\n' 'no need for this project'",
     "our:meta": "npm run our:meta:contributors && npm run our:meta:docs && npm run our:meta:projectz",
@@ -184,23 +169,6 @@
   },
   "babel": {
     "env": {
-      "edition-node-21": {
-        "sourceType": "script",
-        "presets": [
-          [
-            "@babel/preset-env",
-            {
-              "targets": {
-                "node": "21"
-              },
-              "modules": "commonjs"
-            }
-          ]
-        ],
-        "plugins": [
-          "@babel/proposal-object-rest-spread"
-        ]
-      },
       "edition-node-4": {
         "sourceType": "script",
         "presets": [
