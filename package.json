@@ -1,7 +1,7 @@
 {
   "title": "Safe PS",
   "name": "safeps",
-  "version": "11.3.0",
+  "version": "11.4.0",
   "description": "Work with processes safely and easily with Node.js",
   "homepage": "https://github.com/bevry/safeps",
   "license": "Artistic-2.0",
@@ -111,10 +111,10 @@
   "type": "commonjs",
   "main": "index.cjs",
   "dependencies": {
-    "editions": "^6.13.0",
-    "extract-opts": "^5.3.0",
-    "safefs": "^8.4.0",
-    "taskgroup": "^9.3.0",
+    "editions": "^6.16.0",
+    "extract-opts": "^5.4.0",
+    "safefs": "^8.5.0",
+    "taskgroup": "^9.4.0",
     "typechecker": "^8.5.0"
   },
   "devDependencies": {
@@ -123,18 +123,18 @@
     "@babel/plugin-proposal-object-rest-spread": "^7.20.7",
     "@babel/preset-env": "^7.23.3",
     "@bevry/update-contributors": "^1.23.0",
-    "assert-helpers": "^11.5.0",
+    "assert-helpers": "^11.6.0",
     "bevry-echo": "^1.1.0",
     "eslint": "^8.54.0",
-    "eslint-config-bevry": "^5.0.0",
+    "eslint-config-bevry": "^5.2.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.1",
     "jsdoc": "^4.0.2",
-    "kava": "^7.2.0",
+    "kava": "^7.4.0",
     "prettier": "^3.1.0",
-    "projectz": "^3.2.0",
+    "projectz": "^3.4.0",
     "surge": "^0.23.1",
-    "valid-directory": "^4.4.0"
+    "valid-directory": "^4.5.0"
   },
   "scripts": {
     "our:clean": "rm -rf ./docs ./edition* ./es2015 ./es5 ./out ./.next",
